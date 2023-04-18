@@ -1,0 +1,54 @@
+.SideNavbar{
+    width: 35px;
+    background-color: black;
+    height: 100%;
+    padding: 0px 3px;
+}
+
+.SideNavbar #userImage {
+    padding-top: 50px;
+}
+
+.SideNavbar #onlineStatue {
+    aspect-ratio: 1;
+    background-color: #00ff89;
+    border-radius: 50%;
+    left: 11px;
+    position: absolute;
+    width: 5px;
+}
+
+.SideNavbar #userImage img {
+    aspect-ratio: 1;
+    border-radius: 50%;
+    width: 30px;
+}
+
+.SideNavbar #navbarLogo {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 35px;
+    margin-top: 40px;
+}
+
+.SideNavbar .navbarIcons {
+    color: hsla(0,0%,100%,.684);
+    cursor: pointer;
+    font-size: 22px;
+}
+
+#active {
+    color: #fff;
+    font-size: 32px;
+}
+
+
+.SideNavbar .setting {
+    bottom: 30px;
+    color: hsla(0,0%,100%,.684);
+    cursor: pointer;
+    font-size: 30px;
+    left: 4px;
+    position: absolute;
+}

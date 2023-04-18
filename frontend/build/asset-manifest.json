@@ -1,0 +1,20 @@
+{
+  "files": {
+    "main.css": "/static/css/main.a5b6d08b.css",
+    "main.js": "/static/js/main.65ec293b.js",
+    "static/media/UserImg.jpg": "/static/media/UserImg.52a3953193b5bcd7d652.jpg",
+    "static/media/chatAppBackground.png": "/static/media/chatAppBackground.93db05b9839caed1ff0a.png",
+    "static/media/MessageNotSend.png": "/static/media/MessageNotSend.77014ffe03ed39175f8d.png",
+    "static/media/DocumentImg.png": "/static/media/DocumentImg.796edad5673a81c7d38a.png",
+    "static/media/UserImg.png": "/static/media/UserImg.863b8b8bfe2f954cb83a.png",
+    "static/media/MessageSeen.png": "/static/media/MessageSeen.7c8725de74a8d2c08450.png",
+    "static/media/MessageDelivered.png": "/static/media/MessageDelivered.5d8ca821f54138b18b47.png",
+    "index.html": "/index.html",
+    "main.a5b6d08b.css.map": "/static/css/main.a5b6d08b.css.map",
+    "main.65ec293b.js.map": "/static/js/main.65ec293b.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a5b6d08b.css",
+    "static/js/main.65ec293b.js"
+  ]
+}

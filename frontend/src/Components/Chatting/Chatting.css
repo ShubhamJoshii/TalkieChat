@@ -1,0 +1,78 @@
+.Chatting {
+    display: flex;
+    align-items: center;
+    border-right: 1px solid #707070;
+    flex-direction: column;
+    width: 300px;
+    height: calc(100%);
+}
+
+.Chatting input {
+    border: none;
+    border-radius: 4px;
+    box-shadow: 0 0 2px #707070;
+    font-size: 14px;
+    margin-top: 10px;
+    padding: 5px 20px 5px 10px;
+    width: 80%;
+}
+
+#chatsPersons {
+    background-color: #fff;
+    border: 1px solid #707070;
+    border-radius: 10px;
+    /* min-height: 85%;
+    max-height: 90%; */
+    height: 85%;
+    overflow: hidden;
+    overflow-y: scroll;
+    margin-top: 20px;
+    padding: 20px 10px;
+    text-align: left;
+    width: 86%;
+}
+
+#chatsPersons h3 {
+    margin: 0 0 10px;
+}
+
+#chatsHistory {
+    align-items: center;
+    border-radius: 3px;
+    box-shadow: 0 0 2px #707070;
+    cursor: pointer;
+    display: flex;
+    gap: 13px;
+    margin-bottom: 20px;
+    padding: 7px 5px;
+}
+
+.Chatting #userImages {
+    aspect-ratio: 1;
+    border-radius: 50%;
+    width: 35px;
+}
+
+#chatsHistory h4 {
+    font-size: 14px;
+    margin: 0;
+}
+
+#chatsHistory #lastMessage {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    
+    width: 200px;
+}
+
+#chatsHistory p {
+    font-size: 10px;
+    margin: 0;
+}
+
+#chatsHistory #onlineTime {
+    font-size: 7px;
+    font-weight: 600;
+    letter-spacing: 2px;
+}

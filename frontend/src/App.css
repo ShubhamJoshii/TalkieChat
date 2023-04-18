@@ -1,0 +1,27 @@
+.App{
+  background-color: rgb(241, 237, 237);
+  width: 1536px;
+  height: 780px;
+  display: flex;
+  overflow: hidden;
+}
+
+#secondHalf {
+  background-color: #f2f1f1;
+  height: 100vh;
+  left: 40px;
+  position: absolute;
+  text-align: left;
+  top: 0;
+  width: 1496px;
+}
+
+#Routers{
+  height: calc(100% - 45px);
+  display: flex;  
+}
+
+#MainPage{
+  height: 100%;
+  display: flex;  
+}
