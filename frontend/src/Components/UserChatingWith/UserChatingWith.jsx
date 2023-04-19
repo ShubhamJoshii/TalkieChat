@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useContext} from "react";
 import "./UserChatingWith.css";
 import userImg from "../../Assets/UserImg2.jpg";
 import { BiSearchAlt } from "react-icons/bi";
@@ -10,8 +10,11 @@ import MessageDelever from "../../Assets/MessageDelivered.png";
 import MessageNotSend from "../../Assets/MessageNotSend.png";
 import MessageSeen from "../../Assets/MessageSeen.png";
 import BackgroundImg from "../../Assets/chatAppBackground.png";
+import {UserData} from "../../App"
+
 
 const UserChatingWith = () => {
+  const userInfo = useContext(UserData);
   return (
     <>
       <div className="userChatting">
@@ -36,7 +39,7 @@ const UserChatingWith = () => {
           <div className="messageSendheader">
             <div
               className="messageSend"
-              style={{ backgroundColor: "rgb(68, 215, 182)" }}
+              style={userInfo?{ backgroundColor: `${userInfo.ColorSchema}` }:{ backgroundColor: "rgb(68, 215, 182)" }}
             >
               <div>
                 <img src={MessageSeen} alt="SendStatus" />

@@ -1,13 +1,22 @@
 const express = require("express");
+const cors = require("cors");
+const mongoose = require("mongoose");
 const DBModel = require("./Database");
+const cookieParser = require("cookie-parser")
+
 
 const path = require("path")
 const app = express();
 
-const cors = require("cors")
-app.use(cors());
-app.use(express.json());
 require("dotenv").config();
+
+app.use(cors());
+
+
+// Cokkies Creation
+app.use(cookieParser())
+
+app.use(express.json());
 
 app.use(require("./auth"))
 

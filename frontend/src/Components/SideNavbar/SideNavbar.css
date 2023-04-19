@@ -3,6 +3,7 @@
     background-color: black;
     height: 100%;
     padding: 0px 3px;
+    position: absolute;
 }
 
 .SideNavbar #userImage {

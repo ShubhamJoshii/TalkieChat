@@ -24,6 +24,10 @@ const DBSchema = new mongoose.Schema({
     type: String,
     require: true,
   },
+  Avatar:{
+    type:String,
+    require:true
+  },
   Email: {
     type: String,
     require: true,
@@ -37,6 +41,10 @@ const DBSchema = new mongoose.Schema({
     require: true,
   },
   Register_Date: {
+    type: String,
+    require: true,
+  },
+  ColorSchema: {
     type: String,
     require: true,
   },

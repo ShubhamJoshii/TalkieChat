@@ -66,8 +66,39 @@ router.post("/login",async (req,res)=>{
     }
 })
 
-router.get("/home",Authenication,(req,res)=>{
+router.get("/home",Authenication,async(req,res)=>{
     res.send(req.rootUser)
+})
+
+router.post("/avatarSave",Authenication,async (req,res)=>{
+  const {Avatar} = req.body;
+  console.log(Avatar)
+  // const Avatar = await userExist.generateAuthToken();
+  try {
+    const userExists = await DBModel.findOne({_id:req.userID});
+    if(userExists){
+      userExists.Avatar = Avatar;
+      await userExists.save();
+      res.send("Avatar Save");
+    }
+  } catch (err) {
+    console.log(err);
+  }
+})
+
+router.post("/changeColorSchema",Authenication,async(req,res)=>{
+  const {ColorSchema} = req.body;
+  console.log(ColorSchema)
+  try {
+    const userExists = await DBModel.findOne({_id:req.userID});
+    if(userExists){
+      userExists.ColorSchema = ColorSchema;
+      await userExists.save();
+      res.send("Color Schema Updated");
+    }
+  } catch (err) {
+    console.log(err);
+  }
 })
 
 module.exports = router;

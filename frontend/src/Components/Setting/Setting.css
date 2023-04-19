@@ -88,6 +88,7 @@
     background-color: rgba(0, 0, 0, 0.314);
     flex-direction: column;
     color: white;
+    cursor: pointer;
 }
 
 #userDP:hover #changeDP{
@@ -160,4 +161,86 @@ footer div{
 footer div img{
     width: 30px;
     aspect-ratio: 1;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.Avatar{
+    position: fixed;
+    background-color: rgba(61, 61, 61, 0.45);
+    top: 0;
+    left: -30px;
+    width: 85%;
+    height: 100%;
+    padding: 10px 130px;
+    z-index: 9999;
+    color: white;
+    overflow: hidden;
+}
+
+.Avatar h1{
+    font-size: 40px;
+}
+
+#AvatarCollections{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+#avatarImgBack img:hover{
+    transform: scale(1.2);
+    box-shadow: 0 0 10px rgb(34, 33, 33);
+}
+#avatarImgBack img{
+    cursor: pointer;
+    background-color: aliceblue;
+    border-radius: 50%;
+    aspect-ratio: 1;
+    width: 100px;
+}
+
+
+.avatarBackGroundColor{
+    display: flex;
+    gap: 20px;
+    /* width:1000px; */
+}
+
+.AvatarthemeColors{
+    width: 100px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+}
+
+#closeBtnAvatars{
+    /* background-color: white; */
+    font-size: 45px;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+#closeBtnAvatars:hover{
+    background-color: red;
 }
