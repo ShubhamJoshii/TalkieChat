@@ -1,9 +1,15 @@
 const express = require("express");
+const DBModel = require("./Database");
 
 const path = require("path")
 const app = express();
+
+const cors = require("cors")
+app.use(cors());
+app.use(express.json());
 require("dotenv").config();
 
+app.use(require("./auth"))
 
 const PORT = process.env.PORT || 5000;
 

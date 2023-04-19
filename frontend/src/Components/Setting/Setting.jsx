@@ -27,7 +27,7 @@ const Setting = () => {
   return (
     <div className="Setting">
       <h2 id="settingTopic">Setting</h2>
-      {true ? (
+      {false ? (
         <div id="userSetting">
           <div className="userImgName">
             <div id="userDP">

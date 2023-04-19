@@ -1,0 +1,127 @@
+.Login {
+    /* background-color: rgb(244, 239, 239); */
+    background-color: rgb(250 250 250);
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  #RegisterInner {
+    width: 400px;
+    background-color: white;
+    min-height: 60vh;
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    flex-direction: column;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(128, 128, 128, 0.428);
+  }
+  
+  .Login #userLogo {
+    font-size: 150px;
+    border-radius: 50%;
+    background-color: rgb(255, 255, 255);
+    margin-top: -75px;
+    text-align: center;
+  }
+  
+  .Login form {
+    display: flex;
+  
+    flex-direction: column;
+    width: 80%;
+  }
+  
+  .Login form input {
+    font-size: 17px;
+    padding: 3px 10px;
+  
+    margin: 7px;
+    border: none;
+    border-bottom: 2px solid black;
+    /* border-radius: 5px; */
+  }
+  .Login form input:focus {
+    border-bottom: 3px solid red;
+  }
+  
+  .linesh {
+    width: 100vw;
+    height: 2px;
+    background-color: black;
+    position: absolute;
+  }
+  .linesv {
+    width: 2px;
+    position: absolute;
+    height: 100vh;
+    background-color: black;
+    top: 0;
+  }
+  
+  .lines1 {
+    top: 30px;
+  }
+  .lines2 {
+    bottom: 30px;
+  }
+  .lines3 {
+    left: 30px;
+  }
+  .lines4 {
+    right: 30px;
+  }
+  
+  .Login form button {
+    padding: 7px;
+    font-size: 22px;
+    margin-top: 35px;
+    border: none;
+    border-radius: 5px;
+    background-color: #44d7b6;
+    color: white;
+    font-weight: 700;
+    letter-spacing: 4px;
+    cursor: pointer;
+  }
+  .Login form button:hover {
+    box-shadow: 0 0 10px grey;
+    transform: scale(1.1);
+  }
+  
+  .Login p {
+    font-size: 10px;
+    margin-top: 10px;
+    margin-left: 130px;
+    letter-spacing: 2px;
+  }
+  
+  
+  .Login p span{
+    color: blue;
+    font-weight: 500;
+    font-size: 10px;
+    cursor: pointer;
+  }
+  
+  .Login p span:hover{
+    color: red;
+  }
+  
+  #rememberME{
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    margin-right: 15px;
+    font-size: 12px;
+  }
+
+  .Login form input:focus{
+    outline: none;
+  }
