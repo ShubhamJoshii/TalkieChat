@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./SideNavbar.css";
 import UserImage from "../../Assets/UserImg.jpg";
 
@@ -9,55 +9,73 @@ import { IoMdNotifications } from "react-icons/io";
 import { AiFillSetting } from "react-icons/ai";
 
 import { useNavigate } from "react-router-dom";
+import { UserData } from "../../App";
 const SideNavbar = () => {
   const [count, setCount] = useState(0);
+  const [userImage, setUserImage] = useState(UserImage);
+  const userInfo = useContext(UserData);
+  useEffect(() => {
+    console.log(userImage);
+  }, [userImage]);
   const navigate = useNavigate();
   return (
     <div className="SideNavbar">
       <div id="userImage">
         <div id="onlineStatue"></div>
-        <img src={UserImage} alt="User Image" />
+        <img
+          src={userInfo ? userInfo.Avatar : UserImage}
+          alt="User Image"
+          style={
+            userInfo
+              ? { backgroundColor: userInfo.AvatarBackground }
+              : { backgroundColor: "grey" }
+          }
+        />
       </div>
       <div id="navbarLogo">
         <TiHome
           className="navbarIcons"
           onClick={() => {
             setCount(0);
-            navigate("/")
+            navigate("/");
           }}
           id={count == 0 ? "active" : ""}
-          />
-          <FaUserAlt className="navbarIcons" 
+        />
+        <FaUserAlt
+          className="navbarIcons"
           onClick={() => {
             setCount(1);
-            navigate("/")
+            navigate("/");
           }}
           id={count == 1 ? "active" : ""}
-          />
-          <MdGroups2 className="navbarIcons" 
+        />
+        <MdGroups2
+          className="navbarIcons"
           onClick={() => {
             setCount(2);
-            navigate("/")
+            navigate("/");
           }}
           id={count == 2 ? "active" : ""}
-          />
-          <IoMdNotifications className="navbarIcons" 
+        />
+        <IoMdNotifications
+          className="navbarIcons"
           onClick={() => {
             setCount(3);
-            navigate("/")
+            navigate("/");
           }}
           id={count == 3 ? "active" : ""}
-          />
-          </div>
-          <AiFillSetting className="setting" 
-          onClick={() => {
-            setCount(4);
-            navigate("/setting")
-          }}
-          id={count == 4 ? "active" : ""}
-          />
-          </div>
-          );
-        };
-        
-        export default SideNavbar;
+        />
+      </div>
+      <AiFillSetting
+        className="setting"
+        onClick={() => {
+          setCount(4);
+          navigate("/setting");
+        }}
+        id={count == 4 ? "active" : ""}
+      />
+    </div>
+  );
+};
+
+export default SideNavbar;

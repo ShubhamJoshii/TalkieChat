@@ -1,4 +1,4 @@
-const DBModel = require("./Database")
+const {DBModel} = require("./Database")
 const jwt = require("jsonwebtoken");
 const SECRET_KEY = "SHUBHAMJOSHIISGOODBOYQWERTYUIOP";
 

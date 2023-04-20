@@ -15,19 +15,19 @@ import Loading from "./Components/Loading/Loading";
 const UserData = createContext();
 function App() {
   const [userInfo, setUserInfo] = useState();
-  const [ showLoading, setShowLoading ] = useState(false);
+  const [showLoading, setShowLoading] = useState(false);
   const fetchUserInfo = () => {
     setShowLoading(true);
     axios
-    .get("/home")
-    .then((result) => {
-      // console.log(result.data);
-      setUserInfo(result.data);
-      setShowLoading(false);
-    })
-    .catch((err) => {
-      setShowLoading(false);
-    });
+      .get("/home")
+      .then((result) => {
+        // console.log(result.data);
+        setUserInfo(result.data);
+        setShowLoading(false);
+      })
+      .catch((err) => {
+        setShowLoading(false);
+      });
   };
 
   useEffect(() => {

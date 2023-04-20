@@ -3,7 +3,7 @@ import "./Register.css";
 import { useNavigate } from "react-router-dom";
 import { FaRegUserCircle } from "react-icons/fa";
 import axios from "axios";
-
+import Avatar from "../../Assets/Avatar (1).png"
 const Register = () => {
   const [inputData, setInputData] = useState();
 
@@ -19,6 +19,7 @@ const Register = () => {
         Password,
         Confirm_Password,
         Register_Date,
+        Avatar 
       })
       .then((result) => {
         console.log(result.data);

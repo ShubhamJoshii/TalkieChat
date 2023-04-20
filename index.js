@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
-const DBModel = require("./Database");
+const {DBModel,ChatDataModel} = require("./Database");
 const cookieParser = require("cookie-parser")
 
 

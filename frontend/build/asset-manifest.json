@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.bfc4caf9.css",
-    "main.js": "/static/js/main.c3eda79f.js",
+    "main.css": "/static/css/main.f3dc5015.css",
+    "main.js": "/static/js/main.93a24c7a.js",
     "static/media/UserImg.jpg": "/static/media/UserImg.52a3953193b5bcd7d652.jpg",
     "static/media/chatAppBackground.png": "/static/media/chatAppBackground.93db05b9839caed1ff0a.png",
     "static/media/Spinner (1).gif": "/static/media/Spinner (1).b8c7f3dd824455900e73.gif",
@@ -23,11 +23,11 @@
     "static/media/Avatar (6).png": "/static/media/Avatar (6).09381828d766490ba26a.png",
     "static/media/MessageDelivered.png": "/static/media/MessageDelivered.5d8ca821f54138b18b47.png",
     "index.html": "/index.html",
-    "main.bfc4caf9.css.map": "/static/css/main.bfc4caf9.css.map",
-    "main.c3eda79f.js.map": "/static/js/main.c3eda79f.js.map"
+    "main.f3dc5015.css.map": "/static/css/main.f3dc5015.css.map",
+    "main.93a24c7a.js.map": "/static/js/main.93a24c7a.js.map"
   },
   "entrypoints": [
-    "static/css/main.bfc4caf9.css",
-    "static/js/main.c3eda79f.js"
+    "static/css/main.f3dc5015.css",
+    "static/js/main.93a24c7a.js"
   ]
 }

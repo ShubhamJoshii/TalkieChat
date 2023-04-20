@@ -30,6 +30,7 @@ const themeColor = [
 
 const Setting = () => {
   const [avatarPage, setAvatarPage] = useState(false);
+  
   const navigate = useNavigate();
   const userInfo = useContext(UserData);
   console.log(userInfo);
@@ -51,7 +52,7 @@ const Setting = () => {
         <div id="userSetting">
           <div className="userImgName">
             <div id="userDP">
-              <img src={userInfo.Avatar} alt="User DP Image" />
+              <img src={userInfo.Avatar} alt="User DP Image" style={{backgroundColor:userInfo.AvatarBackground}}/>
               <div id="changeDP" onClick={() => setAvatarPage(!avatarPage)}>
                 <BsFillCameraFill id="dpInputLogo" />
                 <p>Edit Profile Picture</p>

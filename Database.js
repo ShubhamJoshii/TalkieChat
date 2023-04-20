@@ -24,9 +24,13 @@ const DBSchema = new mongoose.Schema({
     type: String,
     require: true,
   },
-  Avatar:{
-    type:String,
-    require:true
+  Avatar: {
+    type: String,
+    require: true,
+  },
+  AvatarBackground: {
+    type: String,
+    require: true,
   },
   Email: {
     type: String,
@@ -66,6 +70,45 @@ const DBSchema = new mongoose.Schema({
   ],
 });
 
+const ChatDataSchema = new mongoose.Schema({
+  ChatID: {
+    type: Number,
+    require: true,
+  },
+  User1_id: {
+    type: String,
+    require: true,
+  },
+  User1_Name: {
+    type: String,
+    require: true,
+  },
+  User1_Avatar: {
+    type: String,
+    require: true,
+  },
+  User1_AvatarBackground: {
+    type: String,
+    require: true,
+  },
+  User2_Avatar: {
+    type: String,
+    require: true,
+  },
+  User2_AvatarBackground: {
+    type: String,
+    require: true,
+  },
+  User2_Name: {
+    type: String,
+    require: true,
+  },
+  User2_id: {
+    type: String,
+    require: true,
+  },
+});
+
 DBSchema.pre("save", async function (next) {
   if (this.isModified("Password")) {
     this.Password = await bcrypt.hash(this.Password, 12);
@@ -86,5 +129,6 @@ DBSchema.methods.generateAuthToken = async function () {
 };
 
 const DBModel = mongoose.model("User_Login_Register", DBSchema);
+const ChatDataModel = mongoose.model("Chat_Data", ChatDataSchema);
 
-module.exports = DBModel;
+module.exports = { DBModel, ChatDataModel };

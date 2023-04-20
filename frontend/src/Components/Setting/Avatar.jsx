@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Setting.css";
 import Avatar1 from "../../Assets/Avatar (1).png";
 import Avatar2 from "../../Assets/Avatar (2).png";
@@ -12,9 +12,9 @@ import Avatar9 from "../../Assets/Avatar (9).png";
 import Avatar10 from "../../Assets/Avatar (10).png";
 import Avatar11 from "../../Assets/Avatar (11).png";
 import Avatar12 from "../../Assets/Avatar (12).png";
-import {CgCloseO} from "react-icons/cg"
+import { CgCloseO } from "react-icons/cg";
 import axios from "axios";
-const Avatar = ({setAvatarPage}) => {
+const Avatar = ({ setAvatarPage }) => {
   const AvatarArr = [
     Avatar1,
     Avatar2,
@@ -39,29 +39,41 @@ const Avatar = ({setAvatarPage}) => {
     "#00FF21",
     "white",
   ];
+  
+  const [SelectedAvatar,setSelectAvatar] = useState({
+    Avatar : Avatar1,
+    AvatarBackground: "grey"
+  })
 
   const saveAvatar = async (e) => {
-    const Avatar = e.target.src;
-    // console.log(e.target.src)
-    await axios.post("/avatarSave",{
-      Avatar
-    }).then((result) => {
-      console.log(result.data)
-      alert(result.data)
-    }).catch((err) => {
-      
-    });
-  }
+    const {Avatar,AvatarBackground} = SelectedAvatar;
+    await axios
+      .post("/avatarSave", {
+        Avatar,
+        AvatarBackground
+      })
+      .then((result) => {
+        console.log(result.data);
+        alert(result.data);
+      })
+      .catch((err) => {});
+  };
+
+  useEffect(()=>{
+    console.log(SelectedAvatar)
+  },[SelectedAvatar])
   return (
     <div className="Avatar">
       <h1>Select Avatar</h1>
-      <CgCloseO id="closeBtnAvatars" onClick={()=>setAvatarPage(false)}/>
+      <CgCloseO id="closeBtnAvatars" onClick={() => setAvatarPage(false)} />
       <div id="AvatarCollections">
-      {AvatarArr.map((curr) => {
-        return <div id="avatarImgBack">
-          <img src={curr} alt="avatar Img" onClick={saveAvatar}/>
-        </div>
-      })}
+        {AvatarArr.map((curr) => {
+          return (
+            <div id="avatarImgBack">
+              <img src={curr} alt="avatar Img" onClick={(e)=>setSelectAvatar({...SelectedAvatar,"Avatar":e.target.src})}/>
+            </div>
+          );
+        })}
       </div>
       <h3>Select Avatar Background Color</h3>
       <div className="avatarBackGroundColor">
@@ -70,9 +82,17 @@ const Avatar = ({setAvatarPage}) => {
             <div
               className="AvatarthemeColors"
               style={{ backgroundColor: curr }}
+              onClick={()=>setSelectAvatar({...SelectedAvatar,"AvatarBackground":curr})}
             ></div>
           );
         })}
+      </div>
+      <h3>Selected Avatar</h3>
+      <div id="avatarSave">
+        <div id="avatarSelect" style={{backgroundColor:SelectedAvatar.AvatarBackground}}>
+          <img src={SelectedAvatar.Avatar} alt="User DP Image" />
+        </div>
+        <button  onClick={saveAvatar} >Save Avatar</button>
       </div>
     </div>
   );

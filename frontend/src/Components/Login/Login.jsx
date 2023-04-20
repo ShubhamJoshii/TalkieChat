@@ -17,6 +17,7 @@ const Login = () => {
     }).then((result) => {
         console.log(result.data)
         alert(result.data)
+        navigate("/")
     }).catch((err) => {
       
     });
