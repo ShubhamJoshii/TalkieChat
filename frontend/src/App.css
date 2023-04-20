@@ -25,3 +25,24 @@
   height: 100%;
   display: flex;  
 }
+
+#notification{
+  position: absolute;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.416);
+  color: white;
+  bottom: 30px;
+  padding: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 99999;
+}
+
+#notification p{
+  font-weight: 500;
+  letter-spacing: 3px;
+
+}

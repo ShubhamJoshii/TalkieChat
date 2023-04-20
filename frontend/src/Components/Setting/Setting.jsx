@@ -5,11 +5,12 @@ import InstaLogo from "../../Assets/Insta.png";
 import Linkedin from "../../Assets/Linkedin (2).png";
 import Phone from "../../Assets/phone.png";
 import { BsFillCameraFill } from "react-icons/bs";
-
+import {RiCloseLine} from "react-icons/ri"
 import { UserData } from "../../App";
 import { useNavigate } from "react-router-dom";
 import Avatar from "./Avatar";
 import axios from "axios";
+import { BiListOl } from "react-icons/bi";
 
 const themeColor = [
   "#44D7B6",
@@ -22,31 +23,35 @@ const themeColor = [
   "white",
 ];
 
-// <input type="file" id="changeDPInput" />
-// <label htmlFor="changeDPInput" id="changeDP">
-//    <BsFillCameraFill id="dpInputLogo" />
-//    <p>Edit Profile Picture</p>
-// </label>
-
 const Setting = () => {
   const [avatarPage, setAvatarPage] = useState(false);
   
+  const [Notification, setNotifications] = useState(false);
+  const [NotificationData, setNotificationData] = useState("");
+
   const navigate = useNavigate();
   const userInfo = useContext(UserData);
-  console.log(userInfo);
+  // console.log(userInfo);
   
   const changeColorSchema = async (ColorSchema) => {
     console.log(ColorSchema);
     await axios.post("/changeColorSchema",{
       ColorSchema
     }).then((result)=>{
-      alert(result.data)
+      // alert(result.data)
+      notificationShow(result.data,true)
     })
-
+    
   }
+  
+  const notificationShow = (data,boolData)=>{
+    setNotificationData(data);
+    setNotifications(true)
+  }
+
   return (
     <div className="Setting">
-      {avatarPage ? <Avatar setAvatarPage={setAvatarPage} /> : " "}
+      {avatarPage ? <Avatar setAvatarPage={setAvatarPage} notificationShow={notificationShow}/> : " "}
       <h2 id="settingTopic">Setting</h2>
       {userInfo ? (
         <div id="userSetting">
@@ -98,6 +103,10 @@ const Setting = () => {
         </div>
         <h4>All right reserved @talkiechat</h4>
       </footer>
+      <div id="notification"  style={Notification ? {display:"flex"} : {display:"none"}}>
+          <p>{NotificationData}</p>
+          <RiCloseLine onClick={()=>setNotifications(false)}/>
+      </div>
     </div>
   );
 };

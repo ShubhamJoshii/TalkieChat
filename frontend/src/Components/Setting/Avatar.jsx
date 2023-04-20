@@ -14,7 +14,7 @@ import Avatar11 from "../../Assets/Avatar (11).png";
 import Avatar12 from "../../Assets/Avatar (12).png";
 import { CgCloseO } from "react-icons/cg";
 import axios from "axios";
-const Avatar = ({ setAvatarPage }) => {
+const Avatar = ({ setAvatarPage,notificationShow }) => {
   const AvatarArr = [
     Avatar1,
     Avatar2,
@@ -44,24 +44,27 @@ const Avatar = ({ setAvatarPage }) => {
     Avatar : Avatar1,
     AvatarBackground: "grey"
   })
-
+  
   const saveAvatar = async (e) => {
     const {Avatar,AvatarBackground} = SelectedAvatar;
     await axios
-      .post("/avatarSave", {
-        Avatar,
-        AvatarBackground
-      })
-      .then((result) => {
-        console.log(result.data);
-        alert(result.data);
-      })
-      .catch((err) => {});
+    .post("/avatarSave", {
+      Avatar,
+      AvatarBackground
+    })
+    .then((result) => {
+      console.log(result.data);
+      // alert(result.data);
+      notificationShow(result.data,true)
+    })
+    .catch((err) => {});
   };
+  
 
   useEffect(()=>{
     console.log(SelectedAvatar)
   },[SelectedAvatar])
+
   return (
     <div className="Avatar">
       <h1>Select Avatar</h1>

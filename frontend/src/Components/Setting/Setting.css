@@ -182,7 +182,6 @@ footer div img{
 
 
 
-
 .Avatar{
     position: fixed;
     background-color: rgba(61, 61, 61, 0.45);
@@ -204,6 +203,7 @@ footer div img{
     display: flex;
     flex-wrap: wrap;
     gap: 30px;
+    justify-content: center;
 }
 
 #avatarImgBack img:hover{

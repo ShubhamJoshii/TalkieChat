@@ -37,19 +37,24 @@ function App() {
     <div className="App">
       <UserData.Provider value={userInfo}>
         <Router>
-          {showLoading ? <Loading /> : <></>}
-          <SideNavbar />
-          <div id="secondHalf">
-            <Header />
-            <div id="Routers">
-              <Routes>
-                <Route path="/" element={<MainPage />} />
-                <Route path="/setting" element={<Setting />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-              </Routes>
+          {showLoading ? (
+            <Loading />
+          ) : (
+            <div>
+              <SideNavbar />
+              <div id="secondHalf">
+                <Header />
+                <div id="Routers">
+                  <Routes>
+                    <Route path="/" element={<MainPage />} />
+                    <Route path="/setting" element={<Setting />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
+                  </Routes>
+                </div>
+              </div>
             </div>
-          </div>
+          )}
         </Router>
       </UserData.Provider>
     </div>
