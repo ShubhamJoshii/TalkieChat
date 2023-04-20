@@ -3,7 +3,9 @@ import userImage from "../../Assets/UserImg2.jpg";
 import "./Chatting.css";
 import { UserData } from "../../App";
 import axios from "axios";
-const Chatting = () => {
+
+
+const Chatting = ({setUserChatWithData, userChatWithData}) => {
   const [chattingUsers, setChattingUsers] = useState([]);
   const userInfo = useContext(UserData);
   const [Count,setCount] = useState(0);
@@ -19,7 +21,16 @@ const Chatting = () => {
 
   useState(() => {
     fetchUseRecentChat();
+    // setUserChatWithData(chattingUsers)
   }, []);
+
+  const userChatWith = (curr,id) => {
+    setCount(id)
+    // console.log(curr,"UserchatWith");
+    setUserChatWithData(curr);
+  }
+
+
   return (
     <div className="Chatting">
       <input type="text" placeholder="Search..." />
@@ -32,10 +43,8 @@ const Chatting = () => {
               return (
                 <div
                   id="chatsHistory"
-                  onClick={() => setCount(id)}
-
+                  onClick={()=>userChatWith(curr,id)}
                   style={
-
                     userInfo && id == Count
                       ? {
                           backgroundColor: `${userInfo.ColorSchema}`,

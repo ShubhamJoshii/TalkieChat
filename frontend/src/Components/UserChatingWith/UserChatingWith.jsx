@@ -1,4 +1,4 @@
-import React,{useContext} from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./UserChatingWith.css";
 import userImg from "../../Assets/UserImg2.jpg";
 import { BiSearchAlt } from "react-icons/bi";
@@ -10,68 +10,181 @@ import MessageDelever from "../../Assets/MessageDelivered.png";
 import MessageNotSend from "../../Assets/MessageNotSend.png";
 import MessageSeen from "../../Assets/MessageSeen.png";
 import BackgroundImg from "../../Assets/chatAppBackground.png";
-import {UserData} from "../../App"
+import { UserData } from "../../App";
+import axios from "axios";
 
-
-const UserChatingWith = () => {
+const UserChatingWith = ({ setUserChatWithData, userChatWithData }) => {
   const userInfo = useContext(UserData);
+  const [Message, setMessage] = useState("");
+  const [user_ID, setUser_ID] = useState();
+  useEffect(() => {
+    console.log(userChatWithData);
+  }, [userChatWithData]);
+
+  // useEffect(()=>{
+  //   console.log(Message)
+  // },[Message])
+
+  const timeStamp = () => {
+    const date = new Date();
+    const Day = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+    const Month = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+
+    const dateP = `${date.getDate()} ${Day[date.getDay()]} ${
+      Month[date.getMonth()]
+    } ${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
+    console.log(dateP.split(" "));
+    return dateP;
+  };
+
+  const saveMessage = async () => {
+    console.log(Message);
+    const chat_id = userChatWithData._id;
+    const time = timeStamp();
+    await axios
+      .post("/sendMessage", {
+        chat_id,
+        Message,
+        time,
+      })
+      .then((result) => {
+        console.log(result.data);
+      })
+      .catch((err) => {});
+    setMessage("");
+  };
+
+  const fetchUserId = async () => {
+    await axios
+      .get("/home")
+      .then((result) => {
+        // console.log(result.data._id);
+        setUser_ID(result.data._id);
+      })
+      .catch((err) => {});
+  };
+
+  useEffect(() => {
+    fetchUserId();
+  }, []);
+
   return (
     <>
-      <div className="userChatting">
-        <div className="chattingUserHeader">
-          <div className="chattinguserInfo">
-            <div>
-              <img alt="userIMG" id="userImg" src={userImg} />
-            </div>
-            <div>
-              <h3>John</h3>
-              <p>10:20 PM</p>
-            </div>
-          </div>
-          <div id="logos">
-            <BiSearchAlt />
-            <HiPhone />
-            <HiVideoCamera />
-            <BsThreeDotsVertical />
-          </div>
-        </div>
-        <div id="userChats">
-          <div className="messageSendheader">
-            <div
-              className="messageSend"
-              style={userInfo?{ backgroundColor: `${userInfo.ColorSchema}` }:{ backgroundColor: "rgb(68, 215, 182)" }}
-            >
+      {userChatWithData ? (
+        <div className="userChatting">
+          <div className="chattingUserHeader">
+            <div className="chattinguserInfo">
               <div>
-                <img src={MessageSeen} alt="SendStatus" />
-                <p>Hii</p>
+                <img
+                  src={
+                    userChatWithData.User1_Name === userInfo.Name
+                      ? userChatWithData.User2_Avatar
+                      : userChatWithData.User1_Avatar
+                  }
+                  id="userImg"
+                  style={
+                    userChatWithData.User1_Name === userInfo.Name
+                      ? {
+                          backgroundColor:
+                            userChatWithData.User2_AvatarBackground,
+                        }
+                      : {
+                          backgroundColor:
+                            userChatWithData.User1_AvatarBackground,
+                        }
+                  }
+                />
               </div>
-              <p id="timeStamp">10.10 PM</p>
+              <div>
+                <h3>
+                  {userChatWithData.User1_Name === userInfo.Name
+                    ? userChatWithData.User2_Name
+                    : userChatWithData.User1_Name}
+                </h3>
+                <p>10:20 PM</p>
+              </div>
+            </div>
+            <div id="logos">
+              <BiSearchAlt />
+              <HiPhone />
+              <HiVideoCamera />
+              <BsThreeDotsVertical />
             </div>
           </div>
-
-          <div className="messageReceve">
-            <div>
-              <p>Hello How are you</p>
+          <div id="userChats">
+            {userChatWithData.Messages.map((curr) => {
+              return <div>
+              {
+                curr.whoWrote === user_ID ? (
+                  <div className="messageSendheader">
+                    <div
+                      className="messageSend"
+                      style={
+                        userInfo
+                          ? { backgroundColor: `${userInfo.ColorSchema}` }
+                          : { backgroundColor: "rgb(68, 215, 182)" }
+                      }
+                    >
+                      <div>
+                        <img src={MessageSeen} alt="SendStatus" />
+                        <p>{curr.Message}</p>
+                      </div>
+                      <p id="timeStamp">{curr.time}</p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="messageReceve">
+                    <div>
+                      <p>{curr.Message}</p>
+                    </div>
+                    <p id="timeStamp">{curr.time}</p>
+                  </div>
+                )
+              }
+              </div>
+            })}
+          </div>
+          <div id="writeMessage">
+            <div className="writeMessage">
+              <div id="enterMessage">
+                <ImAttachment />
+                <textarea
+                  placeholder="Type a message here..."
+                  name="message"
+                  value={Message}
+                  onChange={(e) => setMessage(e.target.value)}
+                ></textarea>
+              </div>
+              <div id="sendMessage" onClick={saveMessage}>
+                <BsFillSendFill />
+              </div>
             </div>
-            <p id="timeStamp">10:20 PM</p>
           </div>
         </div>
-        <div id="writeMessage">
-          <div className="writeMessage">
-            <div id="enterMessage">
-              <ImAttachment />
-              <textarea
-                placeholder="Type a message here..."
-                name="message"
-              ></textarea>
-            </div>
-            <div id="sendMessage">
-              <BsFillSendFill />
-            </div>
-          </div>
-        </div>
-      </div>
-      
+      ) : (
+        <div className="userChatting"></div>
+      )}
     </>
   );
 };

@@ -62,8 +62,9 @@
     height: 91.4%;
     margin-top: 60px;
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
     height: calc(100vh -  150px);
+    justify-content: end;   
     
 }
 

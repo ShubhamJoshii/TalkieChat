@@ -107,6 +107,22 @@ const ChatDataSchema = new mongoose.Schema({
     type: String,
     require: true,
   },
+  Messages: [
+    {
+      Message: {
+        type: String,
+        require: true,
+      },
+      time: {
+        type: String,
+        require: true,
+      },
+      whoWrote: {
+        type: String,
+        require: true,
+      },
+    },
+  ],
 });
 
 DBSchema.pre("save", async function (next) {
@@ -126,6 +142,17 @@ DBSchema.methods.generateAuthToken = async function () {
   } catch (err) {
     console.log(err);
   }
+};
+
+ChatDataSchema.methods.addMessage = async function (Message, time, whoWrote) {
+  console.log(Message, time, whoWrote);
+  this.Messages = this.Messages.concat({
+    Message,
+    whoWrote,
+    time
+  });
+  await this.save();
+  return this.Messages;
 };
 
 const DBModel = mongoose.model("User_Login_Register", DBSchema);
