@@ -96,18 +96,18 @@ const UserChatingWith = ({ setUserChatWithData, userChatWithData }) => {
     // console.log(userChatWithData.User1_id);
     // console.log(userChatWithData.User2_id);
     // console.log(senderID)
-    // await axios
-    //   .post("/sendMessage", {
-    //     chat_id,
-    //     Message,
-    //     time,
-    //   })
-    //   .then((result) => {
-    //     console.log(result.data);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    await axios
+      .post("/sendMessage", {
+        chat_id,
+        Message,
+        time,
+      })
+      .then((result) => {
+        console.log(result.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 
     socket.emit("sendMessage", {
       chat_id,
