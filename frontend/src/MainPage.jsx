@@ -2,11 +2,15 @@ import React, { useEffect, useState } from 'react'
 import Chatting from "./Components/Chatting/Chatting";
 import UserChatingWith from "./Components/UserChatingWith/UserChatingWith";
 import UserInfo from "./Components/UserInfo/UserInfo";
+// import useSocketSetup from './UseSocket';
+
+// import { useEffect } from "react";
+
 
 
 const MainPage = () => {
   const [userChatWithData,setUserChatWithData] = useState("")
-  
+
   return (
     <div id='MainPage'>
         <Chatting userChatWithData={userChatWithData} setUserChatWithData={setUserChatWithData} />

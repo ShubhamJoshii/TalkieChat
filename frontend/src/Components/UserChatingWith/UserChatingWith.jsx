@@ -13,17 +13,43 @@ import BackgroundImg from "../../Assets/chatAppBackground.png";
 import { UserData } from "../../App";
 import axios from "axios";
 
+import io from "socket.io-client";
+// const socket = new io.connect("http://localhost:5000");
+const socket = new io.connect("https://talkie-chat-app.vercel.app/");
+
 const UserChatingWith = ({ setUserChatWithData, userChatWithData }) => {
   const userInfo = useContext(UserData);
   const [Message, setMessage] = useState("");
   const [user_ID, setUser_ID] = useState();
+  const [userAllMessage, setUserAllMessages] = useState([]);
+  const [chattingUsers, setChattingUsers] = useState([]);
+
   useEffect(() => {
-    console.log(userChatWithData);
+    // console.log(userChatWithData);
+    setUserAllMessages(userChatWithData.Messages);
   }, [userChatWithData]);
 
-  // useEffect(()=>{
-  //   console.log(Message)
-  // },[Message])
+  useEffect(() => {
+    fetchUseRecentChat();
+  }, []);
+
+  const fetchUseRecentChat = async () => {
+    await axios
+      .get("/chattingData")
+      .then((result) => {
+        // console.log(result.data)
+        setChattingUsers(result.data);
+      })
+      .catch((err) => {});
+  };
+
+  // useEffect(() => {
+  //   console.log(chattingUsers);
+  // }, [chattingUsers]);
+
+  useEffect(() => {
+    console.log(userAllMessage);
+  }, [userAllMessage]);
 
   const timeStamp = () => {
     const date = new Date();
@@ -60,20 +86,55 @@ const UserChatingWith = ({ setUserChatWithData, userChatWithData }) => {
 
   const saveMessage = async () => {
     console.log(Message);
-    const chat_id = userChatWithData._id;
+    const chat_id = userChatWithData.ChatID;
     const time = timeStamp();
-    await axios
-      .post("/sendMessage", {
-        chat_id,
-        Message,
-        time,
-      })
-      .then((result) => {
-        console.log(result.data);
-      })
-      .catch((err) => {});
+    const senderID =
+      user_ID === userChatWithData.User1_id
+        ? userChatWithData.User2_id
+        : userChatWithData.User1_id;
+    // console.log(user_ID);
+    // console.log(userChatWithData.User1_id);
+    // console.log(userChatWithData.User2_id);
+    // console.log(senderID)
+    // await axios
+    //   .post("/sendMessage", {
+    //     chat_id,
+    //     Message,
+    //     time,
+    //   })
+    //   .then((result) => {
+    //     console.log(result.data);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+
+    socket.emit("sendMessage", {
+      chat_id,
+      whoWrote: user_ID,
+      time,
+      Message,
+    });
     setMessage("");
   };
+
+  socket.on("messageReceived", (newMessage) => {
+    chattingUsers.map((curr) => {
+      // console.log(curr.Messages)
+      let NewMessage = userAllMessage?.concat({
+        whoWrote:newMessage.whoWrote,
+        time:newMessage.time,
+        Message:newMessage.Message
+      });
+  
+      setUserAllMessages( NewMessage );
+
+    if(newMessage.chat_id === curr.ChatID){
+        curr.Messages = NewMessage;
+        console.log(curr)
+      }
+    });
+  });
 
   const fetchUserId = async () => {
     await axios
@@ -132,39 +193,45 @@ const UserChatingWith = ({ setUserChatWithData, userChatWithData }) => {
               <BsThreeDotsVertical />
             </div>
           </div>
-          <div id="userChats">
-            {userChatWithData.Messages.map((curr) => {
-              return <div>
-              {
-                curr.whoWrote === user_ID ? (
-                  <div className="messageSendheader">
-                    <div
-                      className="messageSend"
-                      style={
-                        userInfo
-                          ? { backgroundColor: `${userInfo.ColorSchema}` }
-                          : { backgroundColor: "rgb(68, 215, 182)" }
-                      }
-                    >
-                      <div>
-                        <img src={MessageSeen} alt="SendStatus" />
-                        <p>{curr.Message}</p>
+
+          {userAllMessage ? (
+            <div id="userChats">
+              {userAllMessage.map((curr) => {
+                return (
+                  <div>
+                    {curr.whoWrote === user_ID ? (
+                      <div className="messageSendheader">
+                        <div
+                          className="messageSend"
+                          style={
+                            userInfo
+                              ? { backgroundColor: `${userInfo.ColorSchema}` }
+                              : { backgroundColor: "rgb(68, 215, 182)" }
+                          }
+                        >
+                          <div>
+                            <img src={MessageSeen} alt="SendStatus" />
+                            <p>{curr.Message}</p>
+                          </div>
+                          <p id="timeStamp">{curr.time}</p>
+                        </div>
                       </div>
-                      <p id="timeStamp">{curr.time}</p>
-                    </div>
+                    ) : (
+                      <div className="messageReceve">
+                        <div>
+                          <p>{curr.Message}</p>
+                        </div>
+                        <p id="timeStamp">{curr.time}</p>
+                      </div>
+                    )}
                   </div>
-                ) : (
-                  <div className="messageReceve">
-                    <div>
-                      <p>{curr.Message}</p>
-                    </div>
-                    <p id="timeStamp">{curr.time}</p>
-                  </div>
-                )
-              }
-              </div>
-            })}
-          </div>
+                );
+              })}
+            </div>
+          ) : (
+            <div>HEllo</div>
+          )}
+
           <div id="writeMessage">
             <div className="writeMessage">
               <div id="enterMessage">

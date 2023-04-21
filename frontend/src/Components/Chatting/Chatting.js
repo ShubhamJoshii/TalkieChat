@@ -6,9 +6,9 @@ import axios from "axios";
 
 
 const Chatting = ({setUserChatWithData, userChatWithData}) => {
-  const [chattingUsers, setChattingUsers] = useState([]);
   const userInfo = useContext(UserData);
   const [Count,setCount] = useState(0);
+  const [chattingUsers, setChattingUsers] = useState([]);
   const fetchUseRecentChat = async () => {
     await axios
       .get("/chattingData")
