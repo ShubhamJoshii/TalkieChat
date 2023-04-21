@@ -7,8 +7,9 @@ import axios from "axios";
 
 const Chatting = ({setUserChatWithData, userChatWithData}) => {
   const userInfo = useContext(UserData);
-  const [Count,setCount] = useState(0);
+  const [Count,setCount] = useState(null);
   const [chattingUsers, setChattingUsers] = useState([]);
+
   const fetchUseRecentChat = async () => {
     await axios
       .get("/chattingData")
@@ -19,14 +20,13 @@ const Chatting = ({setUserChatWithData, userChatWithData}) => {
       .catch((err) => {});
   };
 
+
   useState(() => {
     fetchUseRecentChat();
-    // setUserChatWithData(chattingUsers)
   }, []);
 
   const userChatWith = (curr,id) => {
     setCount(id)
-    // console.log(curr,"UserchatWith");
     setUserChatWithData(curr);
   }
 

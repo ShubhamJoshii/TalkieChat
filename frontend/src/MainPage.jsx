@@ -11,6 +11,7 @@ import UserInfo from "./Components/UserInfo/UserInfo";
 const MainPage = () => {
   const [userChatWithData,setUserChatWithData] = useState("")
 
+
   return (
     <div id='MainPage'>
         <Chatting userChatWithData={userChatWithData} setUserChatWithData={setUserChatWithData} />

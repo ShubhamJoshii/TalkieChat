@@ -12,44 +12,29 @@ import MessageSeen from "../../Assets/MessageSeen.png";
 import BackgroundImg from "../../Assets/chatAppBackground.png";
 import { UserData } from "../../App";
 import axios from "axios";
-
-import io from "socket.io-client";
-// const socket = new io.connect("http://localhost:5000");
-const socket = new io.connect("https://talkie-chat-app.vercel.app/");
+import Loading from "../Loading/Loading";
 
 const UserChatingWith = ({ setUserChatWithData, userChatWithData }) => {
   const userInfo = useContext(UserData);
   const [Message, setMessage] = useState("");
   const [user_ID, setUser_ID] = useState();
   const [userAllMessage, setUserAllMessages] = useState([]);
-  const [chattingUsers, setChattingUsers] = useState([]);
+  const [load, setLoad] = useState(false);
+
+
 
   useEffect(() => {
     // console.log(userChatWithData);
     setUserAllMessages(userChatWithData.Messages);
   }, [userChatWithData]);
 
-  useEffect(() => {
-    fetchUseRecentChat();
-  }, []);
-
-  const fetchUseRecentChat = async () => {
-    await axios
-      .get("/chattingData")
-      .then((result) => {
-        // console.log(result.data)
-        setChattingUsers(result.data);
-      })
-      .catch((err) => {});
-  };
-
   // useEffect(() => {
   //   console.log(chattingUsers);
   // }, [chattingUsers]);
 
-  useEffect(() => {
-    console.log(userAllMessage);
-  }, [userAllMessage]);
+  // useEffect(() => {
+  //   console.log(userAllMessage);
+  // }, [userAllMessage]);
 
   const timeStamp = () => {
     const date = new Date();
@@ -77,7 +62,7 @@ const UserChatingWith = ({ setUserChatWithData, userChatWithData }) => {
       "December",
     ];
 
-    const dateP = `${date.getDate()} ${Day[date.getDay()]} ${
+    const dateP = `${Day[date.getDay()]} ${date.getDate()} ${
       Month[date.getMonth()]
     } ${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
     console.log(dateP.split(" "));
@@ -86,16 +71,8 @@ const UserChatingWith = ({ setUserChatWithData, userChatWithData }) => {
 
   const saveMessage = async () => {
     console.log(Message);
-    const chat_id = userChatWithData.ChatID;
+    const chat_id = userChatWithData._id;
     const time = timeStamp();
-    const senderID =
-      user_ID === userChatWithData.User1_id
-        ? userChatWithData.User2_id
-        : userChatWithData.User1_id;
-    // console.log(user_ID);
-    // console.log(userChatWithData.User1_id);
-    // console.log(userChatWithData.User2_id);
-    // console.log(senderID)
     await axios
       .post("/sendMessage", {
         chat_id,
@@ -103,38 +80,15 @@ const UserChatingWith = ({ setUserChatWithData, userChatWithData }) => {
         time,
       })
       .then((result) => {
-        console.log(result.data);
+        console.log(result);
+        fetchUserMessages()
       })
       .catch((err) => {
         console.log(err);
       });
-
-    socket.emit("sendMessage", {
-      chat_id,
-      whoWrote: user_ID,
-      time,
-      Message,
-    });
+    fetchUserMessages()
     setMessage("");
   };
-
-  socket.on("messageReceived", (newMessage) => {
-    chattingUsers.map((curr) => {
-      // console.log(curr.Messages)
-      let NewMessage = userAllMessage?.concat({
-        whoWrote:newMessage.whoWrote,
-        time:newMessage.time,
-        Message:newMessage.Message
-      });
-  
-      setUserAllMessages( NewMessage );
-
-    if(newMessage.chat_id === curr.ChatID){
-        curr.Messages = NewMessage;
-        console.log(curr)
-      }
-    });
-  });
 
   const fetchUserId = async () => {
     await axios
@@ -150,104 +104,130 @@ const UserChatingWith = ({ setUserChatWithData, userChatWithData }) => {
     fetchUserId();
   }, []);
 
+  const fetchUserMessages = async () => {
+    setLoad(true)
+    await axios
+    .post("/findChatData", {
+      _id: userChatWithData._id,
+    })
+    .then((result) => {
+      // console.log(result.data);
+      // setUserChatWithData(result.data)
+      setUserAllMessages((result.data).reverse());
+      setLoad(false)
+    })
+    .catch((err) => {});
+  };
+  useEffect(() => {
+    fetchUserMessages();
+  }, [userChatWithData]);
+
   return (
     <>
       {userChatWithData ? (
         <div className="userChatting">
-          <div className="chattingUserHeader">
-            <div className="chattinguserInfo">
-              <div>
-                <img
-                  src={
-                    userChatWithData.User1_Name === userInfo.Name
-                      ? userChatWithData.User2_Avatar
-                      : userChatWithData.User1_Avatar
-                  }
-                  id="userImg"
-                  style={
-                    userChatWithData.User1_Name === userInfo.Name
-                      ? {
-                          backgroundColor:
-                            userChatWithData.User2_AvatarBackground,
-                        }
-                      : {
-                          backgroundColor:
-                            userChatWithData.User1_AvatarBackground,
-                        }
-                  }
-                />
-              </div>
-              <div>
-                <h3>
-                  {userChatWithData.User1_Name === userInfo.Name
-                    ? userChatWithData.User2_Name
-                    : userChatWithData.User1_Name}
-                </h3>
-                <p>10:20 PM</p>
-              </div>
-            </div>
-            <div id="logos">
-              <BiSearchAlt />
-              <HiPhone />
-              <HiVideoCamera />
-              <BsThreeDotsVertical />
-            </div>
-          </div>
-
-          {userAllMessage ? (
-            <div id="userChats">
-              {userAllMessage.map((curr) => {
-                return (
-                  <div>
-                    {curr.whoWrote === user_ID ? (
-                      <div className="messageSendheader">
-                        <div
-                          className="messageSend"
-                          style={
-                            userInfo
-                              ? { backgroundColor: `${userInfo.ColorSchema}` }
-                              : { backgroundColor: "rgb(68, 215, 182)" }
-                          }
-                        >
-                          <div>
-                            <img src={MessageSeen} alt="SendStatus" />
-                            <p>{curr.Message}</p>
-                          </div>
-                          <p id="timeStamp">{curr.time}</p>
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="messageReceve">
-                        <div>
-                          <p>{curr.Message}</p>
-                        </div>
-                        <p id="timeStamp">{curr.time}</p>
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-            </div>
+          {load ? (
+            <Loading />
           ) : (
-            <div>HEllo</div>
-          )}
+            <>
+              <div className="chattingUserHeader">
+                <div className="chattinguserInfo">
+                  <div>
+                    <img
+                      src={
+                        userChatWithData.User1_Name === userInfo.Name
+                          ? userChatWithData.User2_Avatar
+                          : userChatWithData.User1_Avatar
+                      }
+                      id="userImg"
+                      style={
+                        userChatWithData.User1_Name === userInfo.Name
+                          ? {
+                              backgroundColor:
+                                userChatWithData.User2_AvatarBackground,
+                            }
+                          : {
+                              backgroundColor:
+                                userChatWithData.User1_AvatarBackground,
+                            }
+                      }
+                    />
+                  </div>
+                  <div>
+                    <h3>
+                      {userChatWithData.User1_Name === userInfo.Name
+                        ? userChatWithData.User2_Name
+                        : userChatWithData.User1_Name}
+                    </h3>
+                    <p>10:20 PM</p>
+                  </div>
+                </div>
+                <div id="logos">
+                  <BiSearchAlt />
+                  <HiPhone />
+                  <HiVideoCamera />
+                  <BsThreeDotsVertical />
+                </div>
+              </div>
 
-          <div id="writeMessage">
-            <div className="writeMessage">
-              <div id="enterMessage">
-                <ImAttachment />
-                <textarea
-                  placeholder="Type a message here..."
-                  name="message"
-                  value={Message}
-                  onChange={(e) => setMessage(e.target.value)}
-                ></textarea>
+              {userAllMessage ? (
+                <div id="userChats">
+                  {userAllMessage.map((curr) => {
+                    return (
+                      <div>
+                        {curr.whoWrote === user_ID ? (
+                          <div className="messageSendheader">
+                            <div
+                              className="messageSend"
+                              style={
+                                userInfo
+                                  ? {
+                                      backgroundColor: `${userInfo.ColorSchema}`,
+                                    }
+                                  : { backgroundColor: "rgb(68, 215, 182)" }
+                              }
+                            >
+                              <div>
+                                <img src={MessageSeen} alt="SendStatus" />
+                                <p>{curr.Message}</p>
+                              </div>
+                              <p id="timeStamp">{curr.time}</p>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="messageReceve">
+                            <div>
+                              <p>{curr.Message}</p>
+                            </div>
+                            <p id="timeStamp">{curr.time}</p>
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <div>HEllo</div>
+              )}
+
+              <div id="writeMessage">
+                <div className="writeMessage">
+                  <div id="enterMessage">
+                    <ImAttachment />
+                    <textarea
+                      placeholder="Type a message here..."
+                      name="message"
+                      value={Message}
+                      onChange={(e) => setMessage(e.target.value)}
+                    ></textarea>
+                  </div>
+                  <div id="sendMessage" onClick={saveMessage}>
+                    <BsFillSendFill />
+                  </div>
+                </div>
               </div>
-              <div id="sendMessage" onClick={saveMessage}>
-                <BsFillSendFill />
-              </div>
-            </div>
-          </div>
+            </>
+          )}
         </div>
       ) : (
         <div className="userChatting"></div>

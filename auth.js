@@ -175,9 +175,21 @@ router.post("/sendMessage", Authenication, async (req, res) => {
         whoWrote
       );
       await findUserMessage.save();
+      res.send("Message Sended")
     }
   } catch (err) {
     console.log(err)
+  }
+});
+
+router.post("/findChatData",async (req,res) => {
+  const {_id} = req.body;
+  console.log(_id)
+  const fetchMessage = await ChatDataModel.findOne({_id})
+  if(fetchMessage){
+    res.send(fetchMessage.Messages);
+  }else{
+    res.send()
   }
 });
 

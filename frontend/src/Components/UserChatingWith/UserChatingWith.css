@@ -24,6 +24,15 @@
     background-color: #F2F1F1;
     
 }
+.userChatting .Loading{
+    position: absolute;
+    /* display: none; */
+}
+
+
+.userChatting .Loading img{
+    width: 60px;
+}
 
 .chattinguserInfo{
     display: flex;
@@ -62,7 +71,7 @@
     height: 91.4%;
     margin-top: 60px;
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     height: calc(100vh -  150px);
     justify-content: end;   
     
