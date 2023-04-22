@@ -3,7 +3,8 @@
     align-items: center;
     border-right: 1px solid #707070;
     flex-direction: column;
-    width: 300px;
+    /* width: 300px; */
+    width: calc(25vw - 40px);
     height: calc(100%);
 }
 
@@ -21,8 +22,6 @@
     background-color: #fff;
     border: 1px solid #707070;
     border-radius: 10px;
-    /* min-height: 85%;
-    max-height: 90%; */
     height: 85%;
     overflow: hidden;
     overflow-y: scroll;
@@ -59,11 +58,11 @@
 }
 
 #chatsHistory #lastMessage {
-    align-items: center;
     display: flex;
+    align-items: center;
     justify-content: space-between;
+    /* width: 150%; */
     
-    width: 200px;
 }
 
 #chatsHistory p {

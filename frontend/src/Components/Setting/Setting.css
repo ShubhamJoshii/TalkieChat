@@ -1,10 +1,11 @@
 .Setting{
-    /* margin: 10px 100px; */
-    padding: 10px 150px;
+    padding: 10px 10vw;
     background-color: white;
-    height: calc(92vh);
     overflow: hidden;
+    overflow-y: scroll;
     width: 100%;
+    /* margin: 10px 100px; */
+    /* height: ; */
 }
 
 #settingTopic{
@@ -15,8 +16,11 @@
 
 #userSetting{
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     align-items: center;
+    flex-wrap: wrap;
+    
+    justify-content: center;
     gap: 30px;
     padding: 40px;
     padding-top: 10px;
@@ -117,7 +121,9 @@
 
 .themes{
     display: flex;
-    gap: 170px;
+    /* gap: 170px; */
+    justify-content: space-between;
+    flex-wrap: wrap;
 }
 
 .themes div{
@@ -146,6 +152,7 @@ footer{
     border-top: 1px solid grey;
     position: absolute;
     bottom: 0;
+    background-color: white;
     left:0;
     width: 100%;
     /* padding: 0px 200px */
@@ -183,16 +190,18 @@ footer div img{
 
 
 .Avatar{
-    position: fixed;
+    position: absolute;
     background-color: rgba(61, 61, 61, 0.45);
     top: 0;
-    left: -30px;
-    width: 85%;
-    height: 100%;
-    padding: 10px 130px;
+    left: 0px;
+    padding: 10px 50px 0px 50px;
     z-index: 9999;
     color: white;
-    overflow: hidden;
+    height: 100%;
+    overflow: scroll;
+    /* left: -30px; */
+    /* width: calc(100vw - 40px); */
+    /* overflow: hidden; */
 }
 
 .Avatar h1{
@@ -222,6 +231,8 @@ footer div img{
 .avatarBackGroundColor{
     display: flex;
     gap: 20px;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
     /* width:1000px; */
 }
 
@@ -269,6 +280,8 @@ footer div img{
     display: flex;
     gap: 20px;
     align-items: center;
+    
+    padding-bottom: 50px;
 }
 
 #avatarSave button{

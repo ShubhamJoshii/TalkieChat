@@ -1,9 +1,10 @@
 .SenderInfo{
     padding: 30px;
     /* background-color: aqua; */
-    width: 300px;
+    /* width: 300px; */
     max-height: 90vh;
     overflow-y: scroll;
+    width: 20vw;
 }
 
 #UserImg{

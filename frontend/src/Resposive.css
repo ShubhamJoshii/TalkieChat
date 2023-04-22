@@ -1,0 +1,69 @@
+@media only screen and (max-width: 1200px) {
+    .Chatting{
+        width: calc(30vw - 40px);
+    }
+    .SenderInfo{
+        display: none;
+    }
+
+    .userChatting{
+        width: 69.8vw;
+    }
+}
+
+@media only screen and (max-width: 1000px) {
+    .Chatting{
+        width: calc(35vw - 40px);
+    }
+    .SenderInfo{
+        display: none;
+    }
+
+    .userChatting{
+        width: 65.8vw;
+    }
+
+    /* .Setting{ */
+        /* padding: 10px 10px; */
+        /* display: none; */
+    /* } */
+    /* #userSetting{
+        flex-direction: column;
+    } */
+}
+@media only screen and (max-width: 685px) {
+    .Chatting{
+        width: calc(100vw - 40px);
+    }
+    
+    .SenderInfo{
+        display: none;
+    }
+    
+    .userChatting{
+        width: calc(100vw - 40px);
+        position: absolute;
+        /* display: none; */
+    }
+}
+
+
+@media only screen and (max-width: 560px) {
+    .Setting footer div{
+        display: none;
+    }   
+}
+
+@media only screen and (max-width: 540px) {
+    .Setting .userImgName{
+        justify-content: center;;
+        flex-wrap: wrap;
+    }   
+    .themes{
+        padding-bottom: 150px;
+    }
+
+    .themes div{
+        flex-wrap: wrap;
+    }
+}

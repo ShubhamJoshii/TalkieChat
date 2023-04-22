@@ -4,7 +4,7 @@ import userImg from "../../Assets/UserImg2.jpg";
 import { BiSearchAlt } from "react-icons/bi";
 import { HiPhone, HiVideoCamera } from "react-icons/hi";
 import { BsThreeDotsVertical, BsFillSendFill } from "react-icons/bs";
-
+import {IoMdArrowRoundBack} from "react-icons/io"
 import { ImAttachment } from "react-icons/im";
 import MessageDelever from "../../Assets/MessageDelivered.png";
 import MessageNotSend from "../../Assets/MessageNotSend.png";
@@ -21,10 +21,16 @@ const UserChatingWith = ({ setUserChatWithData, userChatWithData }) => {
   const [userAllMessage, setUserAllMessages] = useState([]);
   const [load, setLoad] = useState(false);
 
+  useEffect(()=>{
+    if(window.innerWidth <= 685){
+      console.log(window.innerWidth)
+    }
+  },[])
 
 
   useEffect(() => {
     // console.log(userChatWithData);
+    document.getElementsByClassName("userChatting")[0].style.display="block"
     setUserAllMessages(userChatWithData.Messages);
   }, [userChatWithData]);
 
@@ -132,6 +138,10 @@ const UserChatingWith = ({ setUserChatWithData, userChatWithData }) => {
             <>
               <div className="chattingUserHeader">
                 <div className="chattinguserInfo">
+                {
+                  window.innerWidth <= 685 ?
+                  <IoMdArrowRoundBack onClick={()=>{document.getElementsByClassName("userChatting")[0].style.display="none"}}/> : " "
+                }
                   <div>
                     <img
                       src={

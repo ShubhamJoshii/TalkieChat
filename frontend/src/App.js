@@ -3,7 +3,7 @@ import { createContext, useEffect, useState } from "react";
 import SideNavbar from "./Components/SideNavbar/SideNavbar";
 import Header from "./Components/HeaderTop/HeaderTop";
 import MainPage from "./MainPage";
-
+import "./Resposive.css"
 import { Route, Routes, BrowserRouter as Router } from "react-router-dom";
 import Setting from "./Components/Setting/Setting";
 import Login from "./Components/Login/Login";
@@ -16,6 +16,8 @@ const UserData = createContext();
 function App() {
   const [userInfo, setUserInfo] = useState();
   const [showLoading, setShowLoading] = useState(false);
+
+
   const fetchUserInfo = () => {
     setShowLoading(true);
     axios

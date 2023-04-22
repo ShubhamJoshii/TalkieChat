@@ -1,7 +1,9 @@
 .App{
   background-color: rgb(241, 237, 237);
-  width: 1536px;
-  height: 780px;
+  /* width: 1536px; */
+  /* height: 780px; */
+  width: 100vw;
+  height: 100vh;
   display: flex;
   overflow: hidden;
 }
@@ -13,7 +15,8 @@
   position: absolute;
   text-align: left;
   top: 0;
-  width: 1496px;
+  /* width: 1496px; */
+  width: calc(100vw - 40px);
 }
 
 #Routers{
@@ -23,6 +26,7 @@
 
 #MainPage{
   height: 100%;
+  width: calc(100vw - 40px);
   display: flex;  
 }
 

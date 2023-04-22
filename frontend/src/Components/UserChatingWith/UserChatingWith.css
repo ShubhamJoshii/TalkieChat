@@ -1,6 +1,7 @@
 .userChatting{
     width: 835px;
-    overflow-x: hidden;
+    width: 50vw;
+    /* overflow-x: hidden; */
     border-right: 1px solid #707070;
     /* border-right: 1px solid #707070; */
     position: relative;
@@ -19,8 +20,8 @@
     align-items: center;
     border-bottom: 1px solid #707070;
     position: absolute;
-    width: 774px;
-    /* width: 100%; */
+    /* width: 774px; */
+    width: 90%;
     background-color: #F2F1F1;
     
 }
@@ -36,6 +37,7 @@
 
 .chattinguserInfo{
     display: flex;
+    align-items: center;
     gap: 10px;
 }
 
@@ -99,8 +101,10 @@
 
 }
 
-.messageSend p, .messageReceve p{
+.messageSend div p, .messageReceve div p{
     margin: 0;
+    width: 95%;
+    overflow-wrap: break-word;
 }
 
 
@@ -115,14 +119,12 @@
 .messageSend img{
     width: 35px;
     aspect-ratio: 1;
-
 }
 
 
 .messageReceve{
     min-width: 150px;
-    /* width: 200px; */
-    max-width: 50%;
+    max-width: 70%;
     background-color: white;
     margin-bottom: 7px;
     margin-top: 7px;
@@ -133,24 +135,20 @@
     box-shadow: 0px 0px 5px grey;
 }
 
-.messageReceve div p{
-    display: flex;
-    /* justify-content: center; */
-    /* align-items: center; */
-}
-
 .messageSendheader{
     display: flex ;
     align-items: end; 
     justify-content: end;
-    width: 835px ;
+    /* width: 835px ; */
+    /* width: 50vw ; */
+    width: 100% ;
 }
 
 #writeMessage{
-    width: 815px;
+    /* width: 815px; */
     background-color: white;
     height: 40px;
-    position: absolute;
+    /* position: absolute; */
     bottom: 0;
     padding:5px 10px;
 }
@@ -170,13 +168,15 @@
     display: flex;
     align-items: center;
     gap: 15px;
+    flex-grow: 1.2;
 }
 
 #enterMessage textarea{
     background-color: transparent;
     border: none;
     font-size: 15px;
-    width: 670px;
+    /* width: 670px; */
+    width: 100%;
     resize: none;
     overflow: hidden;
     height: 15px;
