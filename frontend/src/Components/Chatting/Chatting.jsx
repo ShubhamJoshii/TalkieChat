@@ -5,15 +5,10 @@ import { UserData } from "../../App";
 import axios from "axios";
 
 
-const Chatting = ({setUserChatWithData, userChatWithData}) => {
+const Chatting = ({setUserChatWithData}) => {
   const userInfo = useContext(UserData);
   const [Count,setCount] = useState(null);
   const [chattingUsers, setChattingUsers] = useState([]);
-
-
-
-
-
 
   const fetchUseRecentChat = async () => {
     await axios

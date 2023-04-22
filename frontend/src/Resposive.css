@@ -45,6 +45,16 @@
         position: absolute;
         /* display: none; */
     }
+    
+    .SenderInfo{
+        background-color: white;
+        width: calc(100vw - 100px);
+        position: absolute;   
+    }
+
+    #chatId{
+        width: 350px;
+    }
 }
 
 

@@ -4,7 +4,7 @@ import userImg from "../../Assets/UserImg2.jpg";
 import { BiSearchAlt } from "react-icons/bi";
 import { HiPhone, HiVideoCamera } from "react-icons/hi";
 import { BsThreeDotsVertical, BsFillSendFill } from "react-icons/bs";
-import {IoMdArrowRoundBack} from "react-icons/io"
+import { IoMdArrowRoundBack } from "react-icons/io";
 import { ImAttachment } from "react-icons/im";
 import MessageDelever from "../../Assets/MessageDelivered.png";
 import MessageNotSend from "../../Assets/MessageNotSend.png";
@@ -14,23 +14,21 @@ import { UserData } from "../../App";
 import axios from "axios";
 import Loading from "../Loading/Loading";
 
-const UserChatingWith = ({ setUserChatWithData, userChatWithData }) => {
+const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
   const userInfo = useContext(UserData);
   const [Message, setMessage] = useState("");
   const [user_ID, setUser_ID] = useState();
   const [userAllMessage, setUserAllMessages] = useState([]);
   const [load, setLoad] = useState(false);
 
-  useEffect(()=>{
-    if(window.innerWidth <= 685){
-      console.log(window.innerWidth)
+  useEffect(() => {
+    if (window.innerWidth <= 685) {
+      console.log(window.innerWidth);
     }
-  },[])
-
+  }, []);
 
   useEffect(() => {
-    // console.log(userChatWithData);
-    document.getElementsByClassName("userChatting")[0].style.display="block"
+    document.getElementsByClassName("userChatting")[0].style.display = "block";
     setUserAllMessages(userChatWithData.Messages);
   }, [userChatWithData]);
 
@@ -87,12 +85,12 @@ const UserChatingWith = ({ setUserChatWithData, userChatWithData }) => {
       })
       .then((result) => {
         console.log(result);
-        fetchUserMessages()
+        fetchUserMessages();
       })
       .catch((err) => {
         console.log(err);
       });
-    fetchUserMessages()
+    fetchUserMessages();
     setMessage("");
   };
 
@@ -111,19 +109,20 @@ const UserChatingWith = ({ setUserChatWithData, userChatWithData }) => {
   }, []);
 
   const fetchUserMessages = async () => {
-    setLoad(true)
+    setLoad(true);
     await axios
-    .post("/findChatData", {
-      _id: userChatWithData._id,
-    })
-    .then((result) => {
-      // console.log(result.data);
-      // setUserChatWithData(result.data)
-      setUserAllMessages((result.data).reverse());
-      setLoad(false)
-    })
-    .catch((err) => {});
+      .post("/findChatData", {
+        _id: userChatWithData._id,
+      })
+      .then((result) => {
+        // console.log(result.data);
+        // setUserChatWithData(result.data)
+        setUserAllMessages(result.data.reverse());
+        setLoad(false);
+      })
+      .catch((err) => {});
   };
+
   useEffect(() => {
     fetchUserMessages();
   }, [userChatWithData]);
@@ -138,10 +137,17 @@ const UserChatingWith = ({ setUserChatWithData, userChatWithData }) => {
             <>
               <div className="chattingUserHeader">
                 <div className="chattinguserInfo">
-                {
-                  window.innerWidth <= 685 ?
-                  <IoMdArrowRoundBack onClick={()=>{document.getElementsByClassName("userChatting")[0].style.display="none"}}/> : " "
-                }
+                  {window.innerWidth <= 685 ? (
+                    <IoMdArrowRoundBack
+                      onClick={() => {
+                        document.getElementsByClassName(
+                          "userChatting"
+                        )[0].style.display = "none";
+                      }}
+                    />
+                  ) : (
+                    " "
+                  )}
                   <div>
                     <img
                       src={
@@ -163,7 +169,7 @@ const UserChatingWith = ({ setUserChatWithData, userChatWithData }) => {
                       }
                     />
                   </div>
-                  <div>
+                  <div onClick={() => setSenderInfoShow(true)} id="senderName">
                     <h3>
                       {userChatWithData.User1_Name === userInfo.Name
                         ? userChatWithData.User2_Name

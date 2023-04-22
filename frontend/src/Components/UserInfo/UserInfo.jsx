@@ -1,18 +1,27 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import UserImg from "../../Assets/UserImg2.jpg";
 import InstaLogo from "../../Assets/Insta.png";
 import LinkedinLogo from "../../Assets/Linkedin (2).png";
 import PhoneLogo from "../../Assets/phone.png";
 import Temp1 from "../../Assets/DocumentImg.png";
 import { RiArrowDropRightLine } from "react-icons/ri";
+import {IoMdArrowRoundBack} from "react-icons/io";
+
 import "./UserInfo.css";
 import { UserData } from "../../App";
-const UserInfo = ({ setUserChatWithData, userChatWithData }) => {
+const UserInfo = ({ userChatWithData,senderInfoShow,setSenderInfoShow }) => {
   const userInfo = useContext(UserData);
+  useEffect(()=>{
+    console.log(senderInfoShow)
+    if(senderInfoShow){
+     document.getElementsByClassName("SenderInfo")[0].style.display= "block";
+    }
+  },[senderInfoShow])
   return (
     <>
-      {userChatWithData ? (
+      {userChatWithData || senderInfoShow ? (
         <div className="SenderInfo">
+        <IoMdArrowRoundBack onClick={()=>{document.getElementsByClassName("SenderInfo")[0].style.display= "none";setSenderInfoShow(false)}}/>
           <div id="UserImg">
             <img
               src={
