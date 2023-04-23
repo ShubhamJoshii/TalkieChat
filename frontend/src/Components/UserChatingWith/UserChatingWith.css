@@ -1,10 +1,28 @@
 .userChatting{
-    width: 835px;
+    /* width: 835px; */
     width: 50vw;
     overflow-x: hidden;
     overflow-y: hidden;
     border-right: 1px solid #707070;
     position: relative;
+}
+#userChatting2{
+    margin: auto;
+    text-align: center;
+}
+
+#userChatting2 p span{
+    color: blue;
+    cursor: pointer;
+}
+#userChatting2 p span:hover{
+    color: red;
+    transform: scale(1.1);
+    text-decoration: underline;
+}
+
+#userChatting2 img{
+    width: 250px;
 }
 
 .userChatting #userImg{

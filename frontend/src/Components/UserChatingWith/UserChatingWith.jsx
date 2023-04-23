@@ -10,10 +10,15 @@ import MessageDelever from "../../Assets/MessageDelivered.png";
 import MessageNotSend from "../../Assets/MessageNotSend.png";
 import MessageSeen from "../../Assets/MessageSeen.png";
 import BackgroundImg from "../../Assets/chatAppBackground.png";
+import ChatPNG from "../../Assets/chat.png"
 import { UserData } from "../../App";
 import axios from "axios";
 import Loading from "../Loading/Loading";
 
+
+
+
+import { useNavigate } from "react-router-dom";
 const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
   const userInfo = useContext(UserData);
   const [Message, setMessage] = useState("");
@@ -21,6 +26,7 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
   const [userAllMessage, setUserAllMessages] = useState([]);
   const [load, setLoad] = useState(false);
 
+  const navigate = useNavigate();
   useEffect(() => {
     if (window.innerWidth <= 685) {
       console.log(window.innerWidth);
@@ -28,17 +34,14 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
   }, []);
 
   useEffect(() => {
-    document.getElementsByClassName("userChatting")[0].style.display = "block";
-    setUserAllMessages(userChatWithData.Messages);
+    if(document.getElementsByClassName("userChatting")[0]){
+      document.getElementsByClassName("userChatting")[0].style.display = "block";
+      setUserAllMessages(userChatWithData.Messages);
+    }
+    else(
+      document.getElementsByClassName("userChatting2")[0].style.display = "none"
+    )
   }, [userChatWithData]);
-
-  // useEffect(() => {
-  //   console.log(chattingUsers);
-  // }, [chattingUsers]);
-
-  // useEffect(() => {
-  //   console.log(userAllMessage);
-  // }, [userAllMessage]);
 
   const timeStamp = () => {
     const date = new Date();
@@ -246,7 +249,10 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
           )}
         </div>
       ) : (
-        <div className="userChatting"></div>
+        <div className="userChatting2 " id="userChatting2">
+          <img src={ChatPNG} />
+          <p>Sorry,the chat feature is restricted to registered users only.<br /> Please <span onClick={()=>navigate("/register")}>register</span> or <span onClick={()=>navigate("/login")}>login</span> to continue.</p>
+         </div>
       )}
     </>
   );

@@ -31,6 +31,24 @@
     width: 86%;
 }
 
+.chattingNotLOgin{
+    font-size: 14px;
+    z-index: 99999;
+} 
+.chattingNotLOgin #userChatting2{
+    font-size: 10px;
+    margin: auto;
+    margin-top: 90%;
+}
+
+.chattingNotLOgin #userChatting2 img{
+    width: 200px;
+}
+
+.chattingNotLOgin p{
+    text-align: center;
+
+}
 
 
 #chatsPersons h3 {
