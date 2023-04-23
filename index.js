@@ -11,9 +11,9 @@ const http = require("http")
 const server = http.createServer(app)
 const io = require("socket.io")(server, {
   cors: {
-    origin: "*",
+    origin: ["https://talkie-chat.vercel.app"],
     methods: ["GET", "POST"],
-    allowedHeaders: ['my-custom-header'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true
   }}
   )

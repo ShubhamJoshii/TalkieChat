@@ -19,7 +19,7 @@ import { useNavigate } from "react-router-dom";
 import UserDpShow from "./userDpShow"
 import io from "socket.io-client";
 // const socket = io("http://localhost:5000");
-const socket = io("/api");
+const socket = io("https://talkie-chat.vercel.app/api");
 
 
 const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
