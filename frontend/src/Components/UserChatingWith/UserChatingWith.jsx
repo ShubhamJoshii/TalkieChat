@@ -17,7 +17,9 @@ import Loading from "../Loading/Loading";
 import { useNavigate } from "react-router-dom";
 
 import UserDpShow from "./userDpShow"
-
+import io from "socket.io-client";
+// const socket = io("http://localhost:5000");
+const socket = io("/api");
 
 
 const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
@@ -28,8 +30,41 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
   const [load, setLoad] = useState(false);
   const [ShowDP,setShowDP] = useState(false);
 
+  // const [input, setInput] = useState('ShubhamJoshi');
+
+
+
   const navigate = useNavigate();
+
   useEffect(() => {
+    // listen for chat messages
+    socket.on('message', (msg) => {
+      console.log(msg)
+      // const prevMessages = userAllMessage
+      setUserAllMessages((prevMessages) => [...prevMessages, msg]);
+    });
+  }, []);
+
+
+  useEffect(()=>{
+    // socket.emit('chat message', {Name:"Shubham Joshi"});
+    console.log(userAllMessage);
+ },[userAllMessage])
+
+const sendDataSocket = (e) => {
+  e.preventDefault();
+  console.log("Click")
+  socket.emit('message', {
+    time : "10.20 ",
+    Message : "HEllo Jii",
+    whoWrote: user_ID
+  });
+
+}
+
+
+useEffect(() => {
+    fetchUserId();
     if (window.innerWidth <= 685) {
       console.log(window.innerWidth);
     }
@@ -109,9 +144,7 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
       .catch((err) => {});
   };
 
-  useEffect(() => {
-    fetchUserId();
-  }, []);
+
 
   const fetchUserMessages = async () => {
     setLoad(true);
@@ -122,7 +155,8 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
       .then((result) => {
         // console.log(result.data);
         // setUserChatWithData(result.data)
-        setUserAllMessages(result.data.reverse());
+        // setUserAllMessages(result.data.reverse());
+        setUserAllMessages(result.data);
         setLoad(false);
       })
       .catch((err) => {});
@@ -136,9 +170,10 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
     <>
       <div style={ShowDP ? {display:"block"}:{display:"none"}}>
         <UserDpShow ShowDP={ShowDP} setShowDP={setShowDP}/>
-      </div>
-      {userChatWithData ? (
-        <div className="userChatting">
+        </div>
+        {userChatWithData ? (
+          <div className="userChatting">
+          <button onClick={sendDataSocket}>Send Data</button>
           {load ? (
             <Loading />
           ) : (
@@ -198,7 +233,7 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
 
               {userAllMessage ? (
                 <div id="userChats">
-                  {userAllMessage.map((curr) => {
+                  {userAllMessage.slice(0).reverse().map((curr) => {
                     return (
                       <div>
                         {curr.whoWrote === user_ID ? (
