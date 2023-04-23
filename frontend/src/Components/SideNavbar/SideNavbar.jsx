@@ -65,15 +65,15 @@ const SideNavbar = () => {
           }}
           id={count == 3 ? "active" : ""}
         />
+        <AiFillSetting
+          className="setting"
+          onClick={() => {
+            setCount(4);
+            navigate("/setting");
+          }}
+          id={count == 4 ? "active" : ""}
+        />
       </div>
-      <AiFillSetting
-        className="setting"
-        onClick={() => {
-          setCount(4);
-          navigate("/setting");
-        }}
-        id={count == 4 ? "active" : ""}
-      />
     </div>
   );
 };

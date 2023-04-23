@@ -221,3 +221,33 @@
     font-size: 15px;
     justify-content: center;
 }
+
+
+.UserDpShow{
+    position : absolute;
+    width:100vw;
+    top:0;
+    left:0;
+    z-index:99999;
+    height:100vh;
+    background-color:#000000c2;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+}
+
+.UserDpShow img{
+    width:250px;
+    margin-bottom:20px;
+    background-color:white;
+}
+
+#backBtn{
+    color:white;
+    font-size:25px;
+    font-weight:bolder;
+    position:absolute;
+    top:40px;
+    left:40px;
+}

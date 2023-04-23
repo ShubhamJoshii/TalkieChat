@@ -14,17 +14,19 @@ import ChatPNG from "../../Assets/chat.png"
 import { UserData } from "../../App";
 import axios from "axios";
 import Loading from "../Loading/Loading";
-
-
-
-
 import { useNavigate } from "react-router-dom";
+
+import UserDpShow from "./userDpShow"
+
+
+
 const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
   const userInfo = useContext(UserData);
   const [Message, setMessage] = useState("");
   const [user_ID, setUser_ID] = useState();
   const [userAllMessage, setUserAllMessages] = useState([]);
   const [load, setLoad] = useState(false);
+  const [ShowDP,setShowDP] = useState(false);
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -132,6 +134,9 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
 
   return (
     <>
+      <div style={ShowDP ? {display:"block"}:{display:"none"}}>
+        <UserDpShow ShowDP={ShowDP} setShowDP={setShowDP}/>
+      </div>
       {userChatWithData ? (
         <div className="userChatting">
           {load ? (
@@ -151,7 +156,9 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
                   ) : (
                     " "
                   )}
-                  <div>
+                  <div onClick={()=>setShowDP(userChatWithData.User1_Name === userInfo.Name
+                    ? userChatWithData.User2_Avatar
+                    : userChatWithData.User1_Avatar)}>
                     <img
                       src={
                         userChatWithData.User1_Name === userInfo.Name

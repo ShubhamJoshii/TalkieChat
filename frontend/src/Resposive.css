@@ -33,25 +33,83 @@
 }
 @media only screen and (max-width: 685px) {
     .Chatting{
-        width: calc(100vw - 40px);
+        /* width: calc(100vw - 40px); */
+        width: 100vw;
     }
     
+    #MainPage{
+        width: 100vw;
+    }
+
     .SenderInfo{
         display: none;
     }
+    .SideNavbar #userImage{
+        display:none;
+    }
+
+    .SideNavbar{
+        /* display:none; */
+        width:100vw;
+        height:40px;
+        position:fixed;
+        bottom:0;
+        z-index: 9999;
+        align-items:center;
+        display:flex;
+        justify-content:center
+    }
+
+    .SideNavbar #navbarLogo{
+        flex-direction:row;
+        /* justify-content:space-between; */
+        /* gap:20%; */
+        margin-top: 0;
+
+
+    }
+
+    
+#secondHalf{
+    left:0;
+    width:100vw;
+}
+
+
+
+
+    .SideNavbar .setting {
+        position:relative;
+        bottom:0;   
+    }
     
     .userChatting{
-        width: calc(100vw - 40px);
+        /* width: calc(100vw - 40px); */
+        width: 99vw;
+        height:calc(100vh - 40px);
+        margin-left:0.5vw;
         position: absolute;
         /* display: none; */
     }
     
     .SenderInfo{
         background-color: white;
-        width: calc(100vw - 100px);
+        /* width: calc(100vw - 100px); */
+        width: calc(100vw - 50px);
         position: absolute;   
     }
 
+    #userChats{
+        height:calc(100vh - 188px)
+    }
+    .Setting footer{
+        bottom:40px;
+    }
+    #writeMessage{
+        width:100%;
+        position:absolute;
+        bottom:38px;
+    }
     #chatId{
         width: 350px;
     }
