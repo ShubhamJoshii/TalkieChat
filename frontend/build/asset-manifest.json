@@ -1,12 +1,13 @@
 {
   "files": {
-    "main.css": "/static/css/main.6f175e27.css",
-    "main.js": "/static/js/main.b6788cfc.js",
+    "main.css": "/static/css/main.d7fc364c.css",
+    "main.js": "/static/js/main.6ceaf4a4.js",
     "static/media/UserImg.jpg": "/static/media/UserImg.52a3953193b5bcd7d652.jpg",
     "static/media/chatAppBackground.png": "/static/media/chatAppBackground.93db05b9839caed1ff0a.png",
     "static/media/chat.png": "/static/media/chat.67c4d27ff612f6cd8e8b.png",
     "static/media/Spinner (1).gif": "/static/media/Spinner (1).b8c7f3dd824455900e73.gif",
     "static/media/MessageNotSend.png": "/static/media/MessageNotSend.77014ffe03ed39175f8d.png",
+    "static/media/Github.jpg": "/static/media/Github.435444e2b43f134f05e9.jpg",
     "static/media/DocumentImg.png": "/static/media/DocumentImg.796edad5673a81c7d38a.png",
     "static/media/Avatar (13).png": "/static/media/Avatar (13).863b8b8bfe2f954cb83a.png",
     "static/media/Avatar (2).png": "/static/media/Avatar (2).b78bcbb0a087010734ce.png",
@@ -23,12 +24,13 @@
     "static/media/Avatar (7).png": "/static/media/Avatar (7).95f01e2d20ce4664d9bf.png",
     "static/media/Avatar (6).png": "/static/media/Avatar (6).09381828d766490ba26a.png",
     "static/media/MessageDelivered.png": "/static/media/MessageDelivered.5d8ca821f54138b18b47.png",
+    "static/media/TalkieChatLogo.png": "/static/media/TalkieChatLogo.843c6c5f489085d736ad.png",
     "index.html": "/index.html",
-    "main.6f175e27.css.map": "/static/css/main.6f175e27.css.map",
-    "main.b6788cfc.js.map": "/static/js/main.b6788cfc.js.map"
+    "main.d7fc364c.css.map": "/static/css/main.d7fc364c.css.map",
+    "main.6ceaf4a4.js.map": "/static/js/main.6ceaf4a4.js.map"
   },
   "entrypoints": [
-    "static/css/main.6f175e27.css",
-    "static/js/main.b6788cfc.js"
+    "static/css/main.d7fc364c.css",
+    "static/js/main.6ceaf4a4.js"
   ]
 }

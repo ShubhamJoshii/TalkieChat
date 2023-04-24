@@ -11,9 +11,17 @@
     padding: 3px 10px 3px 25px;
 }
 
+#talkieHeaderLogo{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
 .headerText h4 {
     font-size: 23px;
     margin: 0;
+    
 }
 
 .headerText p {
@@ -72,6 +80,9 @@
     padding-right: 20px;
 }
 
+#LogoTalkieChat{
+    height:25px
+}
 
 #generateChatID:hover #chatId{
 

@@ -4,6 +4,7 @@ import Avatar13 from "../../Assets/Avatar (13).png";
 import InstaLogo from "../../Assets/Insta.png";
 import Linkedin from "../../Assets/Linkedin (2).png";
 import Phone from "../../Assets/phone.png";
+import Github from "../../Assets/Github.jpg";
 import { BsFillCameraFill } from "react-icons/bs";
 import { RiCloseLine } from "react-icons/ri";
 import { UserData } from "../../App";
@@ -45,16 +46,16 @@ const Setting = () => {
       });
   };
 
-
-  const logoutUser = () =>{ 
-    axios.get("/logout").then((result) => {
-      alert(result.data);
-      navigate("/")
-      window.location.reload(true)
-    }).catch((err) => {
-      
-    });
-  }
+  const logoutUser = () => {
+    axios
+      .get("/logout")
+      .then((result) => {
+        alert(result.data);
+        navigate("/");
+        window.location.reload(true);
+      })
+      .catch((err) => {});
+  };
 
   const notificationShow = (data, boolData) => {
     setNotificationData(data);
@@ -89,13 +90,21 @@ const Setting = () => {
             <div>
               <h1>{userInfo.Name}</h1>
               <p>{userInfo.Email}</p>
-              <div id="logoutBTN" onClick={logoutUser}>Logout</div>
+              <div id="logoutBTN" onClick={logoutUser}>
+                Logout
+              </div>
             </div>
           </div>
           <div id="socialLogo">
-            <img src={InstaLogo} alt="Socail Logo" />
-            <img src={Linkedin} alt="Socail Logo" />
-            <img src={Phone} alt="Socail Logo" />
+            <a href="https://www.instagram.com/invites/contact/?i=1k3g7gxwflgz0&utm_content=2of27u2" target="_blank">
+              <img src={InstaLogo} alt="Socail Logo" />
+            </a>
+            <a href="https://github.com/ShubhamJoshii" target="_blank">
+              <img src={Github} alt="Socail Logo" />
+            </a>
+            <a href="https://www.linkedin.com/in/shubham-joshi-86aaa6232" target="_blank">
+              <img src={Linkedin} alt="Socail Logo" />
+            </a>
           </div>
         </div>
       ) : (
@@ -121,9 +130,15 @@ const Setting = () => {
       <footer>
         <div>
           <h4>Follow use on: </h4>
-          <img src={InstaLogo} alt="Socail Logo" />
-          <img src={Linkedin} alt="Socail Logo" />
-          <img src={Phone} alt="Socail Logo" />
+          <a href="https://www.instagram.com/invites/contact/?i=1k3g7gxwflgz0&utm_content=2of27u2" target="_blank">
+            <img src={InstaLogo} alt="Socail Logo" />
+          </a>
+          <a href="https://github.com/ShubhamJoshii" target="_blank">
+            <img src={Github} alt="Socail Logo" />
+          </a>
+          <a href="https://www.linkedin.com/in/shubham-joshi-86aaa6232" target="_blank">
+            <img src={Linkedin} alt="Socail Logo" />
+          </a>
         </div>
         <h4>All right reserved @talkiechat</h4>
       </footer>

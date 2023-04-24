@@ -237,6 +237,43 @@
 
 }
 
+.Attachments{
+    position: absolute;
+    bottom: 40px;
+    background-color: rgba(0, 0, 0, 0.344);
+    width: 60%;
+    z-index: 9999;
+    height: 140px;
+    /* width: 70%; */
+    padding: 0px 20%;
+    display: flex;
+    align-content: center;
+    justify-content: space-between;
+    /* padding-top: 50px; */
+}
+
+#AttachmentLogo{
+    background-color: white;
+    margin-top: 45px;
+    border-radius: 10px;
+    padding: 15px;
+    font-size: 25px;
+}
+
+#AttachmentLogo:hover{
+    transform: scale(1.05);
+    background-color: greenyellow;    
+    color: white;
+
+}
+
+#attachmentShowLogo{
+    cursor: pointer;
+}
+#attachmentShowLogo:hover{
+    transform: scale(1.1);
+}
+
 .UserDpShow img{
     width:250px;
     margin-bottom:20px;

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./HeaderTop.css";
 import { AiFillCopy } from "react-icons/ai";
 import { BiRefresh, BiSave } from "react-icons/bi";
+import Logo from "../../Assets/TalkieChatLogo.png";
 import axios from "axios";
 const HeaderTop = () => {
   const [randomNumber, setrandomNumber] = useState();
@@ -32,7 +33,10 @@ const HeaderTop = () => {
   }, []);
   return (
     <header className="headerText">
-      <h4>TalkieChat</h4>
+      <div id="talkieHeaderLogo">
+        <img src={Logo} id="LogoTalkieChat" />
+        <h4> TalkieChat</h4>
+      </div>
       <div id="generateChatID">
         <p>Generate Chat ID</p>
         {addChatID === true ? (

@@ -41,6 +41,13 @@
         width: 100vw;
     }
 
+    .Attachments{
+        bottom: 86px;
+    }
+    .backgroundLogos{
+        display: none;
+    }
+
     .SenderInfo{
         display: none;
     }

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Chatting from "./Components/Chatting/Chatting";
 import UserChatingWith from "./Components/UserChatingWith/UserChatingWith";
 import UserInfo from "./Components/UserInfo/UserInfo";
+import Logo from "./Assets/TalkieChatLogo.png"
 
 const MainPage = () => {
   const [userChatWithData, setUserChatWithData] = useState("");
@@ -20,6 +21,13 @@ const MainPage = () => {
         senderInfoShow={senderInfoShow}
         setSenderInfoShow={setSenderInfoShow}
       />
+      {
+        !userChatWithData ? 
+        <div className="backgroundLogos">
+          <img src={Logo}/>
+          <p>TalkieChat</p>
+        </div>:<div></div>
+      }
     </div>
   );
 };

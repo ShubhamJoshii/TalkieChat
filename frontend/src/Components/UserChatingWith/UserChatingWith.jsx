@@ -6,6 +6,9 @@ import { HiPhone, HiVideoCamera } from "react-icons/hi";
 import { BsThreeDotsVertical, BsFillSendFill } from "react-icons/bs";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { ImAttachment } from "react-icons/im";
+import {GrGallery} from "react-icons/gr"
+import {FaRegStar} from "react-icons/fa"
+import {HiOutlineDocumentDuplicate} from "react-icons/hi"
 import MessageDelever from "../../Assets/MessageDelivered.png";
 import MessageNotSend from "../../Assets/MessageNotSend.png";
 import MessageSeen from "../../Assets/MessageSeen.png";
@@ -28,6 +31,7 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
   const [userAllMessage, setUserAllMessages] = useState([]);
   const [load, setLoad] = useState(false);
   const [ShowDP, setShowDP] = useState(undefined);
+  const [AttachmentShow, setAttachmentShow] = useState(false);
 
   // const [input, setInput] = useState('ShubhamJoshi');
 
@@ -272,11 +276,18 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
               ) : (
                 <div>HEllo</div>
               )}
-
+                {
+                  AttachmentShow ? 
+                  <div className="Attachments">
+                    <GrGallery id="AttachmentLogo"/>
+                    <FaRegStar  id="AttachmentLogo"/>
+                    <HiOutlineDocumentDuplicate  id="AttachmentLogo"/>
+                  </div>:<div></div>
+                }
               <div id="writeMessage">
                 <div className="writeMessage">
                   <div id="enterMessage">
-                    <ImAttachment />
+                    <ImAttachment id="attachmentShowLogo" onClick={()=>setAttachmentShow(!AttachmentShow)}/>
                     <textarea
                       placeholder="Type a message here..."
                       name="message"
