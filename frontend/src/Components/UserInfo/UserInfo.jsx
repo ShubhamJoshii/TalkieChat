@@ -12,7 +12,7 @@ import { UserData } from "../../App";
 const UserInfo = ({ userChatWithData,senderInfoShow,setSenderInfoShow }) => {
   const userInfo = useContext(UserData);
   useEffect(()=>{
-    console.log(senderInfoShow)
+    // console.log(senderInfoShow)
     if(senderInfoShow){
      document.getElementsByClassName("SenderInfo")[0].style.display= "block";
     }

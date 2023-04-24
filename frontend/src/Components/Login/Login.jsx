@@ -16,8 +16,17 @@ const Login = () => {
       Name_Email, Password,Login_Date , rememberME
     }).then((result) => {
         console.log(result.data)
-        alert(result.data)
-        navigate("/")
+        if(result.data === "Fill Form Properly"){
+          document.getElementById("Name_Email").style.borderBottom="2px solid red"
+          document.getElementById("Password").style.borderBottom="2px solid red"
+        }else if(result.data === "User Password is Wrong"){
+          document.getElementById("Name_Email").style.borderBottom=""
+          document.getElementById("Password").style.borderBottom="2px solid red"
+        }else{
+          alert(result.data)
+          navigate("/")
+          window.location.reload(true)
+        }
     }).catch((err) => {
       
     });
@@ -38,8 +47,8 @@ const Login = () => {
           <div className='lines3 linesv'></div>
           <div className='lines4 linesv'></div>
           <form>
-            <input type='text' name='Name_Email' placeholder='Enter Name or Email ID' onChange={handleInput}/>
-            <input type='text' name='Password' placeholder='Password ...' onChange={handleInput}/>
+            <input type='text' id='Name_Email' name='Name_Email' placeholder='Enter Name or Email ID' onChange={handleInput}/>
+            <input type='text' id='Password' name='Password' placeholder='Password ...' onChange={handleInput}/>
             <div id='rememberME'>
               <input type='checkbox' checked={rememberME} name='RememberME' id='RememberME' onChange={()=>setRememberMe(!rememberME)}/>
               <label htmlFor="RememberME">Remember me</label>

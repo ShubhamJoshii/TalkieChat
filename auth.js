@@ -55,7 +55,7 @@ router.post("/login", async (req, res) => {
         if (rememberME) {
           const Token = await userExist.generateAuthToken();
           console.log(Token);
-          res.cookie("jwtoken", Token, {
+          res.cookie("talkieChatToken", Token, {
             expires: new Date(Date.now() + 25892000000),
             httpOnly: true,
           });
@@ -69,6 +69,13 @@ router.post("/login", async (req, res) => {
     // res.send("Login");
   } catch (error) {}
 });
+
+
+router.get("/logout", (req, res) => {
+  res.clearCookie("talkieChatToken", { path: "/" });
+  res.status(200).send("User Logout");
+});
+
 
 router.get("/home", Authenication, async (req, res) => {
   res.send(req.rootUser);

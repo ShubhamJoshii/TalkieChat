@@ -2,11 +2,11 @@ const mongoose = require("mongoose");
 
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const SECRET_KEY = "SHUBHAMJOSHIISGOODBOYQWERTYUIOP";
+const SECRET_KEY = process.env.SECRET_KEY;
 
 mongoose
   .connect(
-    "mongodb+srv://talkieChat:aCYcftGyIVypXQZu@talkiechat.a2emxi0.mongodb.net/talkieChats?retryWrites=true&w=majority",
+    process.env.MONGO_URI,
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,

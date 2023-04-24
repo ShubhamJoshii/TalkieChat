@@ -12,6 +12,7 @@ const MainPage = () => {
       <Chatting setUserChatWithData={setUserChatWithData} />
       <UserChatingWith
         userChatWithData={userChatWithData}
+        setUserChatWithData = {setUserChatWithData}
         setSenderInfoShow={setSenderInfoShow}
       />
       <UserInfo

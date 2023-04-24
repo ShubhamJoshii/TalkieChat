@@ -14,9 +14,9 @@ const SideNavbar = () => {
   const [count, setCount] = useState(0);
   const [userImage, setUserImage] = useState(UserImage);
   const userInfo = useContext(UserData);
-  useEffect(() => {
-    console.log(userImage);
-  }, [userImage]);
+  // useEffect(() => {
+  //   console.log(userImage);
+  // }, [userImage]);
   const navigate = useNavigate();
   return (
     <div className="SideNavbar">

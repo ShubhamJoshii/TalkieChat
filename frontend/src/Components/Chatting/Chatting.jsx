@@ -30,9 +30,9 @@ const Chatting = ({ setUserChatWithData }) => {
     setUserChatWithData(curr);
   };
 
-  useEffect(() => {
-    console.log(userInfo);
-  }, [userInfo]);
+  // useEffect(() => {
+  //   console.log(userInfo);
+  // }, [userInfo]);
 
   return (
     <div className="Chatting">
@@ -47,6 +47,7 @@ const Chatting = ({ setUserChatWithData }) => {
                 // console.log(curr)
                 return (
                   <div
+                    key={id}
                     id="chatsHistory"
                     onClick={() => userChatWith(curr, id)}
                     style={

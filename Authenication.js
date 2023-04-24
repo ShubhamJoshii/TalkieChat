@@ -1,11 +1,11 @@
 const {DBModel} = require("./Database")
 const jwt = require("jsonwebtoken");
-const SECRET_KEY = "SHUBHAMJOSHIISGOODBOYQWERTYUIOP";
+const SECRET_KEY = process.env.SECRET_KEY;
 
 const Authenication = async (req,res,next)=>{
     try{
-        // console.log(req.cookies.jwtoken);
-        const Token = req.cookies.jwtoken;  
+        // console.log(req.cookies.talkieChatToken);
+        const Token = req.cookies.talkieChatToken;  
         const verifyToken = jwt.verify(Token,SECRET_KEY);
 
         const rootUser = await DBModel.findOne({_id:verifyToken._id,"Tokens.Token":Token});
