@@ -7,6 +7,10 @@ import Logo from "./Assets/TalkieChatLogo.png"
 const MainPage = () => {
   const [userChatWithData, setUserChatWithData] = useState("");
   const [senderInfoShow, setSenderInfoShow] = useState(false);
+  
+  // useEffect(()=>{
+  //   console.log(userChatWithData)
+  // },[userChatWithData])
 
   return (
     <div id="MainPage">

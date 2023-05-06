@@ -2,23 +2,50 @@ import React, { useEffect, useState } from "react";
 import "./HeaderTop.css";
 import { AiFillCopy } from "react-icons/ai";
 import { BiRefresh, BiSave } from "react-icons/bi";
+
 import Logo from "../../Assets/TalkieChatLogo.png";
 import axios from "axios";
+
+import { db } from "../../firebase";
+// import { uid } from "uid";
+import { set, ref, onValue, update } from "firebase/database";
+
 const HeaderTop = () => {
   const [randomNumber, setrandomNumber] = useState();
   const [addChatID, setAddChatID] = useState(false);
+
   const copyNumber = async () => {
     navigator.clipboard.writeText(randomNumber);
     alert("Chat ID Copied " + randomNumber);
-    saveChatID();
+    await axios
+      .get("/home")
+      .then((result) => {
+        // const uuid = uid();
+        console.log(result.data._id);
+        set(ref(db, `${randomNumber}`), {
+          ChatID: randomNumber,
+          User1_id: result.data._id,
+          User1_Name: result.data.Name,
+          User1_Avatar: result.data.Avatar,
+          User1_AvatarBackground: result.data.AvatarBackground,
+        });
+      })
+      .catch((err) => {});
   };
   const saveChatID = async () => {
     await axios
-      .post("/saveChatID", {
-        ChatID: randomNumber,
-      })
+      .get("/home")
       .then((result) => {
-        console.log(result);
+        // const uuid = uid();
+        console.log(result.data._id);
+        update(
+          ref(db,`${randomNumber}`),{
+          User2_id: result.data._id,
+          User2_Name: result.data.Name,
+          User2_Avatar: result.data.Avatar,
+          User2_AvatarBackground: result.data.AvatarBackground,
+          }
+        )
       })
       .catch((err) => {});
   };

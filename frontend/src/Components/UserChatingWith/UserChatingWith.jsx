@@ -6,9 +6,9 @@ import { HiPhone, HiVideoCamera } from "react-icons/hi";
 import { BsThreeDotsVertical, BsFillSendFill } from "react-icons/bs";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { ImAttachment } from "react-icons/im";
-import {GrGallery} from "react-icons/gr"
-import {FaRegStar} from "react-icons/fa"
-import {HiOutlineDocumentDuplicate} from "react-icons/hi"
+import { GrGallery } from "react-icons/gr";
+import { FaRegStar } from "react-icons/fa";
+import { HiOutlineDocumentDuplicate } from "react-icons/hi";
 import MessageDelever from "../../Assets/MessageDelivered.png";
 import MessageNotSend from "../../Assets/MessageNotSend.png";
 import MessageSeen from "../../Assets/MessageSeen.png";
@@ -18,11 +18,11 @@ import { UserData } from "../../App";
 import axios from "axios";
 import Loading from "../Loading/Loading";
 import { useNavigate } from "react-router-dom";
+import { db } from "../../firebase";
 
+import { ref } from "firebase/database";
 import UserDpShow from "./userDpShow";
-// import io from "socket.io-client";
-// const socket = io("http://localhost:5000");
-// const socket = io("https://talkie-chat.vercel.app");
+import { update } from "firebase/database";
 
 const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
   const userInfo = useContext(UserData);
@@ -33,50 +33,27 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
   const [ShowDP, setShowDP] = useState(undefined);
   const [AttachmentShow, setAttachmentShow] = useState(false);
 
-  // const [input, setInput] = useState('ShubhamJoshi');
-
   const navigate = useNavigate();
-
-  // useEffect(() => {
-  //   // listen for chat messages
-  //   socket.on('message', (msg) => {
-  //     console.log(msg)
-  //     // const prevMessages = userAllMessage
-  //     setUserAllMessages((prevMessages) => [...prevMessages, msg]);
-  //   });
-  // }, []);
-
-  // useEffect(() => {
-  //   // socket.emit('chat message', {Name:"Shubham Joshi"});
-  //   console.log(userAllMessage);
-  // }, [userAllMessage]);
-
-  // const sendDataSocket = (e) => {
-  //   e.preventDefault();
-  //   console.log("Click")
-  //   socket.emit('message', {
-  //     time : "10.20 ",
-  //     Message : "HEllo Jii",
-  //     whoWrote: user_ID
-  //   });
-
-  // }
 
   useEffect(() => {
     fetchUserId();
-    // if (window.innerWidth <= 685) {
-    //   console.log(window.innerWidth);
-    // }
   }, []);
 
   useEffect(() => {
     if (document.getElementsByClassName("userChatting")[0]) {
       document.getElementsByClassName("userChatting")[0].style.display =
         "block";
-      setUserAllMessages(userChatWithData.Messages);
+        if(userChatWithData.Messages){
+          setUserAllMessages(userChatWithData.Messages);
+        }
+        else{
+          setUserAllMessages([]);
+        }
     } else
       document.getElementsByClassName("userChatting2")[0].style.display =
         "none";
+    console.log(userChatWithData);
+    // setUserAllMessages(userChatWithData.Message)
   }, [userChatWithData]);
 
   const timeStamp = () => {
@@ -113,23 +90,30 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
   };
 
   const saveMessage = async () => {
-    console.log(Message);
-    const chat_id = userChatWithData._id;
+    // console.log(Message);
+    // const chat_id = userChatWithData._id;
+    const chat_id = user_ID;
+    console.log(userAllMessage);
     const time = timeStamp();
-    await axios
-      .post("/sendMessage", {
-        chat_id,
+    console.log(user_ID);
+
+    setUserAllMessages([
+      ...userAllMessage,
+      {
         Message,
         time,
+        whoWrote: chat_id,
+      },
+    ]);
+    
+    update(ref(db, `${userChatWithData.ChatID}`), {
+      Messages: userAllMessage.concat({
+        Message,
+        time,
+        whoWrote: chat_id,
       })
-      .then((result) => {
-        console.log(result);
-        fetchUserMessages();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    fetchUserMessages();
+    });
+
     setMessage("");
   };
 
@@ -142,27 +126,6 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
       })
       .catch((err) => {});
   };
-
-  const fetchUserMessages = async () => {
-    setLoad(true);
-    await axios
-      .post("/findChatData", {
-        _id: userChatWithData._id,
-      })
-      .then((result) => {
-        // console.log(result.data);
-        // setUserChatWithData(result.data)
-        // setUserAllMessages(result.data.reverse());
-        setUserAllMessages(result.data);
-        setLoad(false);
-      })
-      .catch((err) => {});
-  };
-
-  useEffect(() => {
-    fetchUserMessages();
-  }, [userChatWithData]);
-  // <button onClick={sendDataSocket}>Send Data</button>
 
   return (
     <>
@@ -239,7 +202,7 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
                   {userAllMessage
                     .slice(0)
                     .reverse()
-                    .map((curr,id) => {
+                    .map((curr, id) => {
                       return (
                         <div key={id}>
                           {curr.whoWrote === user_ID ? (
@@ -274,20 +237,24 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
                     })}
                 </div>
               ) : (
-                <div>HEllo</div>
+                <div id="userChats"></div>
               )}
-                {
-                  AttachmentShow ? 
-                  <div className="Attachments">
-                    <GrGallery id="AttachmentLogo"/>
-                    <FaRegStar  id="AttachmentLogo"/>
-                    <HiOutlineDocumentDuplicate  id="AttachmentLogo"/>
-                  </div>:<div></div>
-                }
+              {AttachmentShow ? (
+                <div className="Attachments">
+                  <GrGallery id="AttachmentLogo" />
+                  <FaRegStar id="AttachmentLogo" />
+                  <HiOutlineDocumentDuplicate id="AttachmentLogo" />
+                </div>
+              ) : (
+                <div></div>
+              )}
               <div id="writeMessage">
                 <div className="writeMessage">
                   <div id="enterMessage">
-                    <ImAttachment id="attachmentShowLogo" onClick={()=>setAttachmentShow(!AttachmentShow)}/>
+                    <ImAttachment
+                      id="attachmentShowLogo"
+                      onClick={() => setAttachmentShow(!AttachmentShow)}
+                    />
                     <textarea
                       placeholder="Type a message here..."
                       name="message"

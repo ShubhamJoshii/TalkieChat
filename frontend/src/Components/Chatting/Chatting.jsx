@@ -5,13 +5,16 @@ import { UserData } from "../../App";
 import axios from "axios";
 import ChatPNG from "../../Assets/chat.png";
 import { useNavigate } from "react-router-dom";
+import {db} from "../../firebase"
 
+import {set,ref, onValue} from "firebase/database";
 const Chatting = ({ setUserChatWithData }) => {
   const userInfo = useContext(UserData);
   const [Count, setCount] = useState(null);
-  const [chattingUsers, setChattingUsers] = useState();
+  const [chattingUsers, setChattingUsers] = useState([]);
 
   const navigate = useNavigate();
+  
   const fetchUseRecentChat = async () => {
     await axios
       .get("/chattingData")
@@ -21,18 +24,37 @@ const Chatting = ({ setUserChatWithData }) => {
       .catch((err) => {});
   };
 
+//reading DB
   useState(() => {
-    fetchUseRecentChat();
+    // fetchUseRecentChat();
+    onValue(ref(db),snapshot=>{
+      setChattingUsers([]);
+      const data = snapshot.val();
+      if(data !== null && userInfo){
+        Object.values(data).map(curr => {
+          // console.log(curr.User1_id)
+          // console.log(curr.User2_id)
+          // console.log(userInfo._id);
+          if(curr.User1_id === userInfo._id || curr.User2_id === userInfo._id){
+            setChattingUsers(oldArray => [...oldArray,curr]);
+            console.log("Message Updated")
+          }
+        })
+      }
+
+    })
   }, []);
 
   const userChatWith = (curr, id) => {
     setCount(id);
-    setUserChatWithData(curr);
+    // setUserChatWithData(curr);
+    setUserChatWithData(chattingUsers[id]);
   };
 
-  // useEffect(() => {
-  //   console.log(userInfo);
-  // }, [userInfo]);
+  useEffect(() => {
+    console.log(chattingUsers[Count]);
+    setUserChatWithData(chattingUsers[Count])
+  }, [chattingUsers]);
 
   return (
     <div className="Chatting">
