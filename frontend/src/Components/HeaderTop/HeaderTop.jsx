@@ -7,8 +7,7 @@ import Logo from "../../Assets/TalkieChatLogo.png";
 import axios from "axios";
 
 import { db } from "../../firebase";
-// import { uid } from "uid";
-import { set, ref, onValue, update } from "firebase/database";
+import { set, ref, update } from "firebase/database";
 
 const HeaderTop = () => {
   const [randomNumber, setrandomNumber] = useState();
@@ -38,14 +37,12 @@ const HeaderTop = () => {
       .then((result) => {
         // const uuid = uid();
         console.log(result.data._id);
-        update(
-          ref(db,`${randomNumber}`),{
+        update(ref(db, `${randomNumber}`), {
           User2_id: result.data._id,
           User2_Name: result.data.Name,
           User2_Avatar: result.data.Avatar,
           User2_AvatarBackground: result.data.AvatarBackground,
-          }
-        )
+        });
       })
       .catch((err) => {});
   };

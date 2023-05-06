@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.d7fc364c.css",
-    "main.js": "/static/js/main.0b271155.js",
+    "main.css": "/static/css/main.5f94fccd.css",
+    "main.js": "/static/js/main.7fc981ae.js",
     "static/media/UserImg.jpg": "/static/media/UserImg.52a3953193b5bcd7d652.jpg",
     "static/media/chatAppBackground.png": "/static/media/chatAppBackground.93db05b9839caed1ff0a.png",
     "static/media/chat.png": "/static/media/chat.67c4d27ff612f6cd8e8b.png",
@@ -9,6 +9,7 @@
     "static/media/MessageNotSend.png": "/static/media/MessageNotSend.77014ffe03ed39175f8d.png",
     "static/media/Github.jpg": "/static/media/Github.435444e2b43f134f05e9.jpg",
     "static/media/DocumentImg.png": "/static/media/DocumentImg.796edad5673a81c7d38a.png",
+    "static/media/pdfLogo.png": "/static/media/pdfLogo.aea1a7eca915cce4e579.png",
     "static/media/Avatar (13).png": "/static/media/Avatar (13).863b8b8bfe2f954cb83a.png",
     "static/media/Avatar (2).png": "/static/media/Avatar (2).b78bcbb0a087010734ce.png",
     "static/media/Avatar (3).png": "/static/media/Avatar (3).0f5b0724982c9d24fb6a.png",
@@ -26,11 +27,11 @@
     "static/media/MessageDelivered.png": "/static/media/MessageDelivered.5d8ca821f54138b18b47.png",
     "static/media/TalkieChatLogo.png": "/static/media/TalkieChatLogo.843c6c5f489085d736ad.png",
     "index.html": "/index.html",
-    "main.d7fc364c.css.map": "/static/css/main.d7fc364c.css.map",
-    "main.0b271155.js.map": "/static/js/main.0b271155.js.map"
+    "main.5f94fccd.css.map": "/static/css/main.5f94fccd.css.map",
+    "main.7fc981ae.js.map": "/static/js/main.7fc981ae.js.map"
   },
   "entrypoints": [
-    "static/css/main.d7fc364c.css",
-    "static/js/main.0b271155.js"
+    "static/css/main.5f94fccd.css",
+    "static/js/main.7fc981ae.js"
   ]
 }

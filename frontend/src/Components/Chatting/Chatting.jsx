@@ -1,48 +1,36 @@
 import React, { useContext, useState, useEffect } from "react";
-import userImage from "../../Assets/UserImg2.jpg";
 import "./Chatting.css";
 import { UserData } from "../../App";
-import axios from "axios";
 import ChatPNG from "../../Assets/chat.png";
 import { useNavigate } from "react-router-dom";
-import {db} from "../../firebase"
+import { db } from "../../firebase";
 
-import {set,ref, onValue} from "firebase/database";
+import {ref, onValue } from "firebase/database";
 const Chatting = ({ setUserChatWithData }) => {
   const userInfo = useContext(UserData);
   const [Count, setCount] = useState(null);
   const [chattingUsers, setChattingUsers] = useState([]);
 
   const navigate = useNavigate();
-  
-  const fetchUseRecentChat = async () => {
-    await axios
-      .get("/chattingData")
-      .then((result) => {
-        setChattingUsers(result.data);
-      })
-      .catch((err) => {});
-  };
 
-//reading DB
+  //reading DB
   useState(() => {
     // fetchUseRecentChat();
-    onValue(ref(db),snapshot=>{
+    onValue(ref(db), (snapshot) => {
       setChattingUsers([]);
       const data = snapshot.val();
-      if(data !== null && userInfo){
-        Object.values(data).map(curr => {
-          // console.log(curr.User1_id)
-          // console.log(curr.User2_id)
-          // console.log(userInfo._id);
-          if(curr.User1_id === userInfo._id || curr.User2_id === userInfo._id){
-            setChattingUsers(oldArray => [...oldArray,curr]);
-            console.log("Message Updated")
+      if (data !== null && userInfo) {
+        Object.values(data).map((curr) => {
+          if (
+            curr.User1_id === userInfo._id ||
+            curr.User2_id === userInfo._id
+          ) {
+            setChattingUsers((oldArray) => [...oldArray, curr]);
+            console.log("Message Updated");
           }
-        })
+        });
       }
-
-    })
+    });
   }, []);
 
   const userChatWith = (curr, id) => {
@@ -53,14 +41,13 @@ const Chatting = ({ setUserChatWithData }) => {
 
   useEffect(() => {
     console.log(chattingUsers[Count]);
-    setUserChatWithData(chattingUsers[Count])
+    setUserChatWithData(chattingUsers[Count]);
   }, [chattingUsers]);
 
   return (
     <div className="Chatting">
       <input type="text" placeholder="Search..." />
       <div id="chatsPersons">
-        
         <h3>Recent Chats</h3>
         <div>
           {chattingUsers ? (

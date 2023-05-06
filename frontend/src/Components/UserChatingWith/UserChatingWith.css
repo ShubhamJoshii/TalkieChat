@@ -252,6 +252,21 @@
     /* padding-top: 50px; */
 }
 
+.Attachments input{
+    display: none;
+}
+
+#sharedImg{
+    width: 200px;
+    cursor: pointer;
+    aspect-ratio: 1;
+    background-color: rgb(232, 227, 227);
+    padding: 2px;
+    margin-left: 20px;
+    border-radius: 5px;
+
+}
+
 #AttachmentLogo{
     background-color: white;
     margin-top: 45px;
@@ -267,6 +282,22 @@
 
 }
 
+#pdfLogo{
+    width: 25px;
+}
+
+#pdfFiles{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.messageReceve div{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
 #attachmentShowLogo{
     cursor: pointer;
 }
@@ -275,7 +306,7 @@
 }
 
 .UserDpShow img{
-    width:250px;
+    width:450px;
     margin-bottom:20px;
     background-color:white;
 }
