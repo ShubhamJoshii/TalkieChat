@@ -58,7 +58,7 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
     } else
       document.getElementsByClassName("userChatting2")[0].style.display =
         "none";
-    console.log(userChatWithData);
+    // console.log(userChatWithData);
     // setUserAllMessages(userChatWithData.Message)
   }, [userChatWithData]);
 
@@ -87,6 +87,8 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
       "November",
       "December",
     ];
+
+    console.log(date);
 
     const dateP = `${Day[date.getDay()]} ${date.getDate()} ${
       Month[date.getMonth()]
@@ -351,12 +353,10 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
                               )}
                             </div>
                           ) : (
-                            <div>
+                            <>
                               {curr.Message && (
                                 <div className="messageReceve">
-                                  <div>
-                                    <p>{curr.Message}</p>
-                                  </div>
+                                  <p>{curr.Message}</p>
                                   <p id="timeStamp">{curr.time}</p>
                                 </div>
                               )}
@@ -382,7 +382,7 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
                                   <p id="timeStamp">{curr.time}</p>
                                 </div>
                               )}
-                            </div>
+                            </>
                           )}
                         </div>
                       );

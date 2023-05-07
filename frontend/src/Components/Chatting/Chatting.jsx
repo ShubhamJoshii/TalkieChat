@@ -26,7 +26,7 @@ const Chatting = ({ setUserChatWithData }) => {
             curr.User2_id === userInfo._id
           ) {
             setChattingUsers((oldArray) => [...oldArray, curr]);
-            console.log("Message Updated");
+            // console.log("Message Updated");
           }
         });
       }
@@ -40,7 +40,7 @@ const Chatting = ({ setUserChatWithData }) => {
   };
 
   useEffect(() => {
-    console.log(chattingUsers[Count]);
+    // console.log(chattingUsers[0].Messages);
     setUserChatWithData(chattingUsers[Count]);
   }, [chattingUsers]);
 
@@ -53,7 +53,7 @@ const Chatting = ({ setUserChatWithData }) => {
           {chattingUsers ? (
             <div>
               {chattingUsers.map((curr, id) => {
-                // console.log(curr)
+                // console.log(curr.Messages.slice(-1))
                 return (
                   <div
                     key={id}
@@ -81,15 +81,59 @@ const Chatting = ({ setUserChatWithData }) => {
                           : { backgroundColor: curr.User1_AvatarBackground }
                       }
                     />
-                    <div>
+                    <div >
                       <h4>
                         {curr.User1_Name === userInfo.Name
                           ? curr.User2_Name
                           : curr.User1_Name}
                       </h4>
                       <div id="lastMessage">
-                        <p>Hello</p>
-                        <p id="onlineTime">10:20 PM</p>
+                          {
+                            curr.Messages.slice(-1).map((lastMessage)=>{
+                              console.log(lastMessage);
+                              let timeArray = lastMessage.time.split(" ");
+                              let OnlineTime = ""
+                              let date = new Date();
+                              const Month = [
+                                "January",
+                                "February",
+                                "March",
+                                "April",
+                                "May",
+                                "June",
+                                "July",
+                                "August",
+                                "September",
+                                "October",
+                                "November",
+                                "December",
+                              ];
+                              // console.log(Month[date.getMonth()])
+                              if(date.getDate() == timeArray[1] && Month[date.getMonth()] == timeArray[2]){
+                                OnlineTime = timeArray[4] + " AM";
+                              }
+                              else if(date.getDate() - 1 == timeArray[1] && Month[date.getMonth()] == timeArray[2]){
+                                OnlineTime = timeArray[4] + " AM Tommorow" ;
+                              }
+                              else{
+                                OnlineTime = timeArray[4] + " AM " + timeArray[1] + " " + timeArray[2] ;
+                              }
+                              console.log(date.getDate() == timeArray[1])
+                              console.log(Month[date.getMonth()] == timeArray[2])
+                              return<>
+                              {
+                                lastMessage.Image && <p>Image</p>
+                              }
+                              {
+                                lastMessage.Message && <p>{lastMessage.Message.substr(0,8)}</p>
+                              }
+                              {
+                                lastMessage.Files_Url && <p>{lastMessage.FileName.substr(0,8)}...</p>
+                              }
+                                <p id="onlineTime">{OnlineTime}</p>
+                              </>
+                            })
+                          }
                       </div>
                     </div>
                   </div>

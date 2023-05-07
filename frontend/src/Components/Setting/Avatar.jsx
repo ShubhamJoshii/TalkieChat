@@ -14,6 +14,8 @@ import Avatar11 from "../../Assets/Avatar (11).png";
 import Avatar12 from "../../Assets/Avatar (12).png";
 import { CgCloseO } from "react-icons/cg";
 import axios from "axios";
+import {db} from "../../firebase"
+
 const Avatar = ({ setAvatarPage,notificationShow }) => {
   const AvatarArr = [
     Avatar1,
@@ -55,7 +57,11 @@ const Avatar = ({ setAvatarPage,notificationShow }) => {
     .then((result) => {
       console.log(result.data);
       // alert(result.data);
+
+      
+
       notificationShow(result.data,true)
+
     })
     .catch((err) => {});
   };

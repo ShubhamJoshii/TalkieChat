@@ -145,12 +145,12 @@
 
 
 .messageReceve{
-    min-width: 150px;
+    min-width: 200px;
     max-width: 70%;
     background-color: white;
     margin-bottom: 7px;
     margin-top: 7px;
-
+    display: inline-block;
     padding: 7px;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
@@ -257,9 +257,9 @@
 }
 
 #sharedImg{
-    width: 200px;
+    width: 295px;
     cursor: pointer;
-    aspect-ratio: 1;
+    /* aspect-ratio: 1; */
     background-color: rgb(232, 227, 227);
     padding: 2px;
     margin-left: 20px;

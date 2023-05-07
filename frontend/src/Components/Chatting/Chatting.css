@@ -67,6 +67,10 @@
     padding: 7px 5px;
 }
 
+#chatsHistory div{
+    flex: 1;
+}
+
 .Chatting #userImages {
     aspect-ratio: 1;
     border-radius: 50%;
