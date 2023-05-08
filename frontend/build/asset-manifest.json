@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.66f44ed8.css",
-    "main.js": "/static/js/main.4ceb08f9.js",
+    "main.js": "/static/js/main.703339aa.js",
     "static/media/UserImg.jpg": "/static/media/UserImg.52a3953193b5bcd7d652.jpg",
     "static/media/chatAppBackground.png": "/static/media/chatAppBackground.93db05b9839caed1ff0a.png",
     "static/media/chat.png": "/static/media/chat.67c4d27ff612f6cd8e8b.png",
@@ -28,10 +28,10 @@
     "static/media/TalkieChatLogo.png": "/static/media/TalkieChatLogo.843c6c5f489085d736ad.png",
     "index.html": "/index.html",
     "main.66f44ed8.css.map": "/static/css/main.66f44ed8.css.map",
-    "main.4ceb08f9.js.map": "/static/js/main.4ceb08f9.js.map"
+    "main.703339aa.js.map": "/static/js/main.703339aa.js.map"
   },
   "entrypoints": [
     "static/css/main.66f44ed8.css",
-    "static/js/main.4ceb08f9.js"
+    "static/js/main.703339aa.js"
   ]
 }

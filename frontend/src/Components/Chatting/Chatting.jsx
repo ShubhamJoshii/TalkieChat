@@ -40,7 +40,7 @@ const Chatting = ({ setUserChatWithData }) => {
   };
 
   useEffect(() => {
-    // console.log(chattingUsers[0].Messages);
+    console.log(chattingUsers == []);
     setUserChatWithData(chattingUsers[Count]);
   }, [chattingUsers]);
 
@@ -50,7 +50,7 @@ const Chatting = ({ setUserChatWithData }) => {
       <div id="chatsPersons">
         <h3>Recent Chats</h3>
         <div>
-          {chattingUsers ? (
+          {chattingUsers.length !== 0 ? (
             <div>
               {chattingUsers.map((curr, id) => {
                 // console.log(curr.Messages.slice(-1))
