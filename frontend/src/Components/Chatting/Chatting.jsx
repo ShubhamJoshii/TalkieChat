@@ -4,13 +4,13 @@ import { UserData } from "../../App";
 import ChatPNG from "../../Assets/chat.png";
 import { useNavigate } from "react-router-dom";
 import { db } from "../../firebase";
-
+import {Dropdown} from "antd";
 import {ref, onValue } from "firebase/database";
+import RightClickShow from "./RightClickShow";
 const Chatting = ({ setUserChatWithData }) => {
   const userInfo = useContext(UserData);
   const [Count, setCount] = useState(null);
   const [chattingUsers, setChattingUsers] = useState([]);
-
   const navigate = useNavigate();
 
   //reading DB
@@ -40,10 +40,11 @@ const Chatting = ({ setUserChatWithData }) => {
   };
 
   useEffect(() => {
-    console.log(chattingUsers == []);
     setUserChatWithData(chattingUsers[Count]);
   }, [chattingUsers]);
 
+
+  
   return (
     <div className="Chatting">
       <input type="text" placeholder="Search..." />
@@ -53,12 +54,14 @@ const Chatting = ({ setUserChatWithData }) => {
           {chattingUsers.length !== 0 ? (
             <div>
               {chattingUsers.map((curr, id) => {
-                // console.log(curr.Messages.slice(-1))
                 return (
+                  <Dropdown overlay={<RightClickShow curr={curr} id={id} userChatID={userInfo._id}/>} trigger={["contextMenu"]}>
                   <div
                     key={id}
                     id="chatsHistory"
+                    // onContextMenu={(e) => contentMenu(e,id)}
                     onClick={() => userChatWith(curr, id)}
+                    
                     style={
                       userInfo && id == Count
                         ? {
@@ -89,8 +92,8 @@ const Chatting = ({ setUserChatWithData }) => {
                       </h4>
                       <div id="lastMessage">
                           {
-                            curr.Messages.slice(-1).map((lastMessage)=>{
-                              console.log(lastMessage);
+                            curr.Messages && curr.Messages.slice(-1).map((lastMessage)=>{
+                              // console.log(lastMessage);
                               let timeArray = lastMessage.time.split(" ");
                               let OnlineTime = ""
                               let date = new Date();
@@ -118,8 +121,6 @@ const Chatting = ({ setUserChatWithData }) => {
                               else{
                                 OnlineTime = timeArray[4] + " AM " + timeArray[1] + " " + timeArray[2] ;
                               }
-                              console.log(date.getDate() == timeArray[1])
-                              console.log(Month[date.getMonth()] == timeArray[2])
                               return<>
                               {
                                 lastMessage.Image && <p>Image</p>
@@ -137,6 +138,7 @@ const Chatting = ({ setUserChatWithData }) => {
                       </div>
                     </div>
                   </div>
+                  </Dropdown>
                 );
               })}
             </div>

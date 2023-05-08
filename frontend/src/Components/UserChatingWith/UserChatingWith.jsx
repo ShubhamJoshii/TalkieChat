@@ -26,7 +26,7 @@ import {
   uploadBytes,
 } from "firebase/storage";
 
-import { ref } from "firebase/database";
+import { ref, remove } from "firebase/database";
 import UserDpShow from "./userDpShow";
 import { update } from "firebase/database";
 import { uid } from "uid";
@@ -39,7 +39,8 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
   const [load, setLoad] = useState(false);
   const [ShowDP, setShowDP] = useState(undefined);
   const [AttachmentShow, setAttachmentShow] = useState(false);
-
+  const [deleteHeaderShow, setDeleteHeaderShow] = useState(false);
+  const [deleteChatsArr, setDeleteChatsArr] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -104,10 +105,11 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
     console.log(userAllMessage);
     const time = timeStamp();
     console.log(user_ID);
-
+    const uuid = uid();
     setUserAllMessages([
       ...userAllMessage,
       {
+        _id: uuid,
         Message,
         time,
         whoWrote: chat_id,
@@ -116,6 +118,7 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
 
     update(ref(db, `${userChatWithData.ChatID}`), {
       Messages: userAllMessage.concat({
+        _id: uuid,
         Message,
         time,
         whoWrote: chat_id,
@@ -152,6 +155,7 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
         setUserAllMessages([
           ...userAllMessage,
           {
+            _id: uuid,
             Image: url,
             time,
             whoWrote: chat_id,
@@ -160,6 +164,7 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
 
         update(ref(db, `${userChatWithData.ChatID}`), {
           Messages: userAllMessage.concat({
+            _id: uuid,
             Image: url,
             time,
             whoWrote: chat_id,
@@ -187,6 +192,7 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
         setUserAllMessages([
           ...userAllMessage,
           {
+            _id: uuid,
             Files_Url: url,
             FileName: name.name,
             time,
@@ -196,6 +202,7 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
 
         update(ref(db, `${userChatWithData.ChatID}`), {
           Messages: userAllMessage.concat({
+            _id: uuid,
             Files_Url: url,
             FileName: name.name,
             time,
@@ -204,6 +211,45 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
         });
       });
   };
+
+  const deleteChatSelection = (curr, id, e) => {
+    if (deleteHeaderShow) {
+      if (deleteChatsArr.includes(curr._id)) {
+        // let index = deleteChatsArr.indexOf(curr._id);
+        // deleteChatsArr.splice(index, 1);
+        // setDeleteCount(deleteChatsArr.length)
+        const updatedItems = deleteChatsArr.filter((item) => item !== curr._id);
+        setDeleteChatsArr(updatedItems);
+        // setDeleteCount(deleteChatsArr.length);
+        e.target.classList.remove("selectMessage");
+      } else {
+        setDeleteChatsArr((prev) => [...prev, curr._id]);
+        e.target.classList.add("selectMessage");
+        // setDeleteCount(deleteChatsArr.length + 1);
+      }
+    }
+  };
+  const cancelSelection = () => {
+    let a = document.getElementById("temp");
+    a.classList.remove("selectMessage");
+    setDeleteChatsArr([]);
+    setDeleteHeaderShow(false);
+  };
+
+  const deleteChat = () => {
+    userAllMessage.map((curr,id)=>{
+      for(let i = 0;i<deleteChatsArr.length;i++){
+        if(curr._id === deleteChatsArr[i]){
+          const updatedItems = userAllMessage.filter((item) => item !== userAllMessage[id]);
+          setUserAllMessages(updatedItems)
+        }
+      }
+    })
+  }
+
+  // useEffect(()=>{
+  //   console.log(userAllMessage)
+  // },[userAllMessage])
 
   return (
     <>
@@ -216,75 +262,110 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
             <Loading />
           ) : (
             <>
-              <div className="chattingUserHeader">
-                <div className="chattinguserInfo">
-                  {window.innerWidth <= 685 ? (
+              {!deleteHeaderShow ? (
+                <div className="chattingUserHeader">
+                  <div className="chattinguserInfo">
+                    {window.innerWidth <= 685 ? (
+                      <IoMdArrowRoundBack
+                        onClick={() => {
+                          document.getElementsByClassName(
+                            "userChatting"
+                          )[0].style.display = "none";
+                        }}
+                      />
+                    ) : (
+                      " "
+                    )}
+                    <div
+                      onClick={() =>
+                        setShowDP(
+                          userChatWithData.User1_Name === userInfo.Name
+                            ? userChatWithData.User2_Avatar
+                            : userChatWithData.User1_Avatar
+                        )
+                      }
+                    >
+                      <img
+                        src={
+                          userChatWithData.User1_Name === userInfo.Name
+                            ? userChatWithData.User2_Avatar
+                            : userChatWithData.User1_Avatar
+                        }
+                        id="userImg"
+                        style={
+                          userChatWithData.User1_Name === userInfo.Name
+                            ? {
+                                backgroundColor:
+                                  userChatWithData.User2_AvatarBackground,
+                              }
+                            : {
+                                backgroundColor:
+                                  userChatWithData.User1_AvatarBackground,
+                              }
+                        }
+                      />
+                    </div>
+                    <div
+                      onClick={() => setSenderInfoShow(true)}
+                      id="senderName"
+                    >
+                      <h3>
+                        {userChatWithData.User1_Name === userInfo.Name
+                          ? userChatWithData.User2_Name
+                          : userChatWithData.User1_Name}
+                      </h3>
+                      <p>10:20 PM</p>
+                    </div>
+                  </div>
+                  <div id="logos">
+                    <BiSearchAlt />
+                    <HiPhone />
+                    <HiVideoCamera />
+                    <div id="threeBotMenu">
+                      <BsThreeDotsVertical />
+                      <div id="dropDownMenu">
+                        <h4>Select</h4>
+                        <h4>Export Chat</h4>
+                        <h4>Block</h4>
+                        <h4 onClick={() => setDeleteHeaderShow(true)}>
+                          Delete Chat
+                        </h4>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="chattingUserHeader">
+                  <div id="deleteHeaderText">
                     <IoMdArrowRoundBack
-                      onClick={() => {
-                        document.getElementsByClassName(
-                          "userChatting"
-                        )[0].style.display = "none";
-                      }}
+                      onClick={() => setDeleteHeaderShow(false)}
                     />
-                  ) : (
-                    " "
-                  )}
-                  <div
-                    onClick={() =>
-                      setShowDP(
-                        userChatWithData.User1_Name === userInfo.Name
-                          ? userChatWithData.User2_Avatar
-                          : userChatWithData.User1_Avatar
-                      )
-                    }
-                  >
-                    <img
-                      src={
-                        userChatWithData.User1_Name === userInfo.Name
-                          ? userChatWithData.User2_Avatar
-                          : userChatWithData.User1_Avatar
-                      }
-                      id="userImg"
-                      style={
-                        userChatWithData.User1_Name === userInfo.Name
-                          ? {
-                              backgroundColor:
-                                userChatWithData.User2_AvatarBackground,
-                            }
-                          : {
-                              backgroundColor:
-                                userChatWithData.User1_AvatarBackground,
-                            }
-                      }
-                    />
+                    <input type="checkbox" />
+                    <h3>{deleteChatsArr.length} Selected Chat</h3>
                   </div>
-                  <div onClick={() => setSenderInfoShow(true)} id="senderName">
-                    <h3>
-                      {userChatWithData.User1_Name === userInfo.Name
-                        ? userChatWithData.User2_Name
-                        : userChatWithData.User1_Name}
-                    </h3>
-                    <p>10:20 PM</p>
+                  <div id="deleteHeaderText">
+                    <button onClick={deleteChat}>Delete</button>
+                    <button onClick={cancelSelection}>Cancel</button>
                   </div>
                 </div>
-                <div id="logos">
-                  <BiSearchAlt />
-                  <HiPhone />
-                  <HiVideoCamera />
-                  <BsThreeDotsVertical />
-                </div>
-              </div>
+              )}
 
               {userAllMessage ? (
                 <div id="userChats">
                   {userAllMessage
                     .slice(0)
                     .reverse()
-                    .map((curr, id) => {
+                    .map((curr, ids) => {
                       return (
-                        <div key={id}>
+                        <div
+                          key={ids}
+                          id="temp"
+                          onClick={(e) => {
+                            deleteChatSelection(curr, ids, e);
+                          }}
+                        >
                           {curr.whoWrote === user_ID ? (
-                            <div className="messageSendheader">
+                            <div className="messageSendheader" id="temp">
                               {curr.Message && (
                                 <div
                                   className="messageSend"

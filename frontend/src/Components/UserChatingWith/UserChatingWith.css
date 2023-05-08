@@ -43,7 +43,41 @@
     background-color: #F2F1F1;
     
 }
-.userChatting .Loading{
+
+#deleteHeaderText{
+    display: flex;
+    padding: 10px 0px;
+    gap: 15px;
+}
+
+#deleteHeaderText button{
+    padding: 4px;
+    width: 70px;
+    font-weight: 600;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+#deleteHeaderText button:hover{
+    transform: scale(1.1);
+}
+
+    #deleteHeaderText button:first-child{
+    background-color: #E00000;
+    color: white;
+}
+
+.selectMessage{
+    background-color: rgba(0, 109, 255, 0.2)   
+}
+
+#deleteHeaderText button:last-child{
+    border: 2px solid black;
+    background-color: #EEE3E3
+}
+
+    .userChatting .Loading{
     position: absolute;
     /* display: none; */
 }
@@ -129,6 +163,41 @@
     overflow-wrap: break-word;
 }
 
+
+
+#dropDownMenu{
+    position: absolute;
+    top: 40px;
+    background-color: white;
+    right: 10px;
+    padding: 5px;
+    width: 150px;
+    padding-bottom: 15px;
+    box-shadow: 0 0 5px grey;
+    border-radius: 5px;
+    display: none;
+    z-index: 999;
+}
+
+#dropDownMenu h4{
+    margin: 0px;
+    padding: 2px;
+    cursor: pointer;
+    border-bottom: 1px solid grey;
+}
+
+#dropDownMenu h4:hover{
+    background-color: rgba(0, 0, 0, 0.084);
+}
+
+#threeBotMenu{
+    cursor: pointer;
+}
+
+#threeBotMenu:hover #dropDownMenu{
+    transition: 40s;
+    display: block;
+}
 
 #timeStamp{
     margin: 0;
