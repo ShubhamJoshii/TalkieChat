@@ -94,7 +94,7 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
     const dateP = `${Day[date.getDay()]} ${date.getDate()} ${
       Month[date.getMonth()]
     } ${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
-    console.log(dateP.split(" "));
+    // console.log(dateP.split(" "));
     return dateP;
   };
 
@@ -215,17 +215,12 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
   const deleteChatSelection = (curr, id, e) => {
     if (deleteHeaderShow) {
       if (deleteChatsArr.includes(curr._id)) {
-        // let index = deleteChatsArr.indexOf(curr._id);
-        // deleteChatsArr.splice(index, 1);
-        // setDeleteCount(deleteChatsArr.length)
         const updatedItems = deleteChatsArr.filter((item) => item !== curr._id);
         setDeleteChatsArr(updatedItems);
-        // setDeleteCount(deleteChatsArr.length);
         e.target.classList.remove("selectMessage");
       } else {
         setDeleteChatsArr((prev) => [...prev, curr._id]);
         e.target.classList.add("selectMessage");
-        // setDeleteCount(deleteChatsArr.length + 1);
       }
     }
   };
@@ -237,19 +232,34 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
   };
 
   const deleteChat = () => {
-    userAllMessage.map((curr,id)=>{
-      for(let i = 0;i<deleteChatsArr.length;i++){
-        if(curr._id === deleteChatsArr[i]){
-          const updatedItems = userAllMessage.filter((item) => item !== userAllMessage[id]);
-          setUserAllMessages(updatedItems)
+    let updatedItems;
+      for(let i = 0 ; i < deleteChatsArr.length ; i++){
+        // if(curr._id === deleteChatsArr[i]){
+          console.log(deleteChatsArr[i]);
+          if(i == 0){
+            updatedItems = userAllMessage.filter((item) => item._id !== deleteChatsArr[i]);
+          }else{
+            updatedItems = updatedItems.filter((item) => item._id !== deleteChatsArr[i]);
+          }
+          const updateDeletedList = deleteChatsArr.filter((item) => item !== deleteChatsArr[i]);
+          setDeleteChatsArr(updateDeletedList)
         }
-      }
-    })
+        console.log(updatedItems)
+    update(ref(db, `${userChatWithData.ChatID}`), {
+      Messages: updatedItems
+    });
   }
 
-  // useEffect(()=>{
-  //   console.log(userAllMessage)
-  // },[userAllMessage])
+  useEffect(()=>{
+    console.log(userAllMessage)
+    // update(ref(db, `${userChatWithData.ChatID}`), {
+    //   Messages: userAllMessage
+    // });
+  },[userAllMessage])
+
+  useEffect(()=>{
+    console.log(deleteChatsArr);
+  },[deleteChatsArr])
 
   return (
     <>
@@ -365,7 +375,7 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
                           }}
                         >
                           {curr.whoWrote === user_ID ? (
-                            <div className="messageSendheader" id="temp">
+                            <div className="messageSendheader">
                               {curr.Message && (
                                 <div
                                   className="messageSend"
