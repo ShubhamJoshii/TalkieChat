@@ -48,6 +48,7 @@
     display: flex;
     padding: 10px 0px;
     gap: 15px;
+    align-items: center;
 }
 
 #deleteHeaderText button{
@@ -70,6 +71,11 @@
 
 .selectMessage{
     background-color: rgba(0, 109, 255, 0.2)   
+}
+
+#checkBox{
+    font-size: 20px;
+    color: #292727eb;
 }
 
 #deleteHeaderText button:last-child{
@@ -326,12 +332,13 @@
 }
 
 #sharedImg{
-    width: 295px;
+    /* width: 295px; */
+    width: 270px;
     cursor: pointer;
-    /* aspect-ratio: 1; */
+    aspect-ratio: 1.5;
     background-color: rgb(232, 227, 227);
     padding: 2px;
-    margin-left: 20px;
+    margin-left: 10px;
     border-radius: 5px;
 
 }

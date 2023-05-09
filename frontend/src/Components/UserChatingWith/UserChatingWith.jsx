@@ -11,6 +11,7 @@ import { FaRegStar } from "react-icons/fa";
 import { HiOutlineDocumentDuplicate } from "react-icons/hi";
 import MessageDelever from "../../Assets/MessageDelivered.png";
 import MessageNotSend from "../../Assets/MessageNotSend.png";
+import { BiCheckbox, BiCheckboxMinus, BiCheckboxChecked } from "react-icons/bi";
 import MessageSeen from "../../Assets/MessageSeen.png";
 import PdfLogo from "../../Assets/pdfLogo.png";
 import BackgroundImg from "../../Assets/chatAppBackground.png";
@@ -31,7 +32,11 @@ import UserDpShow from "./userDpShow";
 import { update } from "firebase/database";
 import { uid } from "uid";
 
-const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
+const UserChatingWith = ({
+  userChatWithData,
+  setSenderInfoShow,
+  setUserChatWithData,
+}) => {
   const userInfo = useContext(UserData);
   const [Message, setMessage] = useState("");
   const [user_ID, setUser_ID] = useState();
@@ -41,6 +46,8 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
   const [AttachmentShow, setAttachmentShow] = useState(false);
   const [deleteHeaderShow, setDeleteHeaderShow] = useState(false);
   const [deleteChatsArr, setDeleteChatsArr] = useState([]);
+  const [deleteAll, setdeleteAll] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -59,62 +66,13 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
     } else
       document.getElementsByClassName("userChatting2")[0].style.display =
         "none";
-    // console.log(userChatWithData);
-    // setUserAllMessages(userChatWithData.Message)
   }, [userChatWithData]);
 
-  const timeStamp = () => {
-    const date = new Date();
-    const Day = [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-    ];
-    const Month = [
-      "January",
-      "February",
-      "March",
-      "April",
-      "May",
-      "June",
-      "July",
-      "August",
-      "September",
-      "October",
-      "November",
-      "December",
-    ];
-
-    console.log(date);
-
-    const dateP = `${Day[date.getDay()]} ${date.getDate()} ${
-      Month[date.getMonth()]
-    } ${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}`;
-    // console.log(dateP.split(" "));
-    return dateP;
-  };
 
   const saveMessage = async () => {
-    // console.log(Message);
-    // const chat_id = userChatWithData._id;
     const chat_id = user_ID;
-    console.log(userAllMessage);
-    const time = timeStamp();
-    console.log(user_ID);
+    const time = new Date();
     const uuid = uid();
-    setUserAllMessages([
-      ...userAllMessage,
-      {
-        _id: uuid,
-        Message,
-        time,
-        whoWrote: chat_id,
-      },
-    ]);
 
     update(ref(db, `${userChatWithData.ChatID}`), {
       Messages: userAllMessage.concat({
@@ -123,6 +81,7 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
         time,
         whoWrote: chat_id,
       }),
+      lastMessage: time,
     });
 
     setMessage("");
@@ -145,22 +104,13 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
     uploadBytes(imageRef, name)
       .then((res) => {
         alert("Image Upload");
-        console.log(getDownloadURL(res.ref));
+        // console.log(getDownloadURL(res.ref));
         return getDownloadURL(res.ref);
       })
       .then((url) => {
-        console.log(url);
+        // console.log(url);
         const chat_id = user_ID;
-        const time = timeStamp();
-        setUserAllMessages([
-          ...userAllMessage,
-          {
-            _id: uuid,
-            Image: url,
-            time,
-            whoWrote: chat_id,
-          },
-        ]);
+        const time = new Date();
 
         update(ref(db, `${userChatWithData.ChatID}`), {
           Messages: userAllMessage.concat({
@@ -169,6 +119,7 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
             time,
             whoWrote: chat_id,
           }),
+          lastMessage: time,
         });
       });
   };
@@ -177,28 +128,14 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
     const name = e.target.files[0];
     const uuid = uid();
     const documentRef = storageRef(storage, `files/${name.name + uuid}`);
-    // console.log(name.name);
     uploadBytes(documentRef, name)
       .then((res) => {
         alert("Image Upload");
-        // console.log(res)
-        console.log(getDownloadURL(res.ref));
         return getDownloadURL(res.ref);
       })
       .then((url) => {
-        console.log(url);
         const chat_id = user_ID;
-        const time = timeStamp();
-        setUserAllMessages([
-          ...userAllMessage,
-          {
-            _id: uuid,
-            Files_Url: url,
-            FileName: name.name,
-            time,
-            whoWrote: chat_id,
-          },
-        ]);
+        const time = new Date();
 
         update(ref(db, `${userChatWithData.ChatID}`), {
           Messages: userAllMessage.concat({
@@ -208,58 +145,89 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
             time,
             whoWrote: chat_id,
           }),
+          lastMessage: time,
         });
       });
   };
 
-  const deleteChatSelection = (curr, id, e) => {
+  const deleteChatSelection = (curr) => {
     if (deleteHeaderShow) {
       if (deleteChatsArr.includes(curr._id)) {
         const updatedItems = deleteChatsArr.filter((item) => item !== curr._id);
         setDeleteChatsArr(updatedItems);
-        e.target.classList.remove("selectMessage");
       } else {
         setDeleteChatsArr((prev) => [...prev, curr._id]);
-        e.target.classList.add("selectMessage");
+        // console.log(deleteChatsArr.length, userAllMessage.length);
       }
     }
   };
   const cancelSelection = () => {
-    let a = document.getElementById("temp");
-    a.classList.remove("selectMessage");
     setDeleteChatsArr([]);
     setDeleteHeaderShow(false);
   };
 
   const deleteChat = () => {
     let updatedItems;
-      for(let i = 0 ; i < deleteChatsArr.length ; i++){
-        // if(curr._id === deleteChatsArr[i]){
-          console.log(deleteChatsArr[i]);
-          if(i == 0){
-            updatedItems = userAllMessage.filter((item) => item._id !== deleteChatsArr[i]);
-          }else{
-            updatedItems = updatedItems.filter((item) => item._id !== deleteChatsArr[i]);
-          }
-          const updateDeletedList = deleteChatsArr.filter((item) => item !== deleteChatsArr[i]);
-          setDeleteChatsArr(updateDeletedList)
-        }
-        console.log(updatedItems)
+    for (let i = 0; i < deleteChatsArr.length; i++) {
+      // if(curr._id === deleteChatsArr[i]){
+      // console.log(deleteChatsArr[i]);
+      if (i == 0) {
+        updatedItems = userAllMessage.filter(
+          (item) => item._id !== deleteChatsArr[i]
+        );
+      } else {
+        updatedItems = updatedItems.filter(
+          (item) => item._id !== deleteChatsArr[i]
+        );
+      }
+      const updateDeletedList = deleteChatsArr.filter(
+        (item) => item !== deleteChatsArr[i]
+      );
+      setDeleteChatsArr(updateDeletedList);
+    }
+    let lastMessage;
+    if (updatedItems.length > 0) {
+      lastMessage = updatedItems.slice(-1)[0].time;
+    } else {
+      lastMessage = "";
+    }
     update(ref(db, `${userChatWithData.ChatID}`), {
-      Messages: updatedItems
+      Messages: updatedItems,
+      lastMessage: lastMessage,
     });
-  }
+  };
 
-  useEffect(()=>{
-    console.log(userAllMessage)
-    // update(ref(db, `${userChatWithData.ChatID}`), {
-    //   Messages: userAllMessage
-    // });
-  },[userAllMessage])
+  const SelectAllMessages = () => {
+    setdeleteAll(!deleteAll);
+  };
+  const [CheckBoxLogo, setCheckBoxLogo] = useState(
+    <BiCheckbox id="checkBox" onClick={SelectAllMessages} />
+  );
 
-  useEffect(()=>{
-    console.log(deleteChatsArr);
-  },[deleteChatsArr])
+  useEffect(() => {
+    deleteAll == true
+      ? userAllMessage.map((curr) => {
+          deleteChatSelection(curr);
+        })
+      : setDeleteChatsArr([]);
+  }, [deleteAll]);
+
+  useEffect(() => {
+    if (deleteChatsArr.length === userAllMessage.length)
+      setCheckBoxLogo(
+        <BiCheckboxChecked id="checkBox" onClick={SelectAllMessages} />
+      );
+    else if (
+      deleteChatsArr.length < userAllMessage.length &&
+      deleteChatsArr.length > 0
+    ) {
+      setCheckBoxLogo(
+        <BiCheckboxMinus id="checkBox" onClick={SelectAllMessages} />
+      );
+    } else {
+      setCheckBoxLogo(<BiCheckbox id="checkBox" onClick={SelectAllMessages} />);
+    }
+  }, [deleteChatsArr]);
 
   return (
     <>
@@ -281,6 +249,7 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
                           document.getElementsByClassName(
                             "userChatting"
                           )[0].style.display = "none";
+                          setUserChatWithData(null);
                         }}
                       />
                     ) : (
@@ -350,7 +319,8 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
                     <IoMdArrowRoundBack
                       onClick={() => setDeleteHeaderShow(false)}
                     />
-                    <input type="checkbox" />
+
+                    {CheckBoxLogo}
                     <h3>{deleteChatsArr.length} Selected Chat</h3>
                   </div>
                   <div id="deleteHeaderText">
@@ -366,12 +336,49 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
                     .slice(0)
                     .reverse()
                     .map((curr, ids) => {
+                      let currentTime = new Date();
+                      let messageTiming = new Date(curr.time);
+                      if (
+                        currentTime.toLocaleDateString() ==
+                        messageTiming.toLocaleDateString()
+                      ) {
+                        messageTiming =
+                          "Today" +
+                          " , " +
+                          messageTiming.toLocaleTimeString("en-US", {
+                            hour: "numeric",
+                            minute: "numeric",
+                          });
+                      } else if (
+                        currentTime.getTime() - messageTiming.getTime() <=
+                        604800000
+                      ) {
+                        messageTiming = messageTiming
+                          .toLocaleTimeString("en-US", {
+                            weekday: "long",
+                            hour: "numeric",
+                            minute: "numeric",
+                          })
+                          .split(",")[0];
+                      } else {
+                        messageTiming = messageTiming.toLocaleString("en-US", {
+                          day: "numeric",
+                          month: "long",
+                          hour: "numeric",
+                          minute: "numeric",
+                        });
+                      }
                       return (
                         <div
                           key={ids}
                           id="temp"
+                          className={
+                            deleteChatsArr.find((e) => e == curr._id)
+                              ? "selectMessage"
+                              : ""
+                          }
                           onClick={(e) => {
-                            deleteChatSelection(curr, ids, e);
+                            deleteChatSelection(curr);
                           }}
                         >
                           {curr.whoWrote === user_ID ? (
@@ -391,7 +398,7 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
                                     <img src={MessageSeen} alt="SendStatus" />
                                     <p>{curr.Message}</p>
                                   </div>
-                                  <p id="timeStamp">{curr.time}</p>
+                                  <p id="timeStamp">{messageTiming}</p>
                                 </div>
                               )}
                               {curr.Image && (
@@ -413,7 +420,7 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
                                   />
                                   <div>
                                     <img src={MessageSeen} alt="SendStatus" />
-                                    <p id="timeStamp">{curr.time}</p>
+                                    <p id="timeStamp">{messageTiming}</p>
                                   </div>
                                 </div>
                               )}
@@ -438,7 +445,7 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
 
                                   <div>
                                     <img src={MessageSeen} alt="SendStatus" />
-                                    <p id="timeStamp">{curr.time}</p>
+                                    <p id="timeStamp">{messageTiming}</p>
                                   </div>
                                 </div>
                               )}
@@ -448,7 +455,7 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
                               {curr.Message && (
                                 <div className="messageReceve">
                                   <p>{curr.Message}</p>
-                                  <p id="timeStamp">{curr.time}</p>
+                                  <p id="timeStamp">{messageTiming}</p>
                                 </div>
                               )}
                               {curr.Image && (
@@ -459,7 +466,7 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
                                     id="sharedImg"
                                     onClick={() => setShowDP(curr.Image)}
                                   />
-                                  <p id="timeStamp">{curr.time}</p>
+                                  <p id="timeStamp">{messageTiming}</p>
                                 </div>
                               )}
                               {curr.Files_Url && (
@@ -470,7 +477,7 @@ const UserChatingWith = ({ userChatWithData, setSenderInfoShow }) => {
                                       {curr.FileName}
                                     </a>
                                   </div>
-                                  <p id="timeStamp">{curr.time}</p>
+                                  <p id="timeStamp">{messageTiming}</p>
                                 </div>
                               )}
                             </>

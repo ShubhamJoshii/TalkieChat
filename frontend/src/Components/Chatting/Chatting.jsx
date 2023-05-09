@@ -4,10 +4,10 @@ import { UserData } from "../../App";
 import ChatPNG from "../../Assets/chat.png";
 import { useNavigate } from "react-router-dom";
 import { db } from "../../firebase";
-import {Dropdown} from "antd";
-import {ref, onValue } from "firebase/database";
+import { Dropdown } from "antd";
+import { ref, onValue } from "firebase/database";
 import RightClickShow from "./RightClickShow";
-const Chatting = ({ setUserChatWithData }) => {
+const Chatting = ({ setUserChatWithData, userChatWithData }) => {
   const userInfo = useContext(UserData);
   const [Count, setCount] = useState(null);
   const [chattingUsers, setChattingUsers] = useState([]);
@@ -34,17 +34,24 @@ const Chatting = ({ setUserChatWithData }) => {
   }, []);
 
   const userChatWith = (curr, id) => {
-    setCount(id);
-    // setUserChatWithData(curr);
-    setUserChatWithData(chattingUsers[id]);
+    setCount(curr.ChatID);
+    setUserChatWithData(curr);
   };
 
   useEffect(() => {
-    setUserChatWithData(chattingUsers[Count]);
+    if (userChatWithData === null) setCount(null);
+  }, [userChatWithData]);
+  
+  useEffect(() => {
+    let da = chattingUsers.sort((b, a) => {
+      return (
+        new Date(a.lastMessage).valueOf() - new Date(b.lastMessage).valueOf()
+        );
+      });
+      setChattingUsers(da);
+      setUserChatWithData(chattingUsers.find(e => e.ChatID === Count));
   }, [chattingUsers]);
 
-
-  
   return (
     <div className="Chatting">
       <input type="text" placeholder="Search..." />
@@ -55,89 +62,104 @@ const Chatting = ({ setUserChatWithData }) => {
             <div>
               {chattingUsers.map((curr, id) => {
                 return (
-                  <Dropdown overlay={<RightClickShow curr={curr} id={id} userChatID={userInfo._id}/>} trigger={["contextMenu"]}>
-                  <div
-                    key={id}
-                    id="chatsHistory"
-                    // onContextMenu={(e) => contentMenu(e,id)}
-                    onClick={() => userChatWith(curr, id)}
-                    
-                    style={
-                      userInfo && id == Count
-                        ? {
-                            backgroundColor: `${userInfo.ColorSchema}`,
-                            color: "white",
-                          }
-                        : {}
+                  <Dropdown
+                    overlay={
+                      <RightClickShow
+                        curr={curr}
+                        id={id}
+                        userChatID={userInfo._id}
+                      />
                     }
+                    trigger={["contextMenu"]}
                   >
-                    <img
-                      src={
-                        curr.User1_Name === userInfo.Name
-                          ? curr.User2_Avatar
-                          : curr.User1_Avatar
-                      }
-                      id="userImages"
+                    <div
+                      key={id}
+                      id="chatsHistory"
+                      // onContextMenu={(e) => contentMenu(e,id)}
+                      onClick={() => userChatWith(curr, id)}
                       style={
-                        curr.User1_Name === userInfo.Name
-                          ? { backgroundColor: curr.User2_AvatarBackground }
-                          : { backgroundColor: curr.User1_AvatarBackground }
+                        userInfo && curr.ChatID == Count
+                          ? {
+                              backgroundColor: `${userInfo.ColorSchema}`,
+                              color: "white",
+                            }
+                          : {}
                       }
-                    />
-                    <div >
-                      <h4>
-                        {curr.User1_Name === userInfo.Name
-                          ? curr.User2_Name
-                          : curr.User1_Name}
-                      </h4>
-                      <div id="lastMessage">
-                          {
-                            curr.Messages && curr.Messages.slice(-1).map((lastMessage)=>{
+                    >
+                      <img
+                        src={
+                          curr.User1_Name === userInfo.Name
+                            ? curr.User2_Avatar
+                            : curr.User1_Avatar
+                        }
+                        id="userImages"
+                        style={
+                          curr.User1_Name === userInfo.Name
+                            ? { backgroundColor: curr.User2_AvatarBackground }
+                            : { backgroundColor: curr.User1_AvatarBackground }
+                        }
+                      />
+                      <div>
+                        <h4>
+                          {curr.User1_Name === userInfo.Name
+                            ? curr.User2_Name
+                            : curr.User1_Name}
+                        </h4>
+                        <div id="lastMessage">
+                          {curr.Messages &&
+                            curr.Messages.slice(-1).map((lastMessage) => {
                               // console.log(lastMessage);
-                              let timeArray = lastMessage.time.split(" ");
-                              let OnlineTime = ""
-                              let date = new Date();
-                              const Month = [
-                                "January",
-                                "February",
-                                "March",
-                                "April",
-                                "May",
-                                "June",
-                                "July",
-                                "August",
-                                "September",
-                                "October",
-                                "November",
-                                "December",
-                              ];
-                              // console.log(Month[date.getMonth()])
-                              if(date.getDate() == timeArray[1] && Month[date.getMonth()] == timeArray[2]){
-                                OnlineTime = timeArray[4] + " AM";
+                              // let timeArray = lastMessage.time.split(" ");
+                              // let OnlineTime = "20.23 AM"
+                              let currentTime = new Date();
+                              let OnlineTime = new Date(lastMessage.time);
+                              if (
+                                currentTime.toLocaleDateString() ==
+                                OnlineTime.toLocaleDateString()
+                              ) {
+                                OnlineTime = OnlineTime.toLocaleTimeString(
+                                  "en-US",
+                                  { hour: "numeric", minute: "numeric" }
+                                );
+                              } else if (
+                                currentTime.getTime() - OnlineTime.getTime() <=
+                                604800000
+                              ) {
+                                OnlineTime = OnlineTime.toLocaleTimeString(
+                                  "en-US",
+                                  {
+                                    weekday: "long",
+                                    hour: "numeric",
+                                    minute: "numeric",
+                                  }
+                                ).split(",")[0];
+                              } else {
+                                OnlineTime = OnlineTime.toLocaleDateString(
+                                  "en-US",
+                                  {
+                                    day: "numeric",
+                                    month: "long",
+                                  }
+                                );
                               }
-                              else if(date.getDate() - 1 == timeArray[1] && Month[date.getMonth()] == timeArray[2]){
-                                OnlineTime = timeArray[4] + " AM Tommorow" ;
-                              }
-                              else{
-                                OnlineTime = timeArray[4] + " AM " + timeArray[1] + " " + timeArray[2] ;
-                              }
-                              return<>
-                              {
-                                lastMessage.Image && <p>Image</p>
-                              }
-                              {
-                                lastMessage.Message && <p>{lastMessage.Message.substr(0,8)}</p>
-                              }
-                              {
-                                lastMessage.Files_Url && <p>{lastMessage.FileName.substr(0,8)}...</p>
-                              }
-                                <p id="onlineTime">{OnlineTime}</p>
-                              </>
-                            })
-                          }
+                              return (
+                                <>
+                                  {lastMessage.Image && <p>Image</p>}
+                                  {lastMessage.Message && (
+                                    <p>{lastMessage.Message.substr(0, 8)}</p>
+                                  )}
+                                  {lastMessage.Files_Url && (
+                                    <p>
+                                      {lastMessage.FileName.substr(0, 8)}...
+                                    </p>
+                                  )}
+                                  <p id="onlineTime">{OnlineTime}</p>
+                                </>
+                              );
+                            })}
+                        </div>
                       </div>
                     </div>
-                  </div>
                   </Dropdown>
                 );
               })}

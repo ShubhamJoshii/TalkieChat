@@ -141,4 +141,10 @@
     .themes div{
         flex-wrap: wrap;
     }
+    #userChats .messageSend{
+        max-width: 95%;
+    }
+    #sharedImg{
+        width: 90%;
+    }
 }

@@ -14,14 +14,15 @@ const MainPage = () => {
 
   return (
     <div id="MainPage">
-      <Chatting setUserChatWithData={setUserChatWithData} />
+      <Chatting setUserChatWithData={setUserChatWithData} userChatWithData={userChatWithData} />
       <UserChatingWith
         userChatWithData={userChatWithData}
         setUserChatWithData = {setUserChatWithData}
         setSenderInfoShow={setSenderInfoShow}
-      />
-      <UserInfo
+        />
+        <UserInfo
         userChatWithData={userChatWithData}
+        setUserChatWithData = {setUserChatWithData}
         senderInfoShow={senderInfoShow}
         setSenderInfoShow={setSenderInfoShow}
       />
