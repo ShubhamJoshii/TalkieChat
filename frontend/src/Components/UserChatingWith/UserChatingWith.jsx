@@ -1,36 +1,43 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./UserChatingWith.css";
-import userImg from "../../Assets/UserImg2.jpg";
-import { BiSearchAlt } from "react-icons/bi";
-import { HiPhone, HiVideoCamera } from "react-icons/hi";
+import {
+  BiSearchAlt,
+  BiCheckbox,
+  BiCheckboxMinus,
+  BiCheckboxChecked,
+} from "react-icons/bi";
+import {
+  HiOutlineDocumentDuplicate,
+  HiPhone,
+  HiVideoCamera,
+} from "react-icons/hi";
 import { BsThreeDotsVertical, BsFillSendFill } from "react-icons/bs";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { ImAttachment } from "react-icons/im";
 import { GrGallery } from "react-icons/gr";
 import { FaRegStar } from "react-icons/fa";
-import { HiOutlineDocumentDuplicate } from "react-icons/hi";
-import MessageDelever from "../../Assets/MessageDelivered.png";
-import MessageNotSend from "../../Assets/MessageNotSend.png";
-import { BiCheckbox, BiCheckboxMinus, BiCheckboxChecked } from "react-icons/bi";
+// import MessageDelever from "../../Assets/MessageDelivered.png";
+// import MessageNotSend from "../../Assets/MessageNotSend.png";
 import MessageSeen from "../../Assets/MessageSeen.png";
 import PdfLogo from "../../Assets/pdfLogo.png";
-import BackgroundImg from "../../Assets/chatAppBackground.png";
 import ChatPNG from "../../Assets/chat.png";
 import { UserData } from "../../App";
 import axios from "axios";
 import Loading from "../Loading/Loading";
 import { useNavigate } from "react-router-dom";
 import { db, storage } from "../../firebase";
+
 import {
   getDownloadURL,
   ref as storageRef,
   uploadBytes,
 } from "firebase/storage";
-
-import { ref, remove } from "firebase/database";
-import UserDpShow from "./userDpShow";
+import { ref} from "firebase/database";
 import { update } from "firebase/database";
+
+import UserDpShow from "./userDpShow";
 import { uid } from "uid";
+// import { message } from "antd";
 
 const UserChatingWith = ({
   userChatWithData,
@@ -41,33 +48,41 @@ const UserChatingWith = ({
   const [Message, setMessage] = useState("");
   const [user_ID, setUser_ID] = useState();
   const [userAllMessage, setUserAllMessages] = useState([]);
+  const [userAllMessageSearch, setUserAllMessageSearch] = useState([]);
   const [load, setLoad] = useState(false);
   const [ShowDP, setShowDP] = useState(undefined);
   const [AttachmentShow, setAttachmentShow] = useState(false);
   const [deleteHeaderShow, setDeleteHeaderShow] = useState(false);
   const [deleteChatsArr, setDeleteChatsArr] = useState([]);
   const [deleteAll, setdeleteAll] = useState(false);
+  const [searchActive, setSearchActive] = useState(false);
 
   const navigate = useNavigate();
 
+  useEffect(() => {
+    setUserAllMessageSearch(userAllMessage);
+  }, [userAllMessage]);
   useEffect(() => {
     fetchUserId();
   }, []);
 
   useEffect(() => {
+    setLoad(true)
     if (document.getElementsByClassName("userChatting")[0]) {
       document.getElementsByClassName("userChatting")[0].style.display =
-        "block";
+      "block";
       if (userChatWithData.Messages) {
         setUserAllMessages(userChatWithData.Messages);
       } else {
         setUserAllMessages([]);
       }
     } else
-      document.getElementsByClassName("userChatting2")[0].style.display =
-        "none";
+    document.getElementsByClassName("userChatting2")[0].style.display =
+    "none";
+    setLoad(false)
+    setSearchActive(false);
+    setDeleteHeaderShow(false);
   }, [userChatWithData]);
-
 
   const saveMessage = async () => {
     const chat_id = user_ID;
@@ -80,6 +95,7 @@ const UserChatingWith = ({
         Message,
         time,
         whoWrote: chat_id,
+        format: "textMessage",
       }),
       lastMessage: time,
     });
@@ -118,6 +134,7 @@ const UserChatingWith = ({
             Image: url,
             time,
             whoWrote: chat_id,
+            format: "Image",
           }),
           lastMessage: time,
         });
@@ -144,6 +161,7 @@ const UserChatingWith = ({
             FileName: name.name,
             time,
             whoWrote: chat_id,
+            format: "Document",
           }),
           lastMessage: time,
         });
@@ -171,7 +189,7 @@ const UserChatingWith = ({
     for (let i = 0; i < deleteChatsArr.length; i++) {
       // if(curr._id === deleteChatsArr[i]){
       // console.log(deleteChatsArr[i]);
-      if (i == 0) {
+      if (i === 0) {
         updatedItems = userAllMessage.filter(
           (item) => item._id !== deleteChatsArr[i]
         );
@@ -205,29 +223,43 @@ const UserChatingWith = ({
   );
 
   useEffect(() => {
-    deleteAll == true
-      ? userAllMessage.map((curr) => {
+    deleteAll === true
+      ? userAllMessageSearch.map((curr) => {
           deleteChatSelection(curr);
+          return null;
         })
       : setDeleteChatsArr([]);
-  }, [deleteAll]);
+  }, [deleteAll,userAllMessageSearch]);
 
   useEffect(() => {
-    if (deleteChatsArr.length === userAllMessage.length)
+    if (deleteChatsArr.length === 0)
+      setCheckBoxLogo(<BiCheckbox id="checkBox" onClick={SelectAllMessages} />);
+    else if (deleteChatsArr.length === userAllMessageSearch.length) {
       setCheckBoxLogo(
         <BiCheckboxChecked id="checkBox" onClick={SelectAllMessages} />
       );
-    else if (
-      deleteChatsArr.length < userAllMessage.length &&
-      deleteChatsArr.length > 0
-    ) {
+    } else {
       setCheckBoxLogo(
         <BiCheckboxMinus id="checkBox" onClick={SelectAllMessages} />
       );
-    } else {
-      setCheckBoxLogo(<BiCheckbox id="checkBox" onClick={SelectAllMessages} />);
     }
-  }, [deleteChatsArr]);
+  }, [deleteChatsArr,userAllMessageSearch]);
+
+  const searchMessage = (e) => {
+    console.log(e.target.value);
+    let a = e.target.value.toLowerCase();
+    let b = userAllMessage.filter(
+      (message) =>
+        message.Message?.toLowerCase().includes(a) ||
+        message.FileName?.toLowerCase().includes(a)
+    );
+    console.log(b);
+    setUserAllMessageSearch(b);
+  };
+
+  useEffect(() => {
+    if (!searchActive) setUserAllMessageSearch(userAllMessage);
+  }, [searchActive,userAllMessage]);
 
   return (
     <>
@@ -270,6 +302,7 @@ const UserChatingWith = ({
                             ? userChatWithData.User2_Avatar
                             : userChatWithData.User1_Avatar
                         }
+                        alt="SenderIMG"
                         id="userImg"
                         style={
                           userChatWithData.User1_Name === userInfo.Name
@@ -293,13 +326,36 @@ const UserChatingWith = ({
                           ? userChatWithData.User2_Name
                           : userChatWithData.User1_Name}
                       </h3>
-                      <p>10:20 PM</p>
+                      <p>
+                        {new Date(userChatWithData?.lastMessage).toLocaleString(
+                          "en-US",
+                          {
+                            day: "numeric",
+                            month: "long",
+                            hour: "numeric",
+                            minute: "numeric",
+                          }
+                        )}
+                      </p>
                     </div>
                   </div>
                   <div id="logos">
-                    <BiSearchAlt />
-                    <HiPhone />
-                    <HiVideoCamera />
+                    {searchActive && (
+                      <input
+                        type="text"
+                        id="searchInput"
+                        onChange={searchMessage}
+                      />
+                    )}
+                    <BiSearchAlt
+                      onClick={() => setSearchActive(!searchActive)}
+                    />
+                    {!searchActive && (
+                      <>
+                        <HiPhone />
+                        <HiVideoCamera />
+                      </>
+                    )}
                     <div id="threeBotMenu">
                       <BsThreeDotsVertical />
                       <div id="dropDownMenu">
@@ -330,16 +386,16 @@ const UserChatingWith = ({
                 </div>
               )}
 
-              {userAllMessage ? (
+              {userAllMessageSearch ? (
                 <div id="userChats">
-                  {userAllMessage
+                  {userAllMessageSearch
                     .slice(0)
                     .reverse()
                     .map((curr, ids) => {
                       let currentTime = new Date();
                       let messageTiming = new Date(curr.time);
                       if (
-                        currentTime.toLocaleDateString() ==
+                        currentTime.toLocaleDateString() ===
                         messageTiming.toLocaleDateString()
                       ) {
                         messageTiming =
@@ -373,7 +429,7 @@ const UserChatingWith = ({
                           key={ids}
                           id="temp"
                           className={
-                            deleteChatsArr.find((e) => e == curr._id)
+                            deleteChatsArr.find((e) => e === curr._id)
                               ? "selectMessage"
                               : ""
                           }
@@ -436,9 +492,9 @@ const UserChatingWith = ({
                                   }
                                 >
                                   <div id="pdfFiles">
-                                    <img src={PdfLogo} id="pdfLogo" />
+                                    <img src={PdfLogo} id="pdfLogo" alt="pdfLOGO"/>
 
-                                    <a href={curr.Files_Url} target="_blank">
+                                    <a href={curr.Files_Url} target="_blank" rel="noopener noreferrer">
                                       {curr.FileName}
                                     </a>
                                   </div>
@@ -472,8 +528,8 @@ const UserChatingWith = ({
                               {curr.Files_Url && (
                                 <div className="messageReceve">
                                   <div>
-                                    <img src={PdfLogo} id="pdfLogo" />
-                                    <a href={curr.Files_Url} target="_blank">
+                                    <img src={PdfLogo} id="pdfLogo" alt="pdfLogo"/>
+                                    <a href={curr.Files_Url} target="_blank" rel="noopener noreferrer">
                                       {curr.FileName}
                                     </a>
                                   </div>
@@ -533,7 +589,7 @@ const UserChatingWith = ({
         </div>
       ) : (
         <div className="userChatting2 " id="userChatting2">
-          <img src={ChatPNG} />
+          <img src={ChatPNG} alt="Resticted"/>
           <p>
             Sorry,the chat feature is restricted to registered users only.
             <br /> Please{" "}

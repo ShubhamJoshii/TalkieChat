@@ -1,27 +1,52 @@
-import React, { useContext, useEffect } from "react";
-import UserImg from "../../Assets/UserImg2.jpg";
+import React, { useContext, useEffect, useState } from "react";
 import InstaLogo from "../../Assets/Insta.png";
 import LinkedinLogo from "../../Assets/Linkedin (2).png";
 import PhoneLogo from "../../Assets/phone.png";
-import Temp1 from "../../Assets/DocumentImg.png";
 import { RiArrowDropRightLine } from "react-icons/ri";
-import {IoMdArrowRoundBack} from "react-icons/io";
+import { IoMdArrowRoundBack } from "react-icons/io";
+import PdfLogo from "../../Assets/pdfLogo.png"
 
 import "./UserInfo.css";
 import { UserData } from "../../App";
-const UserInfo = ({ userChatWithData,senderInfoShow,setSenderInfoShow }) => {
+const UserInfo = ({ userChatWithData, senderInfoShow, setSenderInfoShow }) => {
+  const [count, setCount] = useState({images:0,files:0});
+  const [shareDoc, setShareDoc] = useState(false);
   const userInfo = useContext(UserData);
-  useEffect(()=>{
-    // console.log(senderInfoShow)
-    if(senderInfoShow){
-     document.getElementsByClassName("SenderInfo")[0].style.display= "block";
+
+  useEffect(() => {
+    console.log(userChatWithData.Messages);
+    if (senderInfoShow) {
+      document.getElementsByClassName("SenderInfo")[0].style.display = "block";
     }
-  },[senderInfoShow])
+  }, [senderInfoShow]);
+
+  useEffect(() => {
+    let images = 0;
+    let files = 0;
+    userChatWithData &&
+      userChatWithData.Messages?.map((curr) => {
+        if (curr.format === "Image") {
+          images = images + 1;
+        }
+        if (curr.format === "Document") {
+          files = files + 1;
+        }
+        return({});
+      });
+    setCount({images,files});
+  }, [userChatWithData]);
+
   return (
     <>
       {userChatWithData || senderInfoShow ? (
         <div className="SenderInfo">
-        <IoMdArrowRoundBack onClick={()=>{document.getElementsByClassName("SenderInfo")[0].style.display= "none";setSenderInfoShow(false)}}/>
+          <IoMdArrowRoundBack
+            onClick={() => {
+              document.getElementsByClassName("SenderInfo")[0].style.display =
+                "none";
+              setSenderInfoShow(false);
+            }}
+          />
           <div id="UserImg">
             <img
               src={
@@ -29,6 +54,7 @@ const UserInfo = ({ userChatWithData,senderInfoShow,setSenderInfoShow }) => {
                   ? userChatWithData.User2_Avatar
                   : userChatWithData.User1_Avatar
               }
+              alt="SenderDP"
               style={
                 userChatWithData.User1_Name === userInfo.Name
                   ? {
@@ -55,17 +81,55 @@ const UserInfo = ({ userChatWithData,senderInfoShow,setSenderInfoShow }) => {
             <h4>Starred Message (10)</h4>
             <RiArrowDropRightLine id="logoDropRight" />
           </div>
-          <div>
-            <h4>Media (10)</h4>
+          <div id="shareDocuments">
+            <h4
+              onClick={() => setShareDoc(false)}
+              style={
+                !shareDoc
+                  ? { borderBottom: `3px solid ${userInfo.ColorSchema}` }
+                  : {}
+              }
+            >
+              Images ({count.images})
+            </h4>
+            <h4
+              onClick={() => setShareDoc(true)}
+              style={
+                shareDoc
+                  ? { borderBottom: `3px solid ${userInfo.ColorSchema}` }
+                  : {}
+              }
+            >
+              Documents ({count.files})
+            </h4>
           </div>
-          <div id="Medias">
-            <img src={Temp1} alt="TempMail" />
-            <img src={Temp1} alt="TempMail" />
-            <img src={Temp1} alt="TempMail" />
-            <img src={Temp1} alt="TempMail" />
-            <img src={Temp1} alt="TempMail" />
-            <img src={Temp1} alt="TempMail" />
-          </div>
+          { userChatWithData.Messages && !shareDoc ? (
+            <div id="Medias">
+              {userChatWithData.Messages.map((message) => {
+                // setCount(10)
+                return (
+                  message.format === "Image" && (
+                    <img src={message.Image} alt="chatImage" />
+                  )
+                );
+              })}
+            </div>
+          ) : (
+            <div>
+              {userChatWithData.Messages?.map((message) => {
+                // setCount(10)
+                console.log(message)
+                return (
+                  message.format === "Document" && (
+                    <div id="filesShare">
+                      <img src={PdfLogo} alt="pdfLOGO"/>
+                      <a href={message.Files_Url} target="_blank" rel="noopener noreferrer">{message.FileName}</a>
+                      </div>
+                  )
+                );
+              })}
+            </div>
+          )}
         </div>
       ) : (
         <div></div>

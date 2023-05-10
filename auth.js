@@ -81,6 +81,37 @@ router.get("/home", Authenication, async (req, res) => {
   res.send(req.rootUser);
 });
 
+router.post("/changeDP", Authenication, async (req, res) => {
+  const { Avatar } = req.body;
+  console.log(Avatar)
+  try {
+    const userExists = await DBModel.findOne({ _id: req.userID });
+    const userMessageExists1 = await ChatDataModel.updateMany(
+      { User1_id: req.userID },
+      {
+        $set: {
+          User1_Avatar: Avatar,
+        },
+      }
+    );
+    const userMessageExists2 = await ChatDataModel.updateMany(
+      { User2_id: req.userID },
+      {
+        $set: {
+          User2_Avatar: Avatar,
+        },
+      }
+    );
+    if (userExists) {
+      userExists.Avatar = Avatar;
+      await userExists.save();
+      res.send("Avatar Save");
+    }
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 router.post("/avatarSave", Authenication, async (req, res) => {
   const { Avatar, AvatarBackground } = req.body;
   // console.log(Avatar,AvatarBackground)

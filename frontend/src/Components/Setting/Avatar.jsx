@@ -14,7 +14,7 @@ import Avatar11 from "../../Assets/Avatar (11).png";
 import Avatar12 from "../../Assets/Avatar (12).png";
 import { CgCloseO } from "react-icons/cg";
 import axios from "axios";
-import {db} from "../../firebase"
+// import {db} from "../../firebase"
 
 const Avatar = ({ setAvatarPage,notificationShow }) => {
   const AvatarArr = [
@@ -99,7 +99,7 @@ const Avatar = ({ setAvatarPage,notificationShow }) => {
       <h3>Selected Avatar</h3>
       <div id="avatarSave">
         <div id="avatarSelect" style={{backgroundColor:SelectedAvatar.AvatarBackground}}>
-          <img src={SelectedAvatar.Avatar} alt="User DP Image" />
+          <img src={SelectedAvatar.Avatar} alt="DP" />
         </div>
         <button  onClick={saveAvatar} >Save Avatar</button>
       </div>

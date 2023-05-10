@@ -7,7 +7,7 @@ import Logo from "../../Assets/TalkieChatLogo.png";
 import axios from "axios";
 
 import { db } from "../../firebase";
-import { set, ref, update } from "firebase/database";
+import { set, ref, update, onValue } from "firebase/database";
 
 const HeaderTop = () => {
   const [randomNumber, setrandomNumber] = useState();
@@ -19,7 +19,6 @@ const HeaderTop = () => {
     await axios
       .get("/home")
       .then((result) => {
-        // const uuid = uid();
         console.log(result.data._id);
         set(ref(db, `${randomNumber}`), {
           ChatID: randomNumber,
@@ -27,22 +26,38 @@ const HeaderTop = () => {
           User1_Name: result.data.Name,
           User1_Avatar: result.data.Avatar,
           User1_AvatarBackground: result.data.AvatarBackground,
+          User2_id: "",
         });
       })
       .catch((err) => {});
   };
+
   const saveChatID = async () => {
     await axios
       .get("/home")
       .then((result) => {
-        // const uuid = uid();
-        console.log(result.data._id);
-        update(ref(db, `${randomNumber}`), {
-          User2_id: result.data._id,
-          User2_Name: result.data.Name,
-          User2_Avatar: result.data.Avatar,
-          User2_AvatarBackground: result.data.AvatarBackground,
+        let data;
+        onValue(ref(db, `${randomNumber}`), (snapshot) => {
+          data = snapshot.val();
         });
+        console.log(data.User2_id);
+        if (data.User2_id === "") {
+          update(ref(db, `${randomNumber}`), {
+            User2_id: result.data._id,
+            User2_Name: result.data.Name,
+            User2_Avatar: result.data.Avatar,
+            User2_AvatarBackground: result.data.AvatarBackground,
+          });
+        } else if (data.User1_id === "") {
+          update(ref(db, `${randomNumber}`), {
+            User1_id: result.data._id,
+            User1_Name: result.data.Name,
+            User1_Avatar: result.data.Avatar,
+            User1_AvatarBackground: result.data.AvatarBackground,
+          });
+        } else {
+          alert("User Already Connected to someone else");
+        }
       })
       .catch((err) => {});
   };
@@ -58,7 +73,7 @@ const HeaderTop = () => {
   return (
     <header className="headerText">
       <div id="talkieHeaderLogo">
-        <img src={Logo} id="LogoTalkieChat" />
+        <img src={Logo} id="LogoTalkieChat" alt="talkieChatLOGO"/>
         <h4> TalkieChat</h4>
       </div>
       <div id="generateChatID">

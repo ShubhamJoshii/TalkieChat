@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import "./SideNavbar.css";
-import UserImage from "../../Assets/UserImg.jpg";
+import UserImage from "../../Assets/Avatar (13).png";
 
 import { TiHome } from "react-icons/ti";
 import { FaUserAlt } from "react-icons/fa";
@@ -12,11 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { UserData } from "../../App";
 const SideNavbar = () => {
   const [count, setCount] = useState(0);
-  const [userImage, setUserImage] = useState(UserImage);
   const userInfo = useContext(UserData);
-  // useEffect(() => {
-  //   console.log(userImage);
-  // }, [userImage]);
   const navigate = useNavigate();
   return (
     <div className="SideNavbar">
@@ -24,7 +20,7 @@ const SideNavbar = () => {
         <div id="onlineStatue"></div>
         <img
           src={userInfo ? userInfo.Avatar : UserImage}
-          alt="User Image"
+          alt="DP"
           style={
             userInfo
               ? { backgroundColor: userInfo.AvatarBackground }
@@ -39,7 +35,7 @@ const SideNavbar = () => {
             setCount(0);
             navigate("/");
           }}
-          id={count == 0 ? "active" : ""}
+          id={count === 0 ? "active" : ""}
         />
         <FaUserAlt
           className="navbarIcons"
@@ -47,7 +43,7 @@ const SideNavbar = () => {
             setCount(1);
             navigate("/");
           }}
-          id={count == 1 ? "active" : ""}
+          id={count === 1 ? "active" : ""}
         />
         <MdGroups2
           className="navbarIcons"
@@ -55,7 +51,7 @@ const SideNavbar = () => {
             setCount(2);
             navigate("/");
           }}
-          id={count == 2 ? "active" : ""}
+          id={count === 2 ? "active" : ""}
         />
         <IoMdNotifications
           className="navbarIcons"
@@ -63,7 +59,7 @@ const SideNavbar = () => {
             setCount(3);
             navigate("/");
           }}
-          id={count == 3 ? "active" : ""}
+          id={count === 3 ? "active" : ""}
         />
         <AiFillSetting
           className="setting"
@@ -71,7 +67,7 @@ const SideNavbar = () => {
             setCount(4);
             navigate("/setting");
           }}
-          id={count == 4 ? "active" : ""}
+          id={count === 4 ? "active" : ""}
         />
       </div>
     </div>

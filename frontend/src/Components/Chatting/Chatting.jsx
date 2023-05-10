@@ -7,10 +7,12 @@ import { db } from "../../firebase";
 import { Dropdown } from "antd";
 import { ref, onValue } from "firebase/database";
 import RightClickShow from "./RightClickShow";
+import ChattingCollection from "./chattingCollection";
 const Chatting = ({ setUserChatWithData, userChatWithData }) => {
   const userInfo = useContext(UserData);
   const [Count, setCount] = useState(null);
   const [chattingUsers, setChattingUsers] = useState([]);
+  const[chatsArr,setChatsArr] = useState([]);
   const navigate = useNavigate();
 
   //reading DB
@@ -28,10 +30,16 @@ const Chatting = ({ setUserChatWithData, userChatWithData }) => {
             setChattingUsers((oldArray) => [...oldArray, curr]);
             // console.log("Message Updated");
           }
+          return({});
         });
       }
     });
   }, []);
+
+
+  useEffect(()=>{
+    setChatsArr(chattingUsers)
+  },[chattingUsers])
 
   const userChatWith = (curr, id) => {
     setCount(curr.ChatID);
@@ -52,15 +60,29 @@ const Chatting = ({ setUserChatWithData, userChatWithData }) => {
       setUserChatWithData(chattingUsers.find(e => e.ChatID === Count));
   }, [chattingUsers]);
 
+  const searchUsers = (e) => {
+    let a = e.target.value.toLowerCase();
+    let b = chattingUsers.filter(users => {
+      if(users.User1_id === userInfo._id){
+        return users.User2_Name.toLowerCase().includes(a)
+      }
+      else{
+        return users.User1_Name.toLowerCase().includes(a)
+      }})
+    setChatsArr(b);
+  }
+
+  
+
   return (
     <div className="Chatting">
-      <input type="text" placeholder="Search..." />
+      <input type="text" placeholder="Search..." onChange={searchUsers}/>
       <div id="chatsPersons">
         <h3>Recent Chats</h3>
         <div>
-          {chattingUsers.length !== 0 ? (
+          {chatsArr.length !== 0 ? (
             <div>
-              {chattingUsers.map((curr, id) => {
+              {chatsArr.map((curr, id) => {
                 return (
                   <Dropdown
                     overlay={
@@ -78,7 +100,7 @@ const Chatting = ({ setUserChatWithData, userChatWithData }) => {
                       // onContextMenu={(e) => contentMenu(e,id)}
                       onClick={() => userChatWith(curr, id)}
                       style={
-                        userInfo && curr.ChatID == Count
+                        userInfo && curr.ChatID === Count
                           ? {
                               backgroundColor: `${userInfo.ColorSchema}`,
                               color: "white",
@@ -92,6 +114,7 @@ const Chatting = ({ setUserChatWithData, userChatWithData }) => {
                             ? curr.User2_Avatar
                             : curr.User1_Avatar
                         }
+                        alt="SenderIMG"
                         id="userImages"
                         style={
                           curr.User1_Name === userInfo.Name
@@ -106,57 +129,7 @@ const Chatting = ({ setUserChatWithData, userChatWithData }) => {
                             : curr.User1_Name}
                         </h4>
                         <div id="lastMessage">
-                          {curr.Messages &&
-                            curr.Messages.slice(-1).map((lastMessage) => {
-                              // console.log(lastMessage);
-                              // let timeArray = lastMessage.time.split(" ");
-                              // let OnlineTime = "20.23 AM"
-                              let currentTime = new Date();
-                              let OnlineTime = new Date(lastMessage.time);
-                              if (
-                                currentTime.toLocaleDateString() ==
-                                OnlineTime.toLocaleDateString()
-                              ) {
-                                OnlineTime = OnlineTime.toLocaleTimeString(
-                                  "en-US",
-                                  { hour: "numeric", minute: "numeric" }
-                                );
-                              } else if (
-                                currentTime.getTime() - OnlineTime.getTime() <=
-                                604800000
-                              ) {
-                                OnlineTime = OnlineTime.toLocaleTimeString(
-                                  "en-US",
-                                  {
-                                    weekday: "long",
-                                    hour: "numeric",
-                                    minute: "numeric",
-                                  }
-                                ).split(",")[0];
-                              } else {
-                                OnlineTime = OnlineTime.toLocaleDateString(
-                                  "en-US",
-                                  {
-                                    day: "numeric",
-                                    month: "long",
-                                  }
-                                );
-                              }
-                              return (
-                                <>
-                                  {lastMessage.Image && <p>Image</p>}
-                                  {lastMessage.Message && (
-                                    <p>{lastMessage.Message.substr(0, 8)}</p>
-                                  )}
-                                  {lastMessage.Files_Url && (
-                                    <p>
-                                      {lastMessage.FileName.substr(0, 8)}...
-                                    </p>
-                                  )}
-                                  <p id="onlineTime">{OnlineTime}</p>
-                                </>
-                              );
-                            })}
+                          <ChattingCollection curr={curr}/>
                         </div>
                       </div>
                     </div>
@@ -171,7 +144,7 @@ const Chatting = ({ setUserChatWithData, userChatWithData }) => {
                 <div></div>
               ) : (
                 <div id="userChatting2">
-                  <img src={ChatPNG} />
+                  <img src={ChatPNG} alt="Restricted"/>
                   <p>
                     Sorry,the chat feature is restricted to registered users
                     only.

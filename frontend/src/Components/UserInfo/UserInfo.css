@@ -58,22 +58,49 @@
 }
 
 #Medias{
-    /* display: flex; */
-    /* flex-wrap: wrap;    */
-    /* justify-content: center; */
     gap: 10px;
     display: grid;
     margin-top: 10px;
     margin-right: 20px;
     grid-template-columns: auto auto auto;
-
+    
 }
 
 #Medias img{
+    box-shadow: 0 0 5px #7b67674a;
+    padding: 5px;
+    background-color: rgba(0, 0, 0, 0.121);
     width: 80px;
     aspect-ratio: 1;
     border-radius: 10px;
 }
+
+#shareDocuments{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+#filesShare{
+    background-color: white;
+    padding: 8px 20px;
+    margin-top: 10px;
+    border-radius: 2px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.473);
+    display: flex;
+    gap: 12px;
+}
+#filesShare img{
+    width: 20px;
+}  
+
+#shareDocuments h4{
+    
+    cursor: pointer;
+    padding-bottom: 5px;
+    width: 50%;
+    text-align: center;
+}
+
 .SenderInfo h4{
     margin: 0;
     color: rgba(0, 0, 0, 0.61);

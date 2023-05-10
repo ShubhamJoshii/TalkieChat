@@ -1,150 +1,157 @@
 @media only screen and (max-width: 1200px) {
-    .Chatting{
-        width: calc(30vw - 40px);
-    }
-    .SenderInfo{
-        display: none;
-    }
+  .Chatting {
+    width: calc(30vw - 40px);
+  }
+  .SenderInfo {
+    display: none;
+  }
 
-    .userChatting{
-        width: 69.8vw;
-    }
+  .userChatting {
+    width: 69.8vw;
+  }
 }
 
 @media only screen and (max-width: 1000px) {
-    .Chatting{
-        width: calc(35vw - 40px);
-    }
-    .SenderInfo{
-        display: none;
-    }
+  .Chatting {
+    width: calc(35vw - 40px);
+  }
+  .SenderInfo {
+    display: none;
+  }
 
-    .userChatting{
-        width: 65.8vw;
-    }
+  .userChatting {
+    width: 65.8vw;
+  }
 
-    /* .Setting{ */
-        /* padding: 10px 10px; */
-        /* display: none; */
-    /* } */
-    /* #userSetting{
+  /* .Setting{ */
+  /* padding: 10px 10px; */
+  /* display: none; */
+  /* } */
+  /* #userSetting{
         flex-direction: column;
     } */
 }
 @media only screen and (max-width: 685px) {
-    .Chatting{
-        /* width: calc(100vw - 40px); */
-        width: 100vw;
-    }
-    
-    #MainPage{
-        width: 100vw;
-    }
+  .Chatting {
+    /* width: calc(100vw - 40px); */
+    width: 100vw;
+  }
 
-    .Attachments{
-        bottom: 86px;
-    }
-    .backgroundLogos{
-        display: none;
-    }
+  #MainPage {
+    width: 100vw;
+  }
 
-    .SenderInfo{
-        display: none;
-    }
-    .SideNavbar #userImage{
-        display:none;
-    }
+  .Attachments {
+    bottom: 86px;
+  }
+  .backgroundLogos {
+    display: none;
+  }
 
-    .SideNavbar{
-        /* display:none; */
-        width:100vw;
-        height:40px;
-        position:fixed;
-        bottom:0;
-        z-index: 9999;
-        align-items:center;
-        display:flex;
-        justify-content:center
-    }
+  .SenderInfo {
+    display: none;
+  }
+  .SideNavbar #userImage {
+    display: none;
+  }
 
-    .SideNavbar #navbarLogo{
-        flex-direction:row;
-        /* justify-content:space-between; */
-        /* gap:20%; */
-        margin-top: 0;
+  .SideNavbar {
+    /* display:none; */
+    width: 100vw;
+    height: 40px;
+    position: fixed;
+    bottom: 0;
+    z-index: 9999;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+  }
 
+  .SideNavbar #navbarLogo {
+    flex-direction: row;
+    /* justify-content:space-between; */
+    /* gap:20%; */
+    margin-top: 0;
+  }
 
-    }
+  #secondHalf {
+    left: 0;
+    width: 100vw;
+  }
 
-    
-#secondHalf{
-    left:0;
-    width:100vw;
+  .SideNavbar .setting {
+    position: relative;
+    bottom: 0;
+  }
+
+  .userChatting {
+    /* width: calc(100vw - 40px); */
+    width: 99vw;
+    height: calc(100vh - 40px);
+    margin-left: 0.5vw;
+    position: absolute;
+    /* display: none; */
+  }
+
+  .SenderInfo {
+    background-color: white;
+    /* width: calc(100vw - 100px); */
+    width: calc(100vw - 50px);
+    position: absolute;
+  }
+
+  #userChats {
+    height: calc(100vh - 188px);
+  }
+  .Setting footer {
+    bottom: 40px;
+  }
+  #writeMessage {
+    width: 100%;
+    position: absolute;
+    bottom: 38px;
+  }
+  #chatId {
+    width: 350px;
+  }
 }
-
-
-
-
-    .SideNavbar .setting {
-        position:relative;
-        bottom:0;   
-    }
-    
-    .userChatting{
-        /* width: calc(100vw - 40px); */
-        width: 99vw;
-        height:calc(100vh - 40px);
-        margin-left:0.5vw;
-        position: absolute;
-        /* display: none; */
-    }
-    
-    .SenderInfo{
-        background-color: white;
-        /* width: calc(100vw - 100px); */
-        width: calc(100vw - 50px);
-        position: absolute;   
-    }
-
-    #userChats{
-        height:calc(100vh - 188px)
-    }
-    .Setting footer{
-        bottom:40px;
-    }
-    #writeMessage{
-        width:100%;
-        position:absolute;
-        bottom:38px;
-    }
-    #chatId{
-        width: 350px;
-    }
-}
-
 
 @media only screen and (max-width: 560px) {
-    .Setting footer div{
-        display: none;
-    }   
+  .Setting footer div {
+    display: none;
+  }
 }
 
 @media only screen and (max-width: 540px) {
-    .Setting .userImgName{
-        justify-content: center;;
-        flex-wrap: wrap;
-    }   
-    .themes{
-        padding-bottom: 150px;
-    }
+  .Setting .userImgName {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .themes {
+    padding-bottom: 150px;
+  }
 
-    .themes div{
-        flex-wrap: wrap;
-    }
-    #userChats .messageSend{
-        max-width: 95%;
-    }
-    #sharedImg{
-        width: 90%;
-    }
+  #pickers {
+    flex-wrap: wrap;
+  }
+  #userChats .messageSend {
+    max-width: 95%;
+  }
+  #sharedImg {
+    width: 90%;
+  }
+}
+
+
+@media only screen and (max-width: 380px) {
+  #picker1 {
+    flex-direction: column;
+  }
+
+  #picker1 #showPickedColor {
+    width: 100%;
+    height: 40px;
+    /* flex: 1; */
+    flex-direction: row;
+  }
 }

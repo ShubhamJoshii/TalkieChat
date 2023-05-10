@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Chatting from "./Components/Chatting/Chatting";
 import UserChatingWith from "./Components/UserChatingWith/UserChatingWith";
 import UserInfo from "./Components/UserInfo/UserInfo";
@@ -29,7 +29,7 @@ const MainPage = () => {
       {
         !userChatWithData ? 
         <div className="backgroundLogos">
-          <img src={Logo}/>
+          <img src={Logo} alt="logo"/>
           <p>TalkieChat</p>
         </div>:<div></div>
       }
