@@ -98,6 +98,7 @@
     /* width: calc(100vw - 100px); */
     width: calc(100vw - 50px);
     position: absolute;
+    min-height: calc(100vh - 100px);
   }
 
   #userChats {

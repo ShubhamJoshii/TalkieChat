@@ -79,6 +79,7 @@
     aspect-ratio: 1;
     border-radius: 50%;
     width: 35px;
+    /* pointer-events: none; */
 }
 
 #chatsHistory h4 {

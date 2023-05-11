@@ -35,9 +35,10 @@ const HeaderTop = () => {
             User1_Avatar: result.data.Avatar,
             User1_AvatarBackground: result.data.AvatarBackground,
             User2_id: "",
+            chatType: "Single",
           });
         } else {
-          if(groupImage){
+          if (groupImage) {
             const uuid = uid();
             const name = groupImage;
             const imageRef = storageRef(storage, `images/${name.name + uuid}`);
@@ -50,11 +51,12 @@ const HeaderTop = () => {
               .then((url) => {
                 console.log(url);
                 imageURL = url;
-  
+
                 set(ref(db, `${randomNumber}`), {
                   ChatID: randomNumber,
                   GroupName: groupName,
                   GroupImage: imageURL,
+                  chatType: "Group",
                   Users: [
                     {
                       User_id: result.data._id,
@@ -65,7 +67,7 @@ const HeaderTop = () => {
                   ],
                 });
               });
-          }else{
+          } else {
             // console.log("WithoutImg");
             set(ref(db, `${randomNumber}`), {
               ChatID: randomNumber,
@@ -80,7 +82,6 @@ const HeaderTop = () => {
               ],
             });
           }
-
         }
       })
       .catch((err) => {});
@@ -146,12 +147,9 @@ const HeaderTop = () => {
     randomNumGenerate();
   }, []);
 
-  useEffect(() => {
-    console.log(NoOfUser);
-  }, [NoOfUser]);
 
   useEffect(() => {
-    setGroupName("TalkieChat" + randomNumber);
+    setGroupName(`TalkieChat_${randomNumber}`);
   }, []);
 
   return (
@@ -192,23 +190,23 @@ const HeaderTop = () => {
                 <BiRefresh id="copyLogo" onClick={randomNumGenerate} />
               </div>
             </div>
-            {NoOfUser === "Group" &&
-            <div id="groupForm">
-              <input
-                type="text"
-                placeholder="Enter Group Name or Automatically assigned"
-                name="GroupName"
-                onChange={(e) => setGroupName(e.target.value)}
-              />
-              <input
-                type="file"
-                id="uploadImg"
-                name="GroupDP"
-                onChange={(e) => setGroupImage(e.target.files[0])}
-              />
-              <label htmlFor="uploadImg">Upload Group DP</label>
-            </div>
-            }
+            {NoOfUser === "Group" && (
+              <div id="groupForm">
+                <input
+                  type="text"
+                  placeholder="Enter Group Name or Automatically assigned"
+                  name="GroupName"
+                  onChange={(e) => setGroupName(e.target.value)}
+                />
+                <input
+                  type="file"
+                  id="uploadImg"
+                  name="GroupDP"
+                  onChange={(e) => setGroupImage(e.target.files[0])}
+                />
+                <label htmlFor="uploadImg">Upload Group DP</label>
+              </div>
+            )}
             <div id="noOfUser">
               <input
                 type="radio"

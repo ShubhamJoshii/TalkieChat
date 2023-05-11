@@ -33,7 +33,7 @@ const Setting = () => {
   const uploadImage = async (e) => {
     const name = e.target.files[0];
     let uuid = uid();
-    const imageRef = storageRef(storage, `images/${name.name + uuid}`);
+    const imageRef = storageRef(storage, `userDP/${name.name + uuid}`);
     uploadBytes(imageRef, name)
       .then((res) => {
         alert("Image Upload");

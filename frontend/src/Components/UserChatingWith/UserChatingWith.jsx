@@ -15,6 +15,9 @@ import GroupImage from "../../Assets/groupImg.png";
 import { BsThreeDotsVertical, BsFillSendFill } from "react-icons/bs";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { ImAttachment } from "react-icons/im";
+import { CgClose } from "react-icons/cg";
+
+// import {} from "react-icons/io"
 import { GrGallery } from "react-icons/gr";
 import { FaRegStar } from "react-icons/fa";
 // import MessageDelever from "../../Assets/MessageDelivered.png";
@@ -33,10 +36,10 @@ import {
   ref as storageRef,
   uploadBytes,
 } from "firebase/storage";
-import { ref} from "firebase/database";
+import { ref } from "firebase/database";
 import { update } from "firebase/database";
 
-import UserDpShow from "./userDpShow";
+import UserDpShow from "../userDpShow";
 import { uid } from "uid";
 // import { message } from "antd";
 
@@ -58,6 +61,8 @@ const UserChatingWith = ({
   const [deleteAll, setdeleteAll] = useState(false);
   const [searchActive, setSearchActive] = useState(false);
 
+  const [chatDateHistory,setchatDateHistory] = useState([]);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -67,22 +72,43 @@ const UserChatingWith = ({
     fetchUserId();
   }, []);
 
+  useEffect(()=>{
+    let prev = -1;
+    setchatDateHistory([]);
+    userAllMessage.filter((a) => {
+      const currentTime = new Date();
+      const messageTiming = new Date(a.time);
+      let diffInMs = currentTime.getTime() - messageTiming.getTime();
+      let diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+      if(prev !== diffInDays){
+        setchatDateHistory((prev1)=>[...prev1,{time:a.time,message_id:a._id}])
+        prev = diffInDays;
+        console.log("Under")
+      }
+    });
+  },[userAllMessage])
+
+useEffect(()=>{
+  console.log(chatDateHistory)
+},[chatDateHistory])
+
   useEffect(() => {
-    setLoad(true)
+    setLoad(true);
     if (document.getElementsByClassName("userChatting")[0]) {
       document.getElementsByClassName("userChatting")[0].style.display =
-      "block";
+        "block";
       if (userChatWithData.Messages) {
         setUserAllMessages(userChatWithData.Messages);
       } else {
         setUserAllMessages([]);
       }
     } else
-    document.getElementsByClassName("userChatting2")[0].style.display =
-    "none";
-    setLoad(false)
+      document.getElementsByClassName("userChatting2")[0].style.display =
+        "none";
+    setLoad(false);
     setSearchActive(false);
     setDeleteHeaderShow(false);
+    setAttachmentShow(false);
   }, [userChatWithData]);
 
   const saveMessage = async () => {
@@ -230,7 +256,7 @@ const UserChatingWith = ({
           return null;
         })
       : setDeleteChatsArr([]);
-  }, [deleteAll,userAllMessageSearch]);
+  }, [deleteAll, userAllMessageSearch]);
 
   useEffect(() => {
     if (deleteChatsArr.length === 0)
@@ -244,7 +270,7 @@ const UserChatingWith = ({
         <BiCheckboxMinus id="checkBox" onClick={SelectAllMessages} />
       );
     }
-  }, [deleteChatsArr,userAllMessageSearch]);
+  }, [deleteChatsArr, userAllMessageSearch]);
 
   const searchMessage = (e) => {
     console.log(e.target.value);
@@ -252,15 +278,23 @@ const UserChatingWith = ({
     let b = userAllMessage.filter(
       (message) =>
         message.Message?.toLowerCase().includes(a) ||
-        message.FileName?.toLowerCase().includes(a)
+        message.FileName?.toLowerCase().includes(a) ||
+        message.Image?.toLowerCase().includes(a)
     );
     console.log(b);
     setUserAllMessageSearch(b);
   };
 
+  // const updateChatHistory = (diffInDays) => {
+  //   setchatDateHistory(diffInDays)
+  // }
+
   useEffect(() => {
     if (!searchActive) setUserAllMessageSearch(userAllMessage);
-  }, [searchActive,userAllMessage]);
+  }, [searchActive, userAllMessage]);
+
+  let history = -1;
+  let asd = true
 
   return (
     <>
@@ -288,17 +322,7 @@ const UserChatingWith = ({
                     ) : (
                       " "
                     )}
-                    <div
-                      onClick={() =>
-                        setShowDP(
-                          (userChatWithData.User1_Name === userInfo.Name
-                            ? userChatWithData.User2_Avatar
-                            : userChatWithData.User1_Avatar) ||
-                          userChatWithData.GroupImage ||
-                          GroupImage
-                        )
-                      }
-                    >
+                    <div>
                       <img
                         src={
                           (userChatWithData.User1_Name === userInfo.Name
@@ -320,6 +344,7 @@ const UserChatingWith = ({
                                   userChatWithData.User1_AvatarBackground,
                               }
                         }
+                        onClick={(e) => setShowDP(e.target.src)}
                       />
                     </div>
                     <div
@@ -329,7 +354,8 @@ const UserChatingWith = ({
                       <h3>
                         {userChatWithData.User1_Name === userInfo.Name
                           ? userChatWithData.User2_Name
-                          : userChatWithData.User1_Name || userChatWithData.GroupName}
+                          : userChatWithData.User1_Name ||
+                            userChatWithData.GroupName}
                       </h3>
                       <p>
                         {new Date(userChatWithData?.lastMessage).toLocaleString(
@@ -346,17 +372,22 @@ const UserChatingWith = ({
                   </div>
                   <div id="logos">
                     {searchActive && (
-                      <input
-                        type="text"
-                        id="searchInput"
-                        onChange={searchMessage}
-                      />
+                      <>
+                        <input
+                          type="text"
+                          id="searchInput"
+                          onChange={searchMessage}
+                        />
+                        <CgClose
+                          onClick={() => setSearchActive(!searchActive)}
+                        />
+                      </>
                     )}
-                    <BiSearchAlt
-                      onClick={() => setSearchActive(!searchActive)}
-                    />
                     {!searchActive && (
                       <>
+                        <BiSearchAlt
+                          onClick={() => setSearchActive(!searchActive)}
+                        />
                         <HiPhone />
                         <HiVideoCamera />
                       </>
@@ -378,7 +409,10 @@ const UserChatingWith = ({
                 <div className="chattingUserHeader">
                   <div id="deleteHeaderText">
                     <IoMdArrowRoundBack
-                      onClick={() => {setDeleteHeaderShow(false);setDeleteChatsArr([])}}
+                      onClick={() => {
+                        setDeleteHeaderShow(false);
+                        setDeleteChatsArr([]);
+                      }}
                     />
 
                     {CheckBoxLogo}
@@ -399,6 +433,14 @@ const UserChatingWith = ({
                     .map((curr, ids) => {
                       let currentTime = new Date();
                       let messageTiming = new Date(curr.time);
+                      let dateHeader;
+
+                      chatDateHistory.find(e => {
+                        if(e.message_id === curr._id){
+                          dateHeader = messageTiming.toDateString();
+                          console.log(curr)
+                        }})
+
                       if (
                         currentTime.toLocaleDateString() ===
                         messageTiming.toLocaleDateString()
@@ -429,6 +471,11 @@ const UserChatingWith = ({
                           minute: "numeric",
                         });
                       }
+
+                      let senders = userChatWithData?.Users?.find(
+                        (e) => e.User_id === curr.whoWrote
+                      );
+
                       return (
                         <div
                           key={ids}
@@ -442,18 +489,21 @@ const UserChatingWith = ({
                             deleteChatSelection(curr);
                           }}
                         >
+                          {dateHeader &&  (
+                            <div id="dateHeaders">
+                              <div></div>
+                              <p>{dateHeader}</p>
+                              <div></div>
+                            </div>
+                          )}
                           {curr.whoWrote === user_ID ? (
                             <div className="messageSendheader">
                               {curr.Message && (
                                 <div
                                   className="messageSend"
-                                  style={
-                                    userInfo
-                                      ? {
-                                          backgroundColor: `${userInfo.ColorSchema}`,
-                                        }
-                                      : { backgroundColor: "rgb(68, 215, 182)" }
-                                  }
+                                  style={{
+                                    backgroundColor: `${userInfo.ColorSchema}`,
+                                  }}
                                 >
                                   <div>
                                     <img src={MessageSeen} alt="SendStatus" />
@@ -465,19 +515,15 @@ const UserChatingWith = ({
                               {curr.Image && (
                                 <div
                                   className="messageSend"
-                                  style={
-                                    userInfo
-                                      ? {
-                                          backgroundColor: `${userInfo.ColorSchema}`,
-                                        }
-                                      : { backgroundColor: "rgb(68, 215, 182)" }
-                                  }
+                                  style={{
+                                    backgroundColor: `${userInfo.ColorSchema}`,
+                                  }}
                                 >
                                   <img
                                     src={curr.Image}
                                     alt="SharedImage"
                                     id="sharedImg"
-                                    onClick={() => setShowDP(curr.Image)}
+                                    onClick={(e) => setShowDP(e.target.src)}
                                   />
                                   <div>
                                     <img src={MessageSeen} alt="SendStatus" />
@@ -488,18 +534,22 @@ const UserChatingWith = ({
                               {curr.Files_Url && (
                                 <div
                                   className="messageSend"
-                                  style={
-                                    userInfo
-                                      ? {
-                                          backgroundColor: `${userInfo.ColorSchema}`,
-                                        }
-                                      : { backgroundColor: "rgb(68, 215, 182)" }
-                                  }
+                                  style={{
+                                    backgroundColor: `${userInfo.ColorSchema}`,
+                                  }}
                                 >
                                   <div id="pdfFiles">
-                                    <img src={PdfLogo} id="pdfLogo" alt="pdfLOGO"/>
+                                    <img
+                                      src={PdfLogo}
+                                      id="pdfLogo"
+                                      alt="pdfLOGO"
+                                    />
 
-                                    <a href={curr.Files_Url} target="_blank" rel="noopener noreferrer">
+                                    <a
+                                      href={curr.Files_Url}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                    >
                                       {curr.FileName}
                                     </a>
                                   </div>
@@ -513,34 +563,67 @@ const UserChatingWith = ({
                             </div>
                           ) : (
                             <>
-                              {curr.Message && (
-                                <div className="messageReceve">
-                                  <p>{curr.Message}</p>
-                                  <p id="timeStamp">{messageTiming}</p>
-                                </div>
-                              )}
-                              {curr.Image && (
-                                <div className="messageReceve">
-                                  <img
-                                    src={curr.Image}
-                                    alt="SharedImage"
-                                    id="sharedImg"
-                                    onClick={() => setShowDP(curr.Image)}
-                                  />
-                                  <p id="timeStamp">{messageTiming}</p>
-                                </div>
-                              )}
-                              {curr.Files_Url && (
-                                <div className="messageReceve">
-                                  <div>
-                                    <img src={PdfLogo} id="pdfLogo" alt="pdfLogo"/>
-                                    <a href={curr.Files_Url} target="_blank" rel="noopener noreferrer">
-                                      {curr.FileName}
-                                    </a>
+                              <div className="messageReceve">
+                                {userChatWithData?.chatType == "Group" && (
+                                  <div id="groupSenderInfo">
+                                    <img
+                                      src={senders.User_Avatar}
+                                      alt="senderDP"
+                                      style={{
+                                        borderColor: `${userInfo.ColorSchema}`,
+                                      }}
+                                      onClick={(e) => setShowDP(e.target.src)}
+                                    />
+                                    <p
+                                      style={{
+                                        color: `${userInfo.ColorSchema}`,
+                                      }}
+                                    >
+                                      {senders.User_Name}
+                                    </p>
+                                    <div id="Senderstatus">
+                                      <div id="circle"></div>
+                                      <div>Online</div>
+                                    </div>
                                   </div>
-                                  <p id="timeStamp">{messageTiming}</p>
-                                </div>
-                              )}
+                                )}
+                                {curr.Message && (
+                                  <>
+                                    <p>{curr.Message}</p>
+                                    <p id="timeStamp">{messageTiming}</p>
+                                  </>
+                                )}
+                                {curr.Image && (
+                                  <>
+                                    <img
+                                      src={curr.Image}
+                                      alt="SharedImage"
+                                      id="sharedImg"
+                                      onClick={(e) => setShowDP(e.target.src)}
+                                    />
+                                    <p id="timeStamp">{messageTiming}</p>
+                                  </>
+                                )}
+                                {curr.Files_Url && (
+                                  <>
+                                    <div>
+                                      <img
+                                        src={PdfLogo}
+                                        id="pdfLogo"
+                                        alt="pdfLogo"
+                                      />
+                                      <a
+                                        href={curr.Files_Url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                      >
+                                        {curr.FileName}
+                                      </a>
+                                    </div>
+                                    <p id="timeStamp">{messageTiming}</p>
+                                  </>
+                                )}
+                              </div>
                             </>
                           )}
                         </div>
@@ -594,7 +677,7 @@ const UserChatingWith = ({
         </div>
       ) : (
         <div className="userChatting2 " id="userChatting2">
-          <img src={ChatPNG} alt="Resticted"/>
+          <img src={ChatPNG} alt="Resticted" />
           <p>
             Sorry,the chat feature is restricted to registered users only.
             <br /> Please{" "}

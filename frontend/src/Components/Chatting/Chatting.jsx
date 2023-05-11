@@ -9,16 +9,18 @@ import { ref, onValue } from "firebase/database";
 import RightClickShow from "./RightClickShow";
 import GroupImage from "../../Assets/groupImg.png";
 import ChattingCollection from "./chattingCollection";
+import UserDpShow from "../userDpShow";
 const Chatting = ({ setUserChatWithData, userType, userChatWithData }) => {
   const userInfo = useContext(UserData);
   const [Count, setCount] = useState(null);
   const [chattingUsers, setChattingUsers] = useState([]);
   const [chatsArr, setChatsArr] = useState([]);
+  const [ShowDP, setShowDP] = useState(undefined);
+
   const navigate = useNavigate();
 
   //reading DB
-  useEffect(() => {
-    // fetchUseRecentChat();
+  const fetchUserChat = ()=>{
     onValue(ref(db), (snapshot) => {
       setChattingUsers([]);
       const data = snapshot.val();
@@ -34,7 +36,7 @@ const Chatting = ({ setUserChatWithData, userType, userChatWithData }) => {
             curr.Users?.find((user) => {
               if (user.User_id === userInfo._id) {
                 setChattingUsers((oldArray) => [...oldArray, curr]);
-                console.log(curr);
+                // console.log(curr);
               }
               return user.User_id === userInfo._id;
             });
@@ -58,12 +60,21 @@ const Chatting = ({ setUserChatWithData, userType, userChatWithData }) => {
         });
       }
     });
+  }
+  useEffect(() => {
+    // fetchUseRecentChat();
+    fetchUserChat();
   }, [userType]);
 
-  console.log(userType);
+  // console.log(userType);
+
+
+  useEffect(()=>{
+    fetchUserChat();
+  },[])
 
   useEffect(() => {
-    console.log(chattingUsers);
+    // console.log(chattingUsers);
     setChatsArr(chattingUsers);
   }, [chattingUsers]);
 
@@ -102,12 +113,15 @@ const Chatting = ({ setUserChatWithData, userType, userChatWithData }) => {
     setChatsArr(b);
   };
 
-  useEffect(() => {
-    console.log(userType);
-  }, []);
+  // useEffect(() => {
+  //   console.log(userType);
+  // }, []);
 
   return (
     <div className="Chatting">
+      <div style={ShowDP ? { display: "block" } : { display: "none" }}>
+        <UserDpShow ShowDP={ShowDP} setShowDP={setShowDP} />
+      </div>
       <input type="text" placeholder="Search..." onChange={searchUsers} />
       <div id="chatsPersons">
         <h3>
@@ -157,6 +171,7 @@ const Chatting = ({ setUserChatWithData, userType, userChatWithData }) => {
                             ? { backgroundColor: curr.User2_AvatarBackground }
                             : { backgroundColor: curr.User1_AvatarBackground }
                         }
+                        onClick={(e)=>setShowDP(e.target.src)}
                       />
                       <div>
                         <h4>

@@ -29,6 +29,7 @@
     width: 35px;
     aspect-ratio: 1;
     border-radius: 50%;
+    cursor: pointer;
 }
 
 .userChatting .chattingUserHeader{
@@ -121,6 +122,46 @@
     gap: 23px;
 }
 
+#groupSenderInfo{
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+
+#groupSenderInfo p{
+    font-size: 13px;
+    font-weight: 700;
+    color: #44D7B6;
+    letter-spacing: 1px;
+}
+
+#groupSenderInfo img{
+    aspect-ratio: 1;
+    width: 15px;
+    border: 1px solid black;
+    border-radius: 50%;
+    cursor: pointer;
+    border-color: rgb(68, 215, 182);
+}
+
+#Senderstatus{
+    display: flex;
+    font-weight: 600;
+    align-items: center;
+    justify-content: center;
+    color: green;
+    gap: 5px;
+}
+
+#circle{
+    background-color: green;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+}
+
 #logos #headerLogo{
     font-size: 18px;      
 }
@@ -140,6 +181,7 @@
     width: 100%;
     height: 91.4%;
     margin-top: 60px;
+    /* padding-top: 25px;   */
     display: flex;
     flex-direction: column-reverse;
     height: calc(100vh -  150px);
@@ -158,6 +200,7 @@
     box-shadow: 0px 0px 5px grey;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
+    background-color: #44D7B6;
 }
 
 
@@ -400,4 +443,24 @@
     position:absolute;
     top:40px;
     left:40px;
+}
+
+
+#dateHeaders{
+    display: flex;
+    gap: 6px;
+    align-items: center;
+}
+#dateHeaders p{
+    font-weight: 700;
+    background-color: white;
+    padding:1px 10px;
+    letter-spacing: 2px;
+}
+
+#dateHeaders div{
+    /* width: 50%; */
+    flex: 1;
+    height: 1.5px;
+    background-color: black;
 }
