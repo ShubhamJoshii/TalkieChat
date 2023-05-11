@@ -5,7 +5,7 @@ import PhoneLogo from "../../Assets/phone.png";
 import { RiArrowDropRightLine } from "react-icons/ri";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import PdfLogo from "../../Assets/pdfLogo.png"
-
+import GroupImage from "../../Assets/groupImg.png";
 import "./UserInfo.css";
 import { UserData } from "../../App";
 const UserInfo = ({ userChatWithData, senderInfoShow, setSenderInfoShow }) => {
@@ -52,7 +52,7 @@ const UserInfo = ({ userChatWithData, senderInfoShow, setSenderInfoShow }) => {
               src={
                 userChatWithData.User1_Name === userInfo.Name
                   ? userChatWithData.User2_Avatar
-                  : userChatWithData.User1_Avatar
+                  : userChatWithData.User1_Avatar || userChatWithData.GroupImage || GroupImage
               }
               alt="SenderDP"
               style={
@@ -69,7 +69,7 @@ const UserInfo = ({ userChatWithData, senderInfoShow, setSenderInfoShow }) => {
           <h3>
             {userChatWithData.User1_Name === userInfo.Name
               ? userChatWithData.User2_Name
-              : userChatWithData.User1_Name}
+              : userChatWithData.User1_Name || userChatWithData.GroupName}
           </h3>
           <p>~talkieChatFounder</p>
           <div id="senderContactInfo">

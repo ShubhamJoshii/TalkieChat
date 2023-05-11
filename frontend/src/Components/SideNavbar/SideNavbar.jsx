@@ -41,7 +41,7 @@ const SideNavbar = () => {
           className="navbarIcons"
           onClick={() => {
             setCount(1);
-            navigate("/");
+            navigate("/Single");
           }}
           id={count === 1 ? "active" : ""}
         />
@@ -49,7 +49,7 @@ const SideNavbar = () => {
           className="navbarIcons"
           onClick={() => {
             setCount(2);
-            navigate("/");
+            navigate("/Groups");
           }}
           id={count === 2 ? "active" : ""}
         />

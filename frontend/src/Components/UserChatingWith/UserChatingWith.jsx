@@ -11,6 +11,7 @@ import {
   HiPhone,
   HiVideoCamera,
 } from "react-icons/hi";
+import GroupImage from "../../Assets/groupImg.png";
 import { BsThreeDotsVertical, BsFillSendFill } from "react-icons/bs";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { ImAttachment } from "react-icons/im";
@@ -290,17 +291,21 @@ const UserChatingWith = ({
                     <div
                       onClick={() =>
                         setShowDP(
-                          userChatWithData.User1_Name === userInfo.Name
+                          (userChatWithData.User1_Name === userInfo.Name
                             ? userChatWithData.User2_Avatar
-                            : userChatWithData.User1_Avatar
+                            : userChatWithData.User1_Avatar) ||
+                          userChatWithData.GroupImage ||
+                          GroupImage
                         )
                       }
                     >
                       <img
                         src={
-                          userChatWithData.User1_Name === userInfo.Name
+                          (userChatWithData.User1_Name === userInfo.Name
                             ? userChatWithData.User2_Avatar
-                            : userChatWithData.User1_Avatar
+                            : userChatWithData.User1_Avatar) ||
+                          userChatWithData.GroupImage ||
+                          GroupImage
                         }
                         alt="SenderIMG"
                         id="userImg"
@@ -324,7 +329,7 @@ const UserChatingWith = ({
                       <h3>
                         {userChatWithData.User1_Name === userInfo.Name
                           ? userChatWithData.User2_Name
-                          : userChatWithData.User1_Name}
+                          : userChatWithData.User1_Name || userChatWithData.GroupName}
                       </h3>
                       <p>
                         {new Date(userChatWithData?.lastMessage).toLocaleString(
@@ -373,7 +378,7 @@ const UserChatingWith = ({
                 <div className="chattingUserHeader">
                   <div id="deleteHeaderText">
                     <IoMdArrowRoundBack
-                      onClick={() => setDeleteHeaderShow(false)}
+                      onClick={() => {setDeleteHeaderShow(false);setDeleteChatsArr([])}}
                     />
 
                     {CheckBoxLogo}

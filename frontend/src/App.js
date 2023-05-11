@@ -35,6 +35,7 @@ function App() {
   useEffect(() => {
     fetchUserInfo();
   }, []);
+  
   return (
     <div className="App">
       <UserData.Provider value={userInfo}>
@@ -49,6 +50,8 @@ function App() {
                 <div id="Routers">
                   <Routes>
                     <Route path="/" element={<MainPage />} />
+                    <Route path="/Single" element={<MainPage />} />
+                    <Route path="/Groups" element={<MainPage />} />
                     <Route path="/setting" element={<Setting />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />

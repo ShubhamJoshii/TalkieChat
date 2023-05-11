@@ -7,39 +7,65 @@ import { db } from "../../firebase";
 import { Dropdown } from "antd";
 import { ref, onValue } from "firebase/database";
 import RightClickShow from "./RightClickShow";
+import GroupImage from "../../Assets/groupImg.png";
 import ChattingCollection from "./chattingCollection";
-const Chatting = ({ setUserChatWithData, userChatWithData }) => {
+const Chatting = ({ setUserChatWithData, userType, userChatWithData }) => {
   const userInfo = useContext(UserData);
   const [Count, setCount] = useState(null);
   const [chattingUsers, setChattingUsers] = useState([]);
-  const[chatsArr,setChatsArr] = useState([]);
+  const [chatsArr, setChatsArr] = useState([]);
   const navigate = useNavigate();
 
   //reading DB
-  useState(() => {
+  useEffect(() => {
     // fetchUseRecentChat();
     onValue(ref(db), (snapshot) => {
       setChattingUsers([]);
       const data = snapshot.val();
       if (data !== null && userInfo) {
         Object.values(data).map((curr) => {
-          if (
-            curr.User1_id === userInfo._id ||
-            curr.User2_id === userInfo._id
-          ) {
-            setChattingUsers((oldArray) => [...oldArray, curr]);
-            // console.log("Message Updated");
+          if (userType == "/") {
+            if (
+              curr.User1_id === userInfo._id ||
+              curr.User2_id === userInfo._id
+            ) {
+              setChattingUsers((oldArray) => [...oldArray, curr]);
+            }
+            curr.Users?.find((user) => {
+              if (user.User_id === userInfo._id) {
+                setChattingUsers((oldArray) => [...oldArray, curr]);
+                console.log(curr);
+              }
+              return user.User_id === userInfo._id;
+            });
+          } else if (userType == "/Single") {
+            if (
+              curr.User1_id === userInfo._id ||
+              curr.User2_id === userInfo._id
+            ) {
+              setChattingUsers((oldArray) => [...oldArray, curr]);
+            }
+          } else {
+            curr.Users?.find((user) => {
+              if (user.User_id === userInfo._id) {
+                setChattingUsers((oldArray) => [...oldArray, curr]);
+                console.log(curr);
+              }
+              return user.User_id === userInfo._id;
+            });
           }
-          return({});
+          return {};
         });
       }
     });
-  }, []);
+  }, [userType]);
 
+  console.log(userType);
 
-  useEffect(()=>{
-    setChatsArr(chattingUsers)
-  },[chattingUsers])
+  useEffect(() => {
+    console.log(chattingUsers);
+    setChatsArr(chattingUsers);
+  }, [chattingUsers]);
 
   const userChatWith = (curr, id) => {
     setCount(curr.ChatID);
@@ -49,36 +75,45 @@ const Chatting = ({ setUserChatWithData, userChatWithData }) => {
   useEffect(() => {
     if (userChatWithData === null) setCount(null);
   }, [userChatWithData]);
-  
+
   useEffect(() => {
     let da = chattingUsers.sort((b, a) => {
       return (
         new Date(a.lastMessage).valueOf() - new Date(b.lastMessage).valueOf()
-        );
-      });
-      setChattingUsers(da);
-      setUserChatWithData(chattingUsers.find(e => e.ChatID === Count));
+      );
+    });
+    setChattingUsers(da);
+    setUserChatWithData(chattingUsers.find((e) => e.ChatID === Count));
   }, [chattingUsers]);
 
   const searchUsers = (e) => {
     let a = e.target.value.toLowerCase();
-    let b = chattingUsers.filter(users => {
-      if(users.User1_id === userInfo._id){
-        return users.User2_Name.toLowerCase().includes(a)
+    let b = chattingUsers.filter((users) => {
+      // let f = users.Users?.filter(u1 => u1.User_id !== userInfo._id )
+      // console.log(f)
+      if (users.User1_id === userInfo._id) {
+        return users.User2_Name?.toLowerCase().includes(a);
+      } else if (users.GroupName) {
+        return users.GroupName?.toLowerCase().includes(a);
+      } else {
+        return users.User1_Name?.toLowerCase().includes(a);
       }
-      else{
-        return users.User1_Name.toLowerCase().includes(a)
-      }})
+    });
     setChatsArr(b);
-  }
+  };
 
-  
+  useEffect(() => {
+    console.log(userType);
+  }, []);
 
   return (
     <div className="Chatting">
-      <input type="text" placeholder="Search..." onChange={searchUsers}/>
+      <input type="text" placeholder="Search..." onChange={searchUsers} />
       <div id="chatsPersons">
-        <h3>Recent Chats</h3>
+        <h3>
+          {userType == "/" && "Recent"} {userType == "/Single" && "Single"}{" "}
+          {userType == "/Groups" && "Group"} Chats
+        </h3>
         <div>
           {chatsArr.length !== 0 ? (
             <div>
@@ -97,7 +132,6 @@ const Chatting = ({ setUserChatWithData, userChatWithData }) => {
                     <div
                       key={id}
                       id="chatsHistory"
-                      // onContextMenu={(e) => contentMenu(e,id)}
                       onClick={() => userChatWith(curr, id)}
                       style={
                         userInfo && curr.ChatID === Count
@@ -110,9 +144,11 @@ const Chatting = ({ setUserChatWithData, userChatWithData }) => {
                     >
                       <img
                         src={
-                          curr.User1_Name === userInfo.Name
+                          (curr.User1_Name === userInfo.Name
                             ? curr.User2_Avatar
-                            : curr.User1_Avatar
+                            : curr.User1_Avatar) ||
+                          curr.GroupImage ||
+                          GroupImage
                         }
                         alt="SenderIMG"
                         id="userImages"
@@ -126,10 +162,10 @@ const Chatting = ({ setUserChatWithData, userChatWithData }) => {
                         <h4>
                           {curr.User1_Name === userInfo.Name
                             ? curr.User2_Name
-                            : curr.User1_Name}
+                            : curr.User1_Name || curr.GroupName}
                         </h4>
                         <div id="lastMessage">
-                          <ChattingCollection curr={curr}/>
+                          <ChattingCollection curr={curr} />
                         </div>
                       </div>
                     </div>
@@ -144,7 +180,7 @@ const Chatting = ({ setUserChatWithData, userChatWithData }) => {
                 <div></div>
               ) : (
                 <div id="userChatting2">
-                  <img src={ChatPNG} alt="Restricted"/>
+                  <img src={ChatPNG} alt="Restricted" />
                   <p>
                     Sorry,the chat feature is restricted to registered users
                     only.

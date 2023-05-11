@@ -11,6 +11,20 @@
     padding: 3px 10px 3px 25px;
 }
 
+#noOfUser{
+    display: flex;
+    margin-top: 7px;
+    align-items: center;
+}
+
+#noOfUser label{
+    font-size: 15px;
+    margin-right: 10px;
+    font-weight: 600;
+    
+}
+
+
 #talkieHeaderLogo{
     display: flex;
     align-items: center;
@@ -34,6 +48,35 @@
     text-decoration: underline;
 }
 
+#groupForm {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+#groupForm input{
+    width: 60%;
+    padding: 3px 7px;
+}
+#groupForm label{
+    font-size: 13px;
+    text-align: center;
+    letter-spacing: 1px;
+    border: 1px solid black;
+    padding: 3px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#groupForm label:hover{
+    background-color: black;
+    color: white;
+}
+    #groupForm input:nth-child(2){
+    display: none;
+    width: 70%;
+}
+
 #chatId {
     background-color: #fff;
     box-shadow: 0 0 5px grey;
@@ -51,14 +94,16 @@
     padding-left: 10px;
 }
 
+
 #copyLogo {
     cursor: pointer;
     margin-right: 10px;
 }
 
 #addChatID {
-    margin-top: 10px;
+    /* margin-top: 10px; */
     text-align: end;
+    flex: 1;
 }
 
 #chatID {
@@ -85,6 +130,5 @@
 }
 
 #generateChatID:hover #chatId{
-
     display: block;
 }
