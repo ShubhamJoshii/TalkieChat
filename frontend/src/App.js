@@ -3,20 +3,24 @@ import { createContext, useEffect, useState } from "react";
 import SideNavbar from "./Components/SideNavbar/SideNavbar";
 import Header from "./Components/HeaderTop/HeaderTop";
 import MainPage from "./MainPage";
-import "./Resposive.css"
+import "./Resposive.css";
 import { Route, Routes, BrowserRouter as Router } from "react-router-dom";
 import Setting from "./Components/Setting/Setting";
 import Login from "./Components/Login/Login";
 import Register from "./Components/Register/Register";
-
 import axios from "axios";
 import Loading from "./Components/Loading/Loading";
+
+import "./firebase";
+import "./firebase";
+import { getDatabase, ref, onDisconnect, set } from "firebase/database";
 
 const UserData = createContext();
 function App() {
   const [userInfo, setUserInfo] = useState();
   const [showLoading, setShowLoading] = useState(false);
 
+  const db = getDatabase();
 
   const fetchUserInfo = () => {
     setShowLoading(true);
@@ -26,16 +30,27 @@ function App() {
         // console.log(result.data);
         setUserInfo(result.data);
         setShowLoading(false);
+        set(ref(db, `${result.data._id}`), {
+          status: "Online",
+          _id: result.data._id,
+        });
       })
       .catch((err) => {
         setShowLoading(false);
       });
   };
 
+  if(userInfo){
+    onDisconnect(ref(db, `${userInfo?._id}`)).set({
+      status: "Offline",
+      _id: userInfo._id
+    });
+  }
+
   useEffect(() => {
     fetchUserInfo();
   }, []);
-  
+
   return (
     <div className="App">
       <UserData.Provider value={userInfo}>

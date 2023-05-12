@@ -13,6 +13,7 @@ import {
   uploadBytes,
   ref as storageRef,
 } from "firebase/storage";
+import { useNavigate } from "react-router-dom";
 
 const HeaderTop = () => {
   const [randomNumber, setrandomNumber] = useState();
@@ -20,6 +21,8 @@ const HeaderTop = () => {
   const [NoOfUser, setNoOfUser] = useState("Single");
   const [groupImage, setGroupImage] = useState();
   const [groupName, setGroupName] = useState();
+
+  const navigate = useNavigate()
   const copyNumber = async () => {
     navigator.clipboard.writeText(randomNumber);
     alert("Chat ID Copied " + randomNumber);
@@ -149,12 +152,12 @@ const HeaderTop = () => {
 
 
   useEffect(() => {
-    setGroupName(`TalkieChat_${randomNumber}`);
+    setGroupName(`Group_${randomNumber}`.substring(0,10));
   }, [randomNumber]);
 
   return (
     <header className="headerText">
-      <div id="talkieHeaderLogo">
+      <div id="talkieHeaderLogo" onClick={()=>navigate('/')}>
         <img src={Logo} id="LogoTalkieChat" alt="talkieChatLOGO" />
         <h4> TalkieChat</h4>
       </div>

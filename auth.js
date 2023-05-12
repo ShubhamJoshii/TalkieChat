@@ -7,8 +7,6 @@ const Authenication = require("./Authenication");
 router.post("/register", async (req, res) => {
   const { Name, Email, Password, Confirm_Password, Register_Date, Avatar } =
     req.body;
-  // console.log(Name,Email,Password,Confirm_Password,Register_Date);
-
   if (!Name || !Email || !Password || !Confirm_Password) {
     return res.send("Fill Form Properly");
   }
@@ -34,7 +32,6 @@ router.post("/register", async (req, res) => {
   } catch (err) {
     res.send("Error");
   }
-  // res.json("User Registered");
 });
 
 router.post("/login", async (req, res) => {
@@ -51,7 +48,7 @@ router.post("/login", async (req, res) => {
       const password_Match = await bcrypt.compare(Password, userExist.Password);
       if (password_Match) {
         userExist.Login = userExist.Login.concat({ Login_Date });
-        // userExist.save();
+        
         if (rememberME) {
           const Token = await userExist.generateAuthToken();
           console.log(Token);
@@ -66,16 +63,13 @@ router.post("/login", async (req, res) => {
         res.send("User Password is Wrong");
       }
     }
-    // res.send("Login");
   } catch (error) {}
 });
-
 
 router.get("/logout", (req, res) => {
   res.clearCookie("talkieChatToken", { path: "/" });
   res.status(200).send("User Logout");
 });
-
 
 router.get("/home", Authenication, async (req, res) => {
   res.send(req.rootUser);
@@ -114,8 +108,6 @@ router.post("/changeDP", Authenication, async (req, res) => {
 
 router.post("/avatarSave", Authenication, async (req, res) => {
   const { Avatar, AvatarBackground } = req.body;
-  // console.log(Avatar,AvatarBackground)
-  // const Avatar = await userExist.generateAuthToken();
   try {
     const userExists = await DBModel.findOne({ _id: req.userID });
     const userMessageExists1 = await ChatDataModel.updateMany(
@@ -136,7 +128,6 @@ router.post("/avatarSave", Authenication, async (req, res) => {
         },
       }
     );
-    // const userMessageExists2 = await ChatDataModel.find({User2_id:req.userID});
     if (userExists) {
       userExists.Avatar = Avatar;
       userExists.AvatarBackground = AvatarBackground;
@@ -150,7 +141,6 @@ router.post("/avatarSave", Authenication, async (req, res) => {
 
 router.post("/changeColorSchema", Authenication, async (req, res) => {
   const { ColorSchema } = req.body;
-  // console.log(ColorSchema)
   try {
     const userExists = await DBModel.findOne({ _id: req.userID });
     if (userExists) {
@@ -165,7 +155,6 @@ router.post("/changeColorSchema", Authenication, async (req, res) => {
 
 router.post("/saveChatID", Authenication, async (req, res) => {
   const { ChatID } = req.body;
-  // console.log(ChatID);
   const chatIDExists = await ChatDataModel.findOne({ ChatID });
   if (chatIDExists) {
     chatIDExists.User2_id = req.userID;

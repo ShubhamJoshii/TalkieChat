@@ -13,8 +13,6 @@ app.use(express.json());
 app.use(require("./auth"));
 app.use(express.static(path.resolve(__dirname, "frontend", "build")));
 
-
-
 app.get("/", (req, res) => {
   console.log(path.resolve(__dirname, "frontend", "build"));
   res.status(200).sendFile(path.resolve(__dirname, "frontend", "build"));

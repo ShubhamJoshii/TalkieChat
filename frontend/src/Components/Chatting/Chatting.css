@@ -71,8 +71,24 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.193);
 }
 
-#chatsHistory div{
+#chatsHistory #userInfoText{
     flex: 1;
+}
+
+#userInfoText #Senderstatus, #userInfoText #SenderstatusRed{
+    font-size: 12px;
+    letter-spacing: 1px;
+}
+
+
+
+
+#chattingStatus{
+    display: flex;
+    /* flex: 0; */
+    justify-content: space-between;
+    align-items: center;
+
 }
 
 .Chatting #userImages {

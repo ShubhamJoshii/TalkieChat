@@ -71,7 +71,47 @@
     color: white;
 }
 
-.selectMessage{
+#starHeaderText{
+    display: flex;
+    padding: 10px 0px;
+    gap: 15px;
+    align-items: center;
+}
+
+#starHeaderText button{
+    padding: 4px;
+    width: 70px;
+    font-weight: 600;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+#starHeaderText button:hover{
+    transform: scale(1.1);
+}
+
+    #starHeaderText button:first-child{
+    background-color: goldenrod;
+    color: white;
+}
+
+#messageTime{
+    gap: 0px;
+}
+
+#starLogo{
+    color: gold;
+    font-size: 18px;
+}
+
+
+#starHeaderText button:last-child{
+    border: 2px solid black;
+    background-color: #EEE3E3
+}
+
+.selectMessage  {
     background-color: rgba(0, 109, 255, 0.2)   
 }
 
@@ -154,20 +194,36 @@
     font-weight: 600;
     align-items: center;
     justify-content: center;
-    color: green;
+    color: #3BFE00;
     gap: 5px;
 }
 
+#SenderstatusRed{
+    display: flex;
+    font-weight: 600;
+    align-items: center;
+    justify-content: center;
+    color: #E00000;
+    gap: 5px;
+
+}
+
 #circle{
-    background-color: green;
+    background-color: #3BFE00;
     width: 7px;
     height: 7px;
     border-radius: 50%;
 }
 
+#SenderstatusRed #circle{
+    background-color: #E00000;
+}
+
 #logos #headerLogo{
     font-size: 18px;      
 }
+
+
 
 #backgroundImg{
     width: 100%;

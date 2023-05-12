@@ -11,6 +11,7 @@ import {
   HiPhone,
   HiVideoCamera,
 } from "react-icons/hi";
+import { AiFillStar } from "react-icons/ai";
 import GroupImage from "../../Assets/groupImg.png";
 import { BsThreeDotsVertical, BsFillSendFill } from "react-icons/bs";
 import { IoMdArrowRoundBack } from "react-icons/io";
@@ -36,11 +37,12 @@ import {
   ref as storageRef,
   uploadBytes,
 } from "firebase/storage";
-import { ref } from "firebase/database";
+import { onValue, ref } from "firebase/database";
 import { update } from "firebase/database";
 
 import UserDpShow from "../userDpShow";
 import { uid } from "uid";
+import { message } from "antd";
 // import { message } from "antd";
 
 const UserChatingWith = ({
@@ -58,7 +60,9 @@ const UserChatingWith = ({
   const [ShowDP, setShowDP] = useState(undefined);
   const [AttachmentShow, setAttachmentShow] = useState(false);
   const [deleteHeaderShow, setDeleteHeaderShow] = useState(false);
-  const [deleteChatsArr, setDeleteChatsArr] = useState([]);
+  const [starHeaderShow, setstarHeaderShow] = useState(false);
+  const [starMessagesShow, setstarMessagesShow] = useState(false);
+  const [tempChatsArr, setTempChatsArr] = useState([]);
   const [deleteAll, setdeleteAll] = useState(false);
   const [searchActive, setSearchActive] = useState(false);
 
@@ -104,10 +108,6 @@ const UserChatingWith = ({
     });
   }, [userAllMessage]);
 
-  // useEffect(()=>{
-  //   console.log(chatDateHistory)
-  // },[chatDateHistory])
-
   useEffect(() => {
     setLoad(true);
     if (document.getElementsByClassName("userChatting")[0]) {
@@ -124,6 +124,7 @@ const UserChatingWith = ({
     setLoad(false);
     setSearchActive(false);
     setDeleteHeaderShow(false);
+    setstarHeaderShow(false);
     setAttachmentShow(false);
   }, [userChatWithData]);
 
@@ -157,6 +158,7 @@ const UserChatingWith = ({
   };
 
   const uploadImage = async (e) => {
+    setAttachmentShow(!AttachmentShow);
     const name = e.target.files[0];
     const uuid = uid();
     const imageRef = storageRef(storage, `images/${name.name + uuid}`);
@@ -185,6 +187,7 @@ const UserChatingWith = ({
   };
 
   const uploadDocument = async (e) => {
+    setAttachmentShow(!AttachmentShow);
     const name = e.target.files[0];
     const uuid = uid();
     const documentRef = storageRef(storage, `files/${name.name + uuid}`);
@@ -211,40 +214,52 @@ const UserChatingWith = ({
       });
   };
 
-  const deleteChatSelection = (curr) => {
-    if (deleteHeaderShow) {
-      if (deleteChatsArr.includes(curr._id)) {
-        const updatedItems = deleteChatsArr.filter((item) => item !== curr._id);
-        setDeleteChatsArr(updatedItems);
+  const showSharredMessage = () => {
+    setAttachmentShow(!AttachmentShow);
+    setstarMessagesShow(true);
+    // userAllMessage.map((obj)=>{
+    // })
+    let b = userAllMessage.filter((e) => e.starred === true);
+    console.log(b);
+    b.map((curr) => ChatSelection(curr));
+    setUserAllMessageSearch(b);
+  };
+
+  const ChatSelection = (curr) => {
+    if (deleteHeaderShow || starHeaderShow) {
+      if (tempChatsArr.includes(curr._id)) {
+        const updatedItems = tempChatsArr.filter((item) => item !== curr._id);
+        setTempChatsArr(updatedItems);
       } else {
-        setDeleteChatsArr((prev) => [...prev, curr._id]);
-        // console.log(deleteChatsArr.length, userAllMessage.length);
+        setTempChatsArr((prev) => [...prev, curr._id]);
+        // console.log(tempChatsArr.length, userAllMessage.length);
       }
     }
   };
   const cancelSelection = () => {
-    setDeleteChatsArr([]);
+    setTempChatsArr([]);
     setDeleteHeaderShow(false);
+    setstarHeaderShow(false);
   };
 
   const deleteChat = () => {
     let updatedItems;
-    for (let i = 0; i < deleteChatsArr.length; i++) {
-      // if(curr._id === deleteChatsArr[i]){
-      // console.log(deleteChatsArr[i]);
+    for (let i = 0; i < tempChatsArr.length; i++) {
+      // if(curr._id === tempChatsArr[i]){
+      // console.log(tempChatsArr[i]);
       if (i === 0) {
         updatedItems = userAllMessage.filter(
-          (item) => item._id !== deleteChatsArr[i]
+          (item) => item._id !== tempChatsArr[i]
         );
       } else {
         updatedItems = updatedItems.filter(
-          (item) => item._id !== deleteChatsArr[i]
+          (item) => item._id !== tempChatsArr[i]
         );
       }
-      const updateDeletedList = deleteChatsArr.filter(
-        (item) => item !== deleteChatsArr[i]
+      const updateDeletedList = tempChatsArr.filter(
+        (item) => item !== tempChatsArr[i]
       );
-      setDeleteChatsArr(updateDeletedList);
+      setTempChatsArr(updateDeletedList);
     }
     let lastMessage;
     if (updatedItems.length > 0) {
@@ -258,6 +273,25 @@ const UserChatingWith = ({
     });
   };
 
+  useEffect(() => {
+    console.log(userAllMessage);
+  }, [userAllMessage]);
+
+  const starChats = () => {
+    const updatedMessage = userAllMessage.map((obj) => {
+      if (tempChatsArr.includes(obj._id)) {
+        return { ...obj, starred: true };
+      } else {
+        return obj;
+      }
+    });
+
+    setUserAllMessages(updatedMessage);
+
+    update(ref(db, `${userChatWithData.ChatID}`), {
+      Messages: updatedMessage,
+    });
+  };
   const SelectAllMessages = () => {
     setdeleteAll(!deleteAll);
   };
@@ -268,16 +302,16 @@ const UserChatingWith = ({
   useEffect(() => {
     deleteAll === true
       ? userAllMessageSearch.map((curr) => {
-          deleteChatSelection(curr);
+          ChatSelection(curr);
           return null;
         })
-      : setDeleteChatsArr([]);
+      : setTempChatsArr([]);
   }, [deleteAll, userAllMessageSearch]);
 
   useEffect(() => {
-    if (deleteChatsArr.length === 0)
+    if (tempChatsArr.length === 0)
       setCheckBoxLogo(<BiCheckbox id="checkBox" onClick={SelectAllMessages} />);
-    else if (deleteChatsArr.length === userAllMessageSearch.length) {
+    else if (tempChatsArr.length === userAllMessageSearch.length) {
       setCheckBoxLogo(
         <BiCheckboxChecked id="checkBox" onClick={SelectAllMessages} />
       );
@@ -286,7 +320,7 @@ const UserChatingWith = ({
         <BiCheckboxMinus id="checkBox" onClick={SelectAllMessages} />
       );
     }
-  }, [deleteChatsArr, userAllMessageSearch]);
+  }, [tempChatsArr, userAllMessageSearch]);
 
   const searchMessage = (e) => {
     console.log(e.target.value);
@@ -323,30 +357,18 @@ const UserChatingWith = ({
             <Loading />
           ) : (
             <>
-              {!deleteHeaderShow ? (
+              {!deleteHeaderShow && !starHeaderShow && (
                 <div className="chattingUserHeader">
                   <div className="chattinguserInfo">
-                    {/* {window.innerWidth <= 685 ? (
-                      <IoMdArrowRoundBack
-                        onClick={() => {
-                          document.getElementsByClassName(
-                            "userChatting"
-                          )[0].style.display = "none";
-                          setUserChatWithData(null);
-                        }}
-                      />
-                      ) : (
-                        " "
-                        )} */}
-                        <IoMdArrowRoundBack
-                          onClick={() => {
-                            document.getElementsByClassName(
-                              "userChatting"
-                            )[0].style.display = "none";
-                            setUserChatWithData(null);
-                          }}
-                          id="backBTN"
-                        />
+                    <IoMdArrowRoundBack
+                      onClick={() => {
+                        document.getElementsByClassName(
+                          "userChatting"
+                        )[0].style.display = "none";
+                        setUserChatWithData(null);
+                      }}
+                      id="backBTN"
+                    />
                     <div>
                       <img
                         src={
@@ -375,7 +397,7 @@ const UserChatingWith = ({
                     <div
                       onClick={() => setSenderInfoShow(!senderInfoShow)}
                       id="senderName"
-                      onLoad={()=>setUserChatWithData(true)}
+                      onLoad={() => setUserChatWithData(true)}
                     >
                       <h3>
                         {userChatWithData.User1_Name === userInfo.Name
@@ -405,7 +427,7 @@ const UserChatingWith = ({
                           onChange={searchMessage}
                         />
                         <CgClose
-                        id="backBTN"
+                          id="backBTN"
                           onClick={() => setSearchActive(!searchActive)}
                         />
                       </>
@@ -413,17 +435,17 @@ const UserChatingWith = ({
                     {!searchActive && (
                       <>
                         <BiSearchAlt
-                        id="backBTN"
+                          id="backBTN"
                           onClick={() => setSearchActive(!searchActive)}
                         />
-                        <HiPhone id="backBTN"/>
-                        <HiVideoCamera id="backBTN"/>
+                        <HiPhone id="backBTN" />
+                        <HiVideoCamera id="backBTN" />
                       </>
                     )}
                     <div id="threeBotMenu">
-                      <BsThreeDotsVertical id="backBTN"/>
+                      <BsThreeDotsVertical id="backBTN" />
                       <div id="dropDownMenu">
-                        <h4>Select</h4>
+                        <h4 onClick={() => setstarHeaderShow(true)}>Select</h4>
                         <h4>Export Chat</h4>
                         <h4>Block</h4>
                         <h4 onClick={() => setDeleteHeaderShow(true)}>
@@ -433,23 +455,74 @@ const UserChatingWith = ({
                     </div>
                   </div>
                 </div>
-              ) : (
+              )}
+              {deleteHeaderShow && (
                 <div className="chattingUserHeader">
                   <div id="deleteHeaderText">
                     <IoMdArrowRoundBack
-                    id="backBTN"
+                      id="backBTN"
                       onClick={() => {
                         setDeleteHeaderShow(false);
-                        setDeleteChatsArr([]);
+                        setTempChatsArr([]);
                       }}
                     />
 
                     {CheckBoxLogo}
-                    <h3>{deleteChatsArr.length} Selected Chat</h3>
+                    <h3>{tempChatsArr.length} Selected Chat</h3>
                   </div>
                   <div id="deleteHeaderText">
                     <button onClick={deleteChat}>Delete</button>
                     <button onClick={cancelSelection}>Cancel</button>
+                  </div>
+                </div>
+              )}
+
+              {starHeaderShow && (
+                <div className="chattingUserHeader">
+                  <div id="deleteHeaderText">
+                    <IoMdArrowRoundBack
+                      id="backBTN"
+                      onClick={() => {
+                        setDeleteHeaderShow(false);
+                        setTempChatsArr([]);
+                        setstarHeaderShow(false);
+                      }}
+                    />
+
+                    {CheckBoxLogo}
+                    <h3>{tempChatsArr.length} Selected Chat</h3>
+                  </div>
+                  <div id="starHeaderText">
+                    <button onClick={starChats}>Star</button>
+                    <button onClick={cancelSelection}>Cancel</button>
+                  </div>
+                </div>
+              )}
+
+              {starMessagesShow && (
+                <div className="chattingUserHeader">
+                  <div id="deleteHeaderText">
+                    <IoMdArrowRoundBack
+                      id="backBTN"
+                      onClick={() => {
+                        setUserAllMessageSearch(userAllMessage);
+                        setstarMessagesShow(false);
+                      }}
+                    />
+
+                    {CheckBoxLogo}
+                    <h3>{tempChatsArr.length} Selected Chat</h3>
+                  </div>
+                  <div id="starHeaderText">
+                    <button onClick={starChats}>Done</button>
+                    {/* <button onClick={cancelSelection}>Cancel</button> */}
+                    <div id="threeBotMenu">
+                      <BsThreeDotsVertical id="backBTN" />
+                      <div id="dropDownMenu">
+                        <h4 onClick={() => {}}>Select and Unstar</h4>
+                        <h4 onClick={() => {}}>Cancel</h4>
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}
@@ -502,21 +575,30 @@ const UserChatingWith = ({
                         });
                       }
 
+                      let Status = "Offline";
+                      if (userChatWithData?.chatType === "Group") {
+                        if (curr.whoWrote !== user_ID) {
+                          onValue(ref(db, `${curr.whoWrote}`), (snapshot) => {
+                            Status = snapshot.val()?.status;
+                          });
+                        }
+                      }
+
                       let senders = userChatWithData?.Users?.find(
                         (e) => e.User_id === curr.whoWrote
                       );
 
+                      console.log(curr.Message);
                       return (
                         <div
                           key={ids}
                           id="temp"
                           className={
-                            deleteChatsArr.find((e) => e === curr._id)
-                              ? "selectMessage"
-                              : ""
+                            tempChatsArr.find((e) => e === curr._id) &&
+                            "selectMessage"
                           }
                           onClick={(e) => {
-                            deleteChatSelection(curr);
+                            ChatSelection(curr);
                           }}
                         >
                           {dateHeader && (
@@ -540,7 +622,12 @@ const UserChatingWith = ({
                                       <img src={MessageSeen} alt="SendStatus" />
                                       <p>{curr.Message}</p>
                                     </div>
-                                    <p id="timeStamp">{messageTiming}</p>
+                                    <div id="messageTime">
+                                      <p id="timeStamp">{messageTiming}</p>
+                                      {curr?.starred && (
+                                        <AiFillStar id="starLogo" />
+                                      )}
+                                    </div>
                                   </>
                                 )}
                                 {curr.Image && (
@@ -554,6 +641,9 @@ const UserChatingWith = ({
                                     <div>
                                       <img src={MessageSeen} alt="SendStatus" />
                                       <p id="timeStamp">{messageTiming}</p>
+                                      {curr?.starred && (
+                                        <AiFillStar id="starLogo" />
+                                      )}
                                     </div>
                                   </>
                                 )}
@@ -574,10 +664,12 @@ const UserChatingWith = ({
                                         {curr.FileName}
                                       </a>
                                     </div>
-
                                     <div>
                                       <img src={MessageSeen} alt="SendStatus" />
                                       <p id="timeStamp">{messageTiming}</p>
+                                      {curr?.starred && (
+                                        <AiFillStar id="starLogo" />
+                                      )}
                                     </div>
                                   </>
                                 )}
@@ -603,16 +695,29 @@ const UserChatingWith = ({
                                     >
                                       {senders.User_Name}
                                     </p>
-                                    <div id="Senderstatus">
-                                      <div id="circle"></div>
-                                      <div>Online</div>
-                                    </div>
+                                    {Status === "Online" && (
+                                      <div id="Senderstatus">
+                                        <div id="circle"></div>
+                                        <div>Online</div>
+                                      </div>
+                                    )}
+                                    {Status === "Offline" && (
+                                      <div id="SenderstatusRed">
+                                        <div id="circle"></div>
+                                        <div>Offline</div>
+                                      </div>
+                                    )}
                                   </div>
                                 )}
                                 {curr.Message && (
                                   <>
                                     <p>{curr.Message}</p>
-                                    <p id="timeStamp">{messageTiming}</p>
+                                    <div id="messageTime">
+                                      <p id="timeStamp">{messageTiming}</p>
+                                      {curr?.starred && (
+                                        <AiFillStar id="starLogo" />
+                                      )}
+                                    </div>
                                   </>
                                 )}
                                 {curr.Image && (
@@ -623,7 +728,12 @@ const UserChatingWith = ({
                                       id="sharedImg"
                                       onClick={(e) => setShowDP(e.target.src)}
                                     />
-                                    <p id="timeStamp">{messageTiming}</p>
+                                    <div id="messageTime">
+                                      <p id="timeStamp">{messageTiming}</p>
+                                      {curr?.starred === true && (
+                                        <AiFillStar id="starLogo" />
+                                      )}
+                                    </div>
                                   </>
                                 )}
                                 {curr.Files_Url && (
@@ -642,7 +752,12 @@ const UserChatingWith = ({
                                         {curr.FileName}
                                       </a>
                                     </div>
-                                    <p id="timeStamp">{messageTiming}</p>
+                                    <div id="messageTime">
+                                      <p id="timeStamp">{messageTiming}</p>
+                                      {curr?.starred === true && (
+                                        <AiFillStar id="starLogo" />
+                                      )}
+                                    </div>
                                   </>
                                 )}
                               </div>
@@ -669,7 +784,9 @@ const UserChatingWith = ({
                   <label htmlFor="selectImage">
                     <GrGallery id="AttachmentLogo" />
                   </label>
-                  <FaRegStar id="AttachmentLogo" />
+
+                  <FaRegStar id="AttachmentLogo" onClick={showSharredMessage} />
+
                   <input type="file" id="Documents" onChange={uploadDocument} />
                   <label htmlFor="Documents">
                     <HiOutlineDocumentDuplicate id="AttachmentLogo" />
@@ -692,7 +809,7 @@ const UserChatingWith = ({
                       onChange={(e) => setMessage(e.target.value)}
                     ></textarea>
                   </div>
-                  <div id="sendMessage"  onClick={saveMessage}>
+                  <div id="sendMessage" onClick={saveMessage}>
                     <BsFillSendFill />
                   </div>
                 </div>

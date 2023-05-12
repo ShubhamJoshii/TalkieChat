@@ -13,12 +13,16 @@ import GroupImage from "../../Assets/groupImg.png";
 import "./UserInfo.css";
 import { UserData } from "../../App";
 import UserDpShow from "../userDpShow";
+import { onValue, ref } from "firebase/database";
+import { db } from "../../firebase";
+
 const UserInfo = ({ userChatWithData, senderInfoShow, setSenderInfoShow }) => {
+  const userInfo = useContext(UserData);
   const [count, setCount] = useState({ images: 0, files: 0 });
   const [shareDoc, setShareDoc] = useState(false);
   const [showAllUsers, setshowAllUsers] = useState(false);
   const [ShowDP, setShowDP] = useState(undefined);
-  const userInfo = useContext(UserData);
+  const [status, setStatus] = useState("Online");
 
   useEffect(() => {
     // console.log(userChatWithData.Messages);
@@ -41,6 +45,26 @@ const UserInfo = ({ userChatWithData, senderInfoShow, setSenderInfoShow }) => {
         return {};
       });
     setCount({ images, files });
+
+    userChatWithData?.Users?.map((curr) => {
+      // let Status = "Online";
+      onValue(ref(db, `${curr.User_id}`), (snapshot) => {
+        if (status === "Online") {
+          setStatus(snapshot.val()?.status);
+        } else {
+          setStatus("Offline");
+        }
+      });
+      // console.log(Status)
+    });
+
+    // let a = userChatWithData?.Users?.filter(user => user.User_id === userInfo._id)
+    // let b = userChatWithData?.Users?.filter(user => user.User_id !== userInfo._id)
+
+    // console.log(a,b)
+    if (userChatWithData?.chatType == "Group") {
+      console.log(userChatWithData?.Users[0]?.User_id);
+    }
   }, [userChatWithData]);
 
   return (
@@ -77,7 +101,10 @@ const UserInfo = ({ userChatWithData, senderInfoShow, setSenderInfoShow }) => {
                     }
               }
               onClick={(e) => setShowDP(e.target.src)}
+              id={status === "Online" ? "AllActive" : "NoActive"}
             />
+            {/* {status === "Online" && <div></div>}
+            {status === "Offline" && <div></div>} */}
           </div>
           <h3>
             {userChatWithData.User1_Name === userInfo.Name
@@ -108,6 +135,13 @@ const UserInfo = ({ userChatWithData, senderInfoShow, setSenderInfoShow }) => {
               </div>
               {showAllUsers &&
                 userChatWithData?.Users?.map((curr) => {
+                  let Status = "Offline";
+                  console.log(curr.User_id);
+                  onValue(ref(db, `${curr.User_id}`), (snapshot) => {
+                    Status = snapshot.val()?.status;
+                    // console.log(Status);
+                  });
+
                   return (
                     <div id="groupUser">
                       <div id="groupUsersDPHead">
@@ -116,9 +150,20 @@ const UserInfo = ({ userChatWithData, senderInfoShow, setSenderInfoShow }) => {
                           alt="usersImage"
                           onClick={(e) => setShowDP(e.target.src)}
                         />
-                        <div></div>
+                        {Status === "Online" && <div></div>}
+                        {Status === "Offline" && (
+                          <div style={{ backgroundColor: "#E00000" }}></div>
+                        )}
                       </div>
-                      <p>{curr.User_Name}</p>
+                      <p>
+                        {curr.User_Name}{" "}
+                        {curr.User_id === userInfo._id && (
+                          <span>(You)</span>
+                        )}
+                        {userChatWithData.Users[0].User_id === curr.User_id &&
+                          <span>(Created by)</span>
+                            }
+                      </p>
                     </div>
                   );
                 })}

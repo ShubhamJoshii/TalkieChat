@@ -20,7 +20,7 @@ const Chatting = ({ setUserChatWithData, userType, userChatWithData }) => {
   const navigate = useNavigate();
 
   //reading DB
-  const fetchUserChat = ()=>{
+  const fetchUserChat = () => {
     onValue(ref(db), (snapshot) => {
       setChattingUsers([]);
       const data = snapshot.val();
@@ -60,7 +60,7 @@ const Chatting = ({ setUserChatWithData, userType, userChatWithData }) => {
         });
       }
     });
-  }
+  };
   useEffect(() => {
     // fetchUseRecentChat();
     fetchUserChat();
@@ -68,10 +68,9 @@ const Chatting = ({ setUserChatWithData, userType, userChatWithData }) => {
 
   // console.log(userType);
 
-
-  useEffect(()=>{
+  useEffect(() => {
     fetchUserChat();
-  },[])
+  }, []);
 
   useEffect(() => {
     // console.log(chattingUsers);
@@ -132,6 +131,39 @@ const Chatting = ({ setUserChatWithData, userType, userChatWithData }) => {
           {chatsArr.length !== 0 ? (
             <div>
               {chatsArr.map((curr, id) => {
+                let SenderName;
+                let user_ID;
+                let Status = "Online";
+                // console.log(curr)
+                if (curr?.User1_Name === userInfo.Name) {
+                  SenderName = curr.User2_Name;
+                  user_ID = curr.User2_id;
+                } else if (curr?.User2_Name === userInfo.Name) {
+                  SenderName = curr.User1_Name;
+                  user_ID = curr.User1_id;
+                } else {
+                  SenderName = curr.GroupName;
+                }
+                if(curr.chatType === "Single" && user_ID) {
+                  onValue(ref(db, `${user_ID}`), (snapshot) => {
+                    // console.log(snapshot.val());
+                    Status = snapshot.val()?.status;
+                  });
+                } else if(curr.chatType === "Group"){
+                  // console.log(curr.Users)
+                  curr?.Users.map((user) => {
+                    // console.log(user.User_id)
+                    onValue(ref(db, `${user.User_id}`), (snapshot) => {
+                      // console.log(snapshot.val());
+                      if (Status === "Online") {
+                        Status = snapshot.val()?.status;
+                      } else {
+                        Status = "Offline";
+                      }
+                    });
+                    return 0;
+                  });
+                }
                 return (
                   <Dropdown
                     overlay={
@@ -171,14 +203,24 @@ const Chatting = ({ setUserChatWithData, userType, userChatWithData }) => {
                             ? { backgroundColor: curr.User2_AvatarBackground }
                             : { backgroundColor: curr.User1_AvatarBackground }
                         }
-                        onClick={(e)=>setShowDP(e.target.src)}
+                        onClick={(e) => setShowDP(e.target.src)}
                       />
-                      <div>
-                        <h4>
-                          {curr.User1_Name === userInfo.Name
-                            ? curr.User2_Name
-                            : curr.User1_Name || curr.GroupName}
-                        </h4>
+                      <div id="userInfoText">
+                        <div id="chattingStatus">
+                          <h4>{SenderName}</h4>
+                          {Status === "Online" && (
+                            <div id="Senderstatus">
+                              <div id="circle"></div>
+                              <div>Online</div>
+                            </div>
+                          )}
+                          {Status === "Offline" && (
+                            <div id="SenderstatusRed">
+                              <div id="circle"></div>
+                              <div>Offline</div>
+                            </div>
+                          )}
+                        </div>
                         <div id="lastMessage">
                           <ChattingCollection curr={curr} />
                         </div>
