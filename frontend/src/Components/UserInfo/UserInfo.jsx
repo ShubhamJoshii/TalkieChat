@@ -23,7 +23,7 @@ const UserInfo = ({ userChatWithData, senderInfoShow, setSenderInfoShow }) => {
   useEffect(() => {
     // console.log(userChatWithData.Messages);
     if (senderInfoShow) {
-      document.getElementsByClassName("SenderInfo")[0].style.display = "block";
+      // document.getElementsByClassName("SenderInfo")[0].style.display = "block";
     }
   }, [senderInfoShow]);
 
@@ -48,11 +48,12 @@ const UserInfo = ({ userChatWithData, senderInfoShow, setSenderInfoShow }) => {
       <div style={ShowDP ? { display: "block" } : { display: "none" }}>
         <UserDpShow ShowDP={ShowDP} setShowDP={setShowDP} />
       </div>
-      {userChatWithData || senderInfoShow ? (
+      {userChatWithData && senderInfoShow ? (
         <div className="SenderInfo">
           <IoMdArrowRoundBack
+            id="backBTN"
             onClick={() => {
-              document.getElementsByClassName("SenderInfo")[0].style.display = "none";
+              // document.getElementsByClassName("SenderInfo")[0].style.display = "none";
               setSenderInfoShow(false);
             }}
           />
@@ -75,7 +76,7 @@ const UserInfo = ({ userChatWithData, senderInfoShow, setSenderInfoShow }) => {
                       backgroundColor: userChatWithData.User1_AvatarBackground,
                     }
               }
-              onClick={(e)=>setShowDP(e.target.src)}
+              onClick={(e) => setShowDP(e.target.src)}
             />
           </div>
           <h3>
@@ -110,7 +111,11 @@ const UserInfo = ({ userChatWithData, senderInfoShow, setSenderInfoShow }) => {
                   return (
                     <div id="groupUser">
                       <div id="groupUsersDPHead">
-                        <img src={curr.User_Avatar} alt="usersImage" onClick={(e)=>setShowDP(e.target.src)}/>
+                        <img
+                          src={curr.User_Avatar}
+                          alt="usersImage"
+                          onClick={(e) => setShowDP(e.target.src)}
+                        />
                         <div></div>
                       </div>
                       <p>{curr.User_Name}</p>
@@ -151,7 +156,11 @@ const UserInfo = ({ userChatWithData, senderInfoShow, setSenderInfoShow }) => {
                 // setCount(10)
                 return (
                   message.format === "Image" && (
-                    <img src={message.Image} alt="chatImage" onClick={(e)=>setShowDP(e.target.src)}/>
+                    <img
+                      src={message.Image}
+                      alt="chatImage"
+                      onClick={(e) => setShowDP(e.target.src)}
+                    />
                   )
                 );
               })}

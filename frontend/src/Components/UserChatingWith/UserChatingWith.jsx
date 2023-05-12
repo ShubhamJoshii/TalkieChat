@@ -46,6 +46,7 @@ import { uid } from "uid";
 const UserChatingWith = ({
   userChatWithData,
   setSenderInfoShow,
+  senderInfoShow,
   setUserChatWithData,
 }) => {
   const userInfo = useContext(UserData);
@@ -61,7 +62,7 @@ const UserChatingWith = ({
   const [deleteAll, setdeleteAll] = useState(false);
   const [searchActive, setSearchActive] = useState(false);
 
-  const [chatDateHistory,setchatDateHistory] = useState([]);
+  const [chatDateHistory, setchatDateHistory] = useState([]);
 
   const navigate = useNavigate();
 
@@ -72,25 +73,40 @@ const UserChatingWith = ({
     fetchUserId();
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     let prev = -1;
+    let temp;
     setchatDateHistory([]);
-    userAllMessage.filter((a) => {
+    userAllMessage.filter((a, index) => {
       const currentTime = new Date();
       const messageTiming = new Date(a.time);
       let diffInMs = currentTime.getTime() - messageTiming.getTime();
       let diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
-      if(prev !== diffInDays){
-        setchatDateHistory((prev1)=>[...prev1,{time:a.time,message_id:a._id}])
+      if (prev !== diffInDays) {
+        setchatDateHistory((prev1) => [
+          ...prev1,
+          { time: a.time, message_id: a._id },
+        ]);
+
         prev = diffInDays;
-        console.log("Under")
+        if (prev === 0 && diffInDays === 0 && userChatWithData?.Users) {
+          temp = 0;
+        }
+      }
+      console.log(prev, diffInDays);
+      if (temp === 0 && diffInDays === 0 && userChatWithData?.Users) {
+        setchatDateHistory((prev1) => [
+          ...prev1,
+          { time: a.time, message_id: a._id },
+        ]);
+        temp = 10;
       }
     });
-  },[userAllMessage])
+  }, [userAllMessage]);
 
-useEffect(()=>{
-  console.log(chatDateHistory)
-},[chatDateHistory])
+  // useEffect(()=>{
+  //   console.log(chatDateHistory)
+  // },[chatDateHistory])
 
   useEffect(() => {
     setLoad(true);
@@ -294,7 +310,7 @@ useEffect(()=>{
   }, [searchActive, userAllMessage]);
 
   let history = -1;
-  let asd = true
+  let asd = true;
 
   return (
     <>
@@ -310,7 +326,7 @@ useEffect(()=>{
               {!deleteHeaderShow ? (
                 <div className="chattingUserHeader">
                   <div className="chattinguserInfo">
-                    {window.innerWidth <= 685 ? (
+                    {/* {window.innerWidth <= 685 ? (
                       <IoMdArrowRoundBack
                         onClick={() => {
                           document.getElementsByClassName(
@@ -319,9 +335,18 @@ useEffect(()=>{
                           setUserChatWithData(null);
                         }}
                       />
-                    ) : (
-                      " "
-                    )}
+                      ) : (
+                        " "
+                        )} */}
+                        <IoMdArrowRoundBack
+                          onClick={() => {
+                            document.getElementsByClassName(
+                              "userChatting"
+                            )[0].style.display = "none";
+                            setUserChatWithData(null);
+                          }}
+                          id="backBTN"
+                        />
                     <div>
                       <img
                         src={
@@ -348,8 +373,9 @@ useEffect(()=>{
                       />
                     </div>
                     <div
-                      onClick={() => setSenderInfoShow(true)}
+                      onClick={() => setSenderInfoShow(!senderInfoShow)}
                       id="senderName"
+                      onLoad={()=>setUserChatWithData(true)}
                     >
                       <h3>
                         {userChatWithData.User1_Name === userInfo.Name
@@ -379,6 +405,7 @@ useEffect(()=>{
                           onChange={searchMessage}
                         />
                         <CgClose
+                        id="backBTN"
                           onClick={() => setSearchActive(!searchActive)}
                         />
                       </>
@@ -386,14 +413,15 @@ useEffect(()=>{
                     {!searchActive && (
                       <>
                         <BiSearchAlt
+                        id="backBTN"
                           onClick={() => setSearchActive(!searchActive)}
                         />
-                        <HiPhone />
-                        <HiVideoCamera />
+                        <HiPhone id="backBTN"/>
+                        <HiVideoCamera id="backBTN"/>
                       </>
                     )}
                     <div id="threeBotMenu">
-                      <BsThreeDotsVertical />
+                      <BsThreeDotsVertical id="backBTN"/>
                       <div id="dropDownMenu">
                         <h4>Select</h4>
                         <h4>Export Chat</h4>
@@ -409,6 +437,7 @@ useEffect(()=>{
                 <div className="chattingUserHeader">
                   <div id="deleteHeaderText">
                     <IoMdArrowRoundBack
+                    id="backBTN"
                       onClick={() => {
                         setDeleteHeaderShow(false);
                         setDeleteChatsArr([]);
@@ -435,11 +464,12 @@ useEffect(()=>{
                       let messageTiming = new Date(curr.time);
                       let dateHeader;
 
-                      chatDateHistory.find(e => {
-                        if(e.message_id === curr._id){
+                      chatDateHistory.find((e) => {
+                        if (e.message_id === curr._id) {
                           dateHeader = messageTiming.toDateString();
-                          console.log(curr)
-                        }})
+                          // console.log(curr)
+                        }
+                      });
 
                       if (
                         currentTime.toLocaleDateString() ===
@@ -489,7 +519,7 @@ useEffect(()=>{
                             deleteChatSelection(curr);
                           }}
                         >
-                          {dateHeader &&  (
+                          {dateHeader && (
                             <div id="dateHeaders">
                               <div></div>
                               <p>{dateHeader}</p>
@@ -498,68 +528,60 @@ useEffect(()=>{
                           )}
                           {curr.whoWrote === user_ID ? (
                             <div className="messageSendheader">
-                              {curr.Message && (
-                                <div
-                                  className="messageSend"
-                                  style={{
-                                    backgroundColor: `${userInfo.ColorSchema}`,
-                                  }}
-                                >
-                                  <div>
-                                    <img src={MessageSeen} alt="SendStatus" />
-                                    <p>{curr.Message}</p>
-                                  </div>
-                                  <p id="timeStamp">{messageTiming}</p>
-                                </div>
-                              )}
-                              {curr.Image && (
-                                <div
-                                  className="messageSend"
-                                  style={{
-                                    backgroundColor: `${userInfo.ColorSchema}`,
-                                  }}
-                                >
-                                  <img
-                                    src={curr.Image}
-                                    alt="SharedImage"
-                                    id="sharedImg"
-                                    onClick={(e) => setShowDP(e.target.src)}
-                                  />
-                                  <div>
-                                    <img src={MessageSeen} alt="SendStatus" />
+                              <div
+                                className="messageSend"
+                                style={{
+                                  backgroundColor: `${userInfo.ColorSchema}`,
+                                }}
+                              >
+                                {curr.Message && (
+                                  <>
+                                    <div>
+                                      <img src={MessageSeen} alt="SendStatus" />
+                                      <p>{curr.Message}</p>
+                                    </div>
                                     <p id="timeStamp">{messageTiming}</p>
-                                  </div>
-                                </div>
-                              )}
-                              {curr.Files_Url && (
-                                <div
-                                  className="messageSend"
-                                  style={{
-                                    backgroundColor: `${userInfo.ColorSchema}`,
-                                  }}
-                                >
-                                  <div id="pdfFiles">
+                                  </>
+                                )}
+                                {curr.Image && (
+                                  <>
                                     <img
-                                      src={PdfLogo}
-                                      id="pdfLogo"
-                                      alt="pdfLOGO"
+                                      src={curr.Image}
+                                      alt="SharedImage"
+                                      id="sharedImg"
+                                      onClick={(e) => setShowDP(e.target.src)}
                                     />
+                                    <div>
+                                      <img src={MessageSeen} alt="SendStatus" />
+                                      <p id="timeStamp">{messageTiming}</p>
+                                    </div>
+                                  </>
+                                )}
+                                {curr.Files_Url && (
+                                  <>
+                                    <div id="pdfFiles">
+                                      <img
+                                        src={PdfLogo}
+                                        id="pdfLogo"
+                                        alt="pdfLOGO"
+                                      />
 
-                                    <a
-                                      href={curr.Files_Url}
-                                      target="_blank"
-                                      rel="noopener noreferrer"
-                                    >
-                                      {curr.FileName}
-                                    </a>
-                                  </div>
+                                      <a
+                                        href={curr.Files_Url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                      >
+                                        {curr.FileName}
+                                      </a>
+                                    </div>
 
-                                  <div>
-                                    <img src={MessageSeen} alt="SendStatus" />
-                                    <p id="timeStamp">{messageTiming}</p>
-                                  </div>
-                                </div>
-                              )}
+                                    <div>
+                                      <img src={MessageSeen} alt="SendStatus" />
+                                      <p id="timeStamp">{messageTiming}</p>
+                                    </div>
+                                  </>
+                                )}
+                              </div>
                             </div>
                           ) : (
                             <>
@@ -629,6 +651,9 @@ useEffect(()=>{
                         </div>
                       );
                     })}
+                  <div id="temp">
+                    <div id="a"></div>
+                  </div>
                 </div>
               ) : (
                 <div id="userChats"></div>
@@ -657,7 +682,7 @@ useEffect(()=>{
                 <div className="writeMessage">
                   <div id="enterMessage">
                     <ImAttachment
-                      id="attachmentShowLogo"
+                      id="backBTN"
                       onClick={() => setAttachmentShow(!AttachmentShow)}
                     />
                     <textarea
@@ -667,7 +692,7 @@ useEffect(()=>{
                       onChange={(e) => setMessage(e.target.value)}
                     ></textarea>
                   </div>
-                  <div id="sendMessage" onClick={saveMessage}>
+                  <div id="sendMessage"  onClick={saveMessage}>
                     <BsFillSendFill />
                   </div>
                 </div>
@@ -689,5 +714,4 @@ useEffect(()=>{
     </>
   );
 };
-
 export default UserChatingWith;

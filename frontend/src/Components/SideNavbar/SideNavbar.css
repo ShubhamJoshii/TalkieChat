@@ -39,6 +39,11 @@
     font-size: 22px;
 }
 
+.SideNavbar .navbarIcons:hover{
+    color: #fff;
+    font-size: 30px;
+}
+
 #active {
     color: #fff;
     font-size: 32px;
@@ -52,4 +57,8 @@
     font-size: 30px;
     left: 4px;
     position: absolute;
+}
+.SideNavbar .setting:hover {
+    color: #fff;
+    font-size: 30px;
 }

@@ -2,9 +2,9 @@
   .Chatting {
     width: calc(30vw - 40px);
   }
-  .SenderInfo {
+  /* .SenderInfo {
     display: none;
-  }
+  } */
 
   .userChatting {
     width: 69.8vw;
@@ -15,21 +15,13 @@
   .Chatting {
     width: calc(35vw - 40px);
   }
-  .SenderInfo {
+  /* .SenderInfo {
     display: none;
-  }
+  } */
 
   .userChatting {
     width: 65.8vw;
   }
-
-  /* .Setting{ */
-  /* padding: 10px 10px; */
-  /* display: none; */
-  /* } */
-  /* #userSetting{
-        flex-direction: column;
-    } */
 }
 @media only screen and (max-width: 685px) {
   .Chatting {
@@ -48,9 +40,9 @@
     display: none;
   }
 
-  .SenderInfo {
+  /* .SenderInfo {
     display: none;
-  }
+  } */
   .SideNavbar #userImage {
     display: none;
   }

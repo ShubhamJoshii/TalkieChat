@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./HeaderTop.css";
-import { AiFillCopy } from "react-icons/ai";
+import { TiTick } from "react-icons/ti";
 import { BiRefresh, BiSave } from "react-icons/bi";
 
 import Logo from "../../Assets/TalkieChatLogo.png";
@@ -150,7 +150,7 @@ const HeaderTop = () => {
 
   useEffect(() => {
     setGroupName(`TalkieChat_${randomNumber}`);
-  }, []);
+  }, [randomNumber]);
 
   return (
     <header className="headerText">
@@ -171,7 +171,7 @@ const HeaderTop = () => {
                 onChange={(e) => setrandomNumber(e.target.value)}
               />
               <div>
-                <BiSave id="copyLogo" onClick={saveChatID} />
+                <TiTick id="copyLogo" onClick={saveChatID} />
               </div>
             </div>
             <div id="noOfUser">
@@ -186,7 +186,7 @@ const HeaderTop = () => {
             <div id="randomNum">
               <h3>{randomNumber}</h3>
               <div>
-                <AiFillCopy id="copyLogo" onClick={copyNumber} />
+                <TiTick id="copyLogo" onClick={copyNumber} />
                 <BiRefresh id="copyLogo" onClick={randomNumGenerate} />
               </div>
             </div>

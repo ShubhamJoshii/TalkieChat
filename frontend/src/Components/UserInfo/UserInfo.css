@@ -115,13 +115,15 @@
     color: rgba(0, 0, 0, 0.61);
     margin-bottom: 15px;
 }
-#starredMessage #logoDropRight{
+
+
+#logoDropRight{
     font-size: 30px;
     cursor: pointer;
     border-radius: 50%;
 }
 
-#starredMessage #logoDropRight:hover{
+#logoDropRight:hover{
     font-size: 30px;
     background-color: rgba(0, 0, 0, 0.07);
 }
