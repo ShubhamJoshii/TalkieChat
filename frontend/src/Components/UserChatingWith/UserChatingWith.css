@@ -96,6 +96,12 @@
     color: white;
 }
 
+button:disabled, button[disabled]{
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+}
+
 #messageTime{
     gap: 0px;
 }
@@ -107,7 +113,7 @@
 
 
 #starHeaderText button:last-child{
-    border: 2px solid black;
+    border: 2px solid #00000042;
     background-color: #EEE3E3
 }
 
@@ -121,7 +127,7 @@
 }
 
 #deleteHeaderText button:last-child{
-    border: 2px solid black;
+    border: 2px solid #00000042;
     background-color: #EEE3E3
 }
 

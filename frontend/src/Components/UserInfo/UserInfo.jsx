@@ -13,16 +13,19 @@ import GroupImage from "../../Assets/groupImg.png";
 import "./UserInfo.css";
 import { UserData } from "../../App";
 import UserDpShow from "../userDpShow";
-import { onValue, ref } from "firebase/database";
-import { db } from "../../firebase";
+// import { onValue, ref } from "firebase/database";
+// import { db } from "../../firebase";
+import { getDatabase, ref, onValue } from "firebase/database";
 
 const UserInfo = ({ userChatWithData, senderInfoShow, setSenderInfoShow }) => {
   const userInfo = useContext(UserData);
   const [count, setCount] = useState({ images: 0, files: 0 });
   const [shareDoc, setShareDoc] = useState(false);
   const [showAllUsers, setshowAllUsers] = useState(false);
+  const [showUsersStaredMess, setshowUsersStaredMess] = useState(false);
   const [ShowDP, setShowDP] = useState(undefined);
-  const [status, setStatus] = useState("Online");
+  // const [onlineUser, setOnlineUsers] = useState([]);
+  const [status, setStatus] = useState("Offline");
 
   useEffect(() => {
     // console.log(userChatWithData.Messages);
@@ -45,28 +48,51 @@ const UserInfo = ({ userChatWithData, senderInfoShow, setSenderInfoShow }) => {
         return {};
       });
     setCount({ images, files });
+  }, [userChatWithData]);
 
-    userChatWithData?.Users?.map((curr) => {
-      // let Status = "Online";
-      onValue(ref(db, `${curr.User_id}`), (snapshot) => {
-        if (status === "Online") {
-          setStatus(snapshot.val()?.status);
+  const db = getDatabase();
+  const fetchUserChat = () => {
+    const starCountRef = ref(db);
+    onValue(starCountRef, (snapshot) => {
+      const data = snapshot.val();
+      // setOnlineUsers([]);
+      let onlineUser = [];
+      Object.values(data).map((curr) => {
+        if (curr.status === "Online") {
+          // setOnlineUsers((prev) => [...prev, curr._id]);
+          onlineUser.push(curr._id);
+        }
+      });
+
+      if (userChatWithData?.chatType === "Group") {
+        const areAllIdsPresent = userChatWithData?.Users?.every((item) =>
+          onlineUser.includes(item.User_id)
+        );
+        // console.log(areAllIdsPresent)
+        if (areAllIdsPresent) {
+          setStatus("Online");
         } else {
           setStatus("Offline");
         }
-      });
-      // console.log(Status)
+      }
+      if (userChatWithData?.chatType === "Single") {
+        let user;
+        if (userChatWithData.User1_id === userInfo._id) {
+          user = userChatWithData.User2_id;
+        } else {
+          user = userChatWithData.User1_id;
+        }
+
+        let found = onlineUser.find((e) => e === user);
+        if (found) setStatus("Online");
+        else setStatus("Offline");
+      }
     });
+  };
 
-    // let a = userChatWithData?.Users?.filter(user => user.User_id === userInfo._id)
-    // let b = userChatWithData?.Users?.filter(user => user.User_id !== userInfo._id)
-
-    // console.log(a,b)
-    if (userChatWithData?.chatType == "Group") {
-      console.log(userChatWithData?.Users[0]?.User_id);
-    }
-  }, [userChatWithData]);
-
+  useEffect(() => {
+    fetchUserChat();
+  }, []);
   return (
     <>
       <div style={ShowDP ? { display: "block" } : { display: "none" }}>
@@ -157,12 +183,10 @@ const UserInfo = ({ userChatWithData, senderInfoShow, setSenderInfoShow }) => {
                       </div>
                       <p>
                         {curr.User_Name}{" "}
-                        {curr.User_id === userInfo._id && (
-                          <span>(You)</span>
-                        )}
-                        {userChatWithData.Users[0].User_id === curr.User_id &&
+                        {curr.User_id === userInfo._id && <span>(You)</span>}
+                        {userChatWithData.Users[0].User_id === curr.User_id && (
                           <span>(Created by)</span>
-                            }
+                        )}
                       </p>
                     </div>
                   );
@@ -171,8 +195,42 @@ const UserInfo = ({ userChatWithData, senderInfoShow, setSenderInfoShow }) => {
           )}
           <div id="starredMessage">
             <h4>Starred Message (10)</h4>
-            <RiArrowDropRightLine id="logoDropRight" />
+            {!showUsersStaredMess ? (
+              <RiArrowDropDownLine
+                id="logoDropRight"
+                onClick={() => setshowUsersStaredMess(!showUsersStaredMess)}
+              />
+            ) : (
+              <RiArrowDropUpLine
+                id="logoDropRight"
+                onClick={() => setshowUsersStaredMess(!showUsersStaredMess)}
+              />
+            )}
           </div>
+
+          {showUsersStaredMess && userChatWithData.Messages.map((curr) => {
+            let userName;
+            if(curr.whoWrote === userChatWithData.User1_id){
+              userName = userChatWithData.User1_Name;
+            }else{
+              userName = userChatWithData.User2_Name;
+            }
+            let messTime;
+            messTime =  new Date(curr.time).toDateString()
+            return (
+              <>
+                {curr.starred &&
+                <div id="sharedMsg">
+                  <span id="msg">{curr.Message}</span>
+                  <p id="sharedMsgTime">
+                    <span>{userName}</span>
+                    <span>{messTime}</span>
+                  </p>
+                </div>
+                }
+              </>
+            );
+          })}
           <div id="shareDocuments">
             <h4
               onClick={() => setShareDoc(false)}

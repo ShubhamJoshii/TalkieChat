@@ -62,6 +62,7 @@ const UserChatingWith = ({
   const [deleteHeaderShow, setDeleteHeaderShow] = useState(false);
   const [starHeaderShow, setstarHeaderShow] = useState(false);
   const [starMessagesShow, setstarMessagesShow] = useState(false);
+  const [selectStarMessages, setselectStarMessages] = useState(false);
   const [tempChatsArr, setTempChatsArr] = useState([]);
   const [deleteAll, setdeleteAll] = useState(false);
   const [searchActive, setSearchActive] = useState(false);
@@ -97,7 +98,7 @@ const UserChatingWith = ({
           temp = 0;
         }
       }
-      console.log(prev, diffInDays);
+      // console.log(prev, diffInDays);
       if (temp === 0 && diffInDays === 0 && userChatWithData?.Users) {
         setchatDateHistory((prev1) => [
           ...prev1,
@@ -126,6 +127,7 @@ const UserChatingWith = ({
     setDeleteHeaderShow(false);
     setstarHeaderShow(false);
     setAttachmentShow(false);
+    setstarMessagesShow(false);
   }, [userChatWithData]);
 
   const saveMessage = async () => {
@@ -220,13 +222,14 @@ const UserChatingWith = ({
     // userAllMessage.map((obj)=>{
     // })
     let b = userAllMessage.filter((e) => e.starred === true);
-    console.log(b);
-    b.map((curr) => ChatSelection(curr));
+    // console.log(b);
+    // b.map((curr) => ChatSelection(curr));
     setUserAllMessageSearch(b);
   };
 
   const ChatSelection = (curr) => {
-    if (deleteHeaderShow || starHeaderShow) {
+    if (deleteHeaderShow || starHeaderShow || selectStarMessages) {
+      // console.log(curr)
       if (tempChatsArr.includes(curr._id)) {
         const updatedItems = tempChatsArr.filter((item) => item !== curr._id);
         setTempChatsArr(updatedItems);
@@ -262,35 +265,52 @@ const UserChatingWith = ({
       setTempChatsArr(updateDeletedList);
     }
     let lastMessage;
-    if (updatedItems.length > 0) {
+
+    if (updatedItems?.length > 0) {
       lastMessage = updatedItems.slice(-1)[0].time;
+      update(ref(db, `${userChatWithData.ChatID}`), {
+        Messages: updatedItems,
+        lastMessage: lastMessage,
+      });
     } else {
       lastMessage = "";
     }
-    update(ref(db, `${userChatWithData.ChatID}`), {
-      Messages: updatedItems,
-      lastMessage: lastMessage,
-    });
   };
 
-  useEffect(() => {
-    console.log(userAllMessage);
-  }, [userAllMessage]);
+  // useEffect(() => {
+  //   console.log(userAllMessage);
+  // }, [userAllMessage]);
 
-  const starChats = () => {
-    const updatedMessage = userAllMessage.map((obj) => {
-      if (tempChatsArr.includes(obj._id)) {
-        return { ...obj, starred: true };
-      } else {
-        return obj;
-      }
-    });
-
+  const starChats = (a) => {
+    let updatedMessage;
+    // if (a) {
+      updatedMessage = userAllMessage.map((obj) => {
+        if (tempChatsArr.includes(obj._id)) {
+          return { ...obj, starred: a };
+        } else {
+          return obj;
+        }
+      });
+    // } else {
+      // console.log("Removed Star");
+      // updatedMessage = userAllMessage.map((obj) => {
+      //   if (tempChatsArr.includes(obj._id)) {
+      //     return { ...obj, starred: false };
+      //   } else {
+      //     return obj;
+      //   }
+      // });
+    // }
     setUserAllMessages(updatedMessage);
 
     update(ref(db, `${userChatWithData.ChatID}`), {
       Messages: updatedMessage,
     });
+    // setDeleteHeaderShow()
+  };
+
+  const SelectstarMess = () => {
+    // setUserAllMessageSearch();
   };
   const SelectAllMessages = () => {
     setdeleteAll(!deleteAll);
@@ -445,7 +465,7 @@ const UserChatingWith = ({
                     <div id="threeBotMenu">
                       <BsThreeDotsVertical id="backBTN" />
                       <div id="dropDownMenu">
-                        <h4 onClick={() => setstarHeaderShow(true)}>Select</h4>
+                        <h4 onClick={() => setstarHeaderShow(true)}>Select & Star</h4>
                         <h4>Export Chat</h4>
                         <h4>Block</h4>
                         <h4 onClick={() => setDeleteHeaderShow(true)}>
@@ -471,7 +491,7 @@ const UserChatingWith = ({
                     <h3>{tempChatsArr.length} Selected Chat</h3>
                   </div>
                   <div id="deleteHeaderText">
-                    <button onClick={deleteChat}>Delete</button>
+                    <button onClick={deleteChat} style={tempChatsArr?.length ===  0  ? {backgroundColor:"grey"}:{backgroundColor:""}}>Delete</button>
                     <button onClick={cancelSelection}>Cancel</button>
                   </div>
                 </div>
@@ -488,12 +508,11 @@ const UserChatingWith = ({
                         setstarHeaderShow(false);
                       }}
                     />
-
                     {CheckBoxLogo}
                     <h3>{tempChatsArr.length} Selected Chat</h3>
                   </div>
                   <div id="starHeaderText">
-                    <button onClick={starChats}>Star</button>
+                    <button onClick={() => starChats(true)} style={tempChatsArr?.length ===  0  ? {backgroundColor:"grey"}:{backgroundColor:""}}>Star</button>
                     <button onClick={cancelSelection}>Cancel</button>
                   </div>
                 </div>
@@ -506,7 +525,9 @@ const UserChatingWith = ({
                       id="backBTN"
                       onClick={() => {
                         setUserAllMessageSearch(userAllMessage);
+                        setselectStarMessages(false);
                         setstarMessagesShow(false);
+                        setAttachmentShow(false)
                       }}
                     />
 
@@ -514,13 +535,24 @@ const UserChatingWith = ({
                     <h3>{tempChatsArr.length} Selected Chat</h3>
                   </div>
                   <div id="starHeaderText">
-                    <button onClick={starChats}>Done</button>
+                    {selectStarMessages && (
+                      <button onClick={() => starChats(false)} style={tempChatsArr?.length ===  0  ? {backgroundColor:"grey"}:{backgroundColor:""}}>Done</button>
+                    )}
                     {/* <button onClick={cancelSelection}>Cancel</button> */}
                     <div id="threeBotMenu">
                       <BsThreeDotsVertical id="backBTN" />
                       <div id="dropDownMenu">
-                        <h4 onClick={() => {}}>Select and Unstar</h4>
-                        <h4 onClick={() => {}}>Cancel</h4>
+                        <h4 onClick={() => setselectStarMessages(true)}>
+                          Select and Unstar
+                        </h4>
+                        <h4
+                          onClick={() => {
+                            setselectStarMessages(false);
+                            setTempChatsArr([]);
+                          }}
+                        >
+                          Cancel
+                        </h4>
                       </div>
                     </div>
                   </div>
@@ -583,12 +615,9 @@ const UserChatingWith = ({
                           });
                         }
                       }
-
                       let senders = userChatWithData?.Users?.find(
                         (e) => e.User_id === curr.whoWrote
                       );
-
-                      console.log(curr.Message);
                       return (
                         <div
                           key={ids}
@@ -773,7 +802,8 @@ const UserChatingWith = ({
               ) : (
                 <div id="userChats"></div>
               )}
-              {AttachmentShow ? (
+
+              {AttachmentShow && (
                 <div className="Attachments">
                   <input
                     type="file"
@@ -792,9 +822,8 @@ const UserChatingWith = ({
                     <HiOutlineDocumentDuplicate id="AttachmentLogo" />
                   </label>
                 </div>
-              ) : (
-                <div></div>
               )}
+
               <div id="writeMessage">
                 <div className="writeMessage">
                   <div id="enterMessage">

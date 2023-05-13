@@ -114,9 +114,25 @@
     justify-content: space-between;
     align-items: center;
     color: rgba(0, 0, 0, 0.61);
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
+#sharedMsgTime{
+    display: flex;
+    justify-content: space-between;
+}
+
+#sharedMsg{
+    padding: 5px;
+    border: 1px solid grey;
+    margin-bottom: 6px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px grey;
+}
+
+#sharedMsg #msg{
+    font-weight: 700;
+}
 
 #logoDropRight{
     font-size: 30px;

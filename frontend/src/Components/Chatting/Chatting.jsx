@@ -51,7 +51,7 @@ const Chatting = ({ setUserChatWithData, userType, userChatWithData }) => {
             curr.Users?.find((user) => {
               if (user.User_id === userInfo._id) {
                 setChattingUsers((oldArray) => [...oldArray, curr]);
-                console.log(curr);
+                // console.log(curr);
               }
               return user.User_id === userInfo._id;
             });
