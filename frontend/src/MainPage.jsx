@@ -8,7 +8,7 @@ import { useLocation } from "react-router-dom";
 const MainPage = () => {
   const [userChatWithData, setUserChatWithData] = useState("");
   const [senderInfoShow, setSenderInfoShow] = useState(true);
-  
+  const [updateCurr,setUpdate] = useState(null)
   // useEffect(()=>{
   //   console.log(userChatWithData)
   // },[userChatWithData])
@@ -22,13 +22,14 @@ const MainPage = () => {
     <div id="MainPage">
       <Chatting
         setUserChatWithData={setUserChatWithData}
-        
+        setUpdate={setUpdate}
         userType={location.pathname}
         userChatWithData={userChatWithData}
       />
       <UserChatingWith
         userChatWithData={userChatWithData}
         setUserChatWithData={setUserChatWithData}
+        updateCurr={updateCurr}
         senderInfoShow={senderInfoShow}
         setSenderInfoShow={setSenderInfoShow}
       />

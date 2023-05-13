@@ -16,6 +16,7 @@ import UserDpShow from "../userDpShow";
 // import { onValue, ref } from "firebase/database";
 // import { db } from "../../firebase";
 import { getDatabase, ref, onValue } from "firebase/database";
+import { message } from "antd";
 
 const UserInfo = ({ userChatWithData, senderInfoShow, setSenderInfoShow }) => {
   const userInfo = useContext(UserData);
@@ -24,6 +25,12 @@ const UserInfo = ({ userChatWithData, senderInfoShow, setSenderInfoShow }) => {
   const [showAllUsers, setshowAllUsers] = useState(false);
   const [showUsersStaredMess, setshowUsersStaredMess] = useState(false);
   const [ShowDP, setShowDP] = useState(undefined);
+  const [StarredMsg, setStarredMsg] = useState([]);
+  const [senderDPData, setSenderDPData] = useState({
+    Image: GroupImage,
+    Background: "white",
+    Name: "Unknown",
+  });
   // const [onlineUser, setOnlineUsers] = useState([]);
   const [status, setStatus] = useState("Offline");
 
@@ -48,6 +55,36 @@ const UserInfo = ({ userChatWithData, senderInfoShow, setSenderInfoShow }) => {
         return {};
       });
     setCount({ images, files });
+
+    if (userChatWithData) {
+      if (userChatWithData?.chatType === "Single") {
+        if (
+          userChatWithData.Users[0].User_id === userInfo._id &&
+          userChatWithData.Users.length > 1
+        ) {
+          setSenderDPData({
+            Image: userChatWithData.Users[1].User_Avatar,
+            Background: userChatWithData.Users[1].User_AvatarBackground,
+            Name: userChatWithData.Users[1].User_Name,
+          });
+        }
+        if (
+          userChatWithData.Users[1].User_id === userInfo._id &&
+          userChatWithData.Users.length > 1
+        ) {
+          setSenderDPData({
+            Image: userChatWithData.Users[0].User_Avatar,
+            Background: userChatWithData.Users[0].User_AvatarBackground,
+            Name: userChatWithData.Users[0].User_Name,
+          });
+        }
+      } else if (userChatWithData?.chatType === "Group") {
+        setSenderDPData({
+          Name: userChatWithData.GroupName,
+          Image: userChatWithData.GroupImage,
+        });
+      }
+    }
   }, [userChatWithData]);
 
   const db = getDatabase();
@@ -57,42 +94,69 @@ const UserInfo = ({ userChatWithData, senderInfoShow, setSenderInfoShow }) => {
       const data = snapshot.val();
       // setOnlineUsers([]);
       let onlineUser = [];
-      Object.values(data).map((curr) => {
+      Object.values(data)?.map((curr) => {
         if (curr.status === "Online") {
-          // setOnlineUsers((prev) => [...prev, curr._id]);
           onlineUser.push(curr._id);
         }
       });
+      if (onlineUser) {
+          const areAllIdsPresent = userChatWithData?.Users?.every((item) =>
+            onlineUser.includes(item.User_id)
+          );
+          if (areAllIdsPresent) {
+            setStatus("Online");
+          } else {
+            setStatus("Offline");
+          }
+        // }
 
-      if (userChatWithData?.chatType === "Group") {
-        const areAllIdsPresent = userChatWithData?.Users?.every((item) =>
-          onlineUser.includes(item.User_id)
-        );
-        // console.log(areAllIdsPresent)
-        if (areAllIdsPresent) {
-          setStatus("Online");
-        } else {
-          setStatus("Offline");
-        }
-      }
-      if (userChatWithData?.chatType === "Single") {
-        let user;
-        if (userChatWithData.User1_id === userInfo._id) {
-          user = userChatWithData.User2_id;
-        } else {
-          user = userChatWithData.User1_id;
-        }
-
-        let found = onlineUser.find((e) => e === user);
-        if (found) setStatus("Online");
-        else setStatus("Offline");
+        // if (userChatWithData?.chatType === "Single") {
+          // let user;
+        //   if (userChatWithData.Users[0].User_id === userInfo._id) {
+        //     console.log("Hello");
+        //     user = userChatWithData.User2_id;
+        //   } else {
+        //     user = userChatWithData.User1_id;
+        //   }
+          // let found = onlineUser.find((e) => e === user);
+          // if (found) setStatus("Online");
+          // else setStatus("Offline");
+        // }
       }
     });
   };
 
   useEffect(() => {
+    // if(user)
+    setStarredMsg([]);
+    userChatWithData?.Messages?.map((curr) => {
+      let userName;
+      userName = userChatWithData.Users.find(
+        (e) => e.User_id === curr.whoWrote
+      ).User_Name;
+      let messTime = new Date(curr.time).toDateString();
+      if (curr.starred) {
+        setStarredMsg((prev) => [
+          ...prev,
+          {
+            userName,
+            messTime,
+            Message: curr.Message,
+          },
+        ]);
+      }
+    });
+    setshowUsersStaredMess(false);
+    setshowAllUsers(false);
+  }, [userChatWithData]);
+
+  // useEffect(()=>{
+  //   console.log(StarredMsg)
+  // },[StarredMsg])
+
+  useEffect(() => {
     fetchUserChat();
-  }, []);
+  }, [userChatWithData]);
   return (
     <>
       <div style={ShowDP ? { display: "block" } : { display: "none" }}>
@@ -109,41 +173,21 @@ const UserInfo = ({ userChatWithData, senderInfoShow, setSenderInfoShow }) => {
           />
           <div id="UserImg">
             <img
-              src={
-                userChatWithData.User1_Name === userInfo.Name
-                  ? userChatWithData.User2_Avatar
-                  : userChatWithData.User1_Avatar ||
-                    userChatWithData.GroupImage ||
-                    GroupImage
-              }
+              src={senderDPData.Image}
               alt="SenderDP"
-              style={
-                userChatWithData.User1_Name === userInfo.Name
-                  ? {
-                      backgroundColor: userChatWithData.User2_AvatarBackground,
-                    }
-                  : {
-                      backgroundColor: userChatWithData.User1_AvatarBackground,
-                    }
-              }
+              style={{ backgroundColor: senderDPData.Background }}
               onClick={(e) => setShowDP(e.target.src)}
               id={status === "Online" ? "AllActive" : "NoActive"}
             />
-            {/* {status === "Online" && <div></div>}
-            {status === "Offline" && <div></div>} */}
           </div>
-          <h3>
-            {userChatWithData.User1_Name === userInfo.Name
-              ? userChatWithData.User2_Name
-              : userChatWithData.User1_Name || userChatWithData.GroupName}
-          </h3>
+          <h3>{senderDPData.Name}</h3>
           <p>~talkieChatFounder</p>
           <div id="senderContactInfo">
             <img src={InstaLogo} alt="SocailLogo" />
             <img src={LinkedinLogo} alt="SocailLogo" />
             <img src={PhoneLogo} alt="SocailLogo" />
           </div>
-          {userChatWithData?.Users && (
+          {userChatWithData?.Users && userChatWithData.chatType === "Group" && (
             <div id="allGroupUsers">
               <div id="starredMessage">
                 <h4>Group Users ({userChatWithData.Users.length})</h4>
@@ -162,7 +206,7 @@ const UserInfo = ({ userChatWithData, senderInfoShow, setSenderInfoShow }) => {
               {showAllUsers &&
                 userChatWithData?.Users?.map((curr) => {
                   let Status = "Offline";
-                  console.log(curr.User_id);
+                  // console.log(curr.User_id);
                   onValue(ref(db, `${curr.User_id}`), (snapshot) => {
                     Status = snapshot.val()?.status;
                     // console.log(Status);
@@ -194,7 +238,7 @@ const UserInfo = ({ userChatWithData, senderInfoShow, setSenderInfoShow }) => {
             </div>
           )}
           <div id="starredMessage">
-            <h4>Starred Message (10)</h4>
+            <h4>Starred Message ({StarredMsg.length})</h4>
             {!showUsersStaredMess ? (
               <RiArrowDropDownLine
                 id="logoDropRight"
@@ -208,29 +252,28 @@ const UserInfo = ({ userChatWithData, senderInfoShow, setSenderInfoShow }) => {
             )}
           </div>
 
-          {showUsersStaredMess && userChatWithData.Messages.map((curr) => {
-            let userName;
-            if(curr.whoWrote === userChatWithData.User1_id){
-              userName = userChatWithData.User1_Name;
-            }else{
-              userName = userChatWithData.User2_Name;
-            }
-            let messTime;
-            messTime =  new Date(curr.time).toDateString()
-            return (
-              <>
-                {curr.starred &&
-                <div id="sharedMsg">
-                  <span id="msg">{curr.Message}</span>
-                  <p id="sharedMsgTime">
-                    <span>{userName}</span>
-                    <span>{messTime}</span>
-                  </p>
-                </div>
-                }
-              </>
-            );
-          })}
+          {showUsersStaredMess &&
+            StarredMsg.map((curr) => {
+              // console.log(curr);
+              // let userName;
+              // userName = userChatWithData.Users.find(
+              //   (e) => e.User_id === curr.whoWrote
+              // ).User_Name;
+              // let messTime = new Date(curr.time).toDateString();
+              return (
+                <>
+                  {
+                    <div id="sharedMsg">
+                      <span id="msg">{curr.Message}</span>
+                      <p id="sharedMsgTime">
+                        <span>{curr.userName}</span>
+                        <span>{curr.messTime}</span>
+                      </p>
+                    </div>
+                  }
+                </>
+              );
+            })}
           <div id="shareDocuments">
             <h4
               onClick={() => setShareDoc(false)}

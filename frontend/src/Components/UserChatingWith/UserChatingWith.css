@@ -229,8 +229,6 @@ button:disabled, button[disabled]{
     font-size: 18px;      
 }
 
-
-
 #backgroundImg{
     width: 100%;
 }
@@ -241,6 +239,7 @@ button:disabled, button[disabled]{
 
 #userChats{
     background-image: url("../../Assets/chatAppBackground.png");
+    background-size: contain;
     overflow: hidden;
     overflow-y: scroll;
     width: 100%;

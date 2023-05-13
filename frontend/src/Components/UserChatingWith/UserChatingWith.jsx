@@ -21,7 +21,7 @@ import { CgClose } from "react-icons/cg";
 // import {} from "react-icons/io"
 import { GrGallery } from "react-icons/gr";
 import { FaRegStar } from "react-icons/fa";
-// import MessageDelever from "../../Assets/MessageDelivered.png";
+import MessageDelever from "../../Assets/MessageDelivered.png";
 // import MessageNotSend from "../../Assets/MessageNotSend.png";
 import MessageSeen from "../../Assets/MessageSeen.png";
 import PdfLogo from "../../Assets/pdfLogo.png";
@@ -49,6 +49,7 @@ const UserChatingWith = ({
   userChatWithData,
   setSenderInfoShow,
   senderInfoShow,
+  updateCurr,
   setUserChatWithData,
 }) => {
   const userInfo = useContext(UserData);
@@ -68,7 +69,11 @@ const UserChatingWith = ({
   const [searchActive, setSearchActive] = useState(false);
 
   const [chatDateHistory, setchatDateHistory] = useState([]);
-
+  const [senderDPData, setSenderDPData] = useState({
+    Image: GroupImage,
+    Background: "white",
+    Name: "Unknown",
+  });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -122,6 +127,35 @@ const UserChatingWith = ({
     } else
       document.getElementsByClassName("userChatting2")[0].style.display =
         "none";
+    if (userChatWithData) {
+      if (userChatWithData?.chatType === "Single") {
+        if (
+          userChatWithData.Users[0].User_id === userInfo._id &&
+          userChatWithData.Users.length > 1
+        ) {
+          setSenderDPData({
+            Image: userChatWithData.Users[1].User_Avatar,
+            Background: userChatWithData.Users[1].User_AvatarBackground,
+            Name: userChatWithData.Users[1].User_Name,
+          });
+        }
+        if (
+          userChatWithData.Users[1].User_id === userInfo._id &&
+          userChatWithData.Users.length > 1
+        ) {
+          setSenderDPData({
+            Image: userChatWithData.Users[0].User_Avatar,
+            Background: userChatWithData.Users[0].User_AvatarBackground,
+            Name: userChatWithData.Users[0].User_Name,
+          });
+        }
+      } else if (userChatWithData?.chatType === "Group") {
+        setSenderDPData({
+          Image: userChatWithData.GroupImage,
+          Name: userChatWithData.GroupName,
+        });
+      }
+    }
     setLoad(false);
     setSearchActive(false);
     setDeleteHeaderShow(false);
@@ -142,6 +176,7 @@ const UserChatingWith = ({
         time,
         whoWrote: chat_id,
         format: "textMessage",
+        SeenBy: [userInfo._id],
       }),
       lastMessage: time,
     });
@@ -182,6 +217,7 @@ const UserChatingWith = ({
             time,
             whoWrote: chat_id,
             format: "Image",
+            SeenBy: [userInfo._id],
           }),
           lastMessage: time,
         });
@@ -210,6 +246,7 @@ const UserChatingWith = ({
             time,
             whoWrote: chat_id,
             format: "Document",
+            SeenBy: [userInfo._id],
           }),
           lastMessage: time,
         });
@@ -227,15 +264,30 @@ const UserChatingWith = ({
     setUserAllMessageSearch(b);
   };
 
+  useEffect(() => {
+    if (updateCurr >= 0 && userInfo && userChatWithData) {
+      let PrevMessage = userChatWithData?.Messages;
+      PrevMessage = PrevMessage?.map((obj) => {
+        let SeenBy = [...obj.SeenBy, userInfo._id];
+        SeenBy = [...new Set(SeenBy)];
+        return { ...obj, SeenBy };
+      });
+      // console.log(PrevMessage)
+      if (PrevMessage) {
+        update(ref(db, `${userChatWithData.ChatID}`), {
+          Messages: PrevMessage,
+        });
+      }
+    }
+  }, [updateCurr]);
+
   const ChatSelection = (curr) => {
     if (deleteHeaderShow || starHeaderShow || selectStarMessages) {
-      // console.log(curr)
       if (tempChatsArr.includes(curr._id)) {
         const updatedItems = tempChatsArr.filter((item) => item !== curr._id);
         setTempChatsArr(updatedItems);
       } else {
         setTempChatsArr((prev) => [...prev, curr._id]);
-        // console.log(tempChatsArr.length, userAllMessage.length);
       }
     }
   };
@@ -277,29 +329,25 @@ const UserChatingWith = ({
     }
   };
 
-  // useEffect(() => {
-  //   console.log(userAllMessage);
-  // }, [userAllMessage]);
-
   const starChats = (a) => {
     let updatedMessage;
     // if (a) {
-      updatedMessage = userAllMessage.map((obj) => {
-        if (tempChatsArr.includes(obj._id)) {
-          return { ...obj, starred: a };
-        } else {
-          return obj;
-        }
-      });
+    updatedMessage = userAllMessage.map((obj) => {
+      if (tempChatsArr.includes(obj._id)) {
+        return { ...obj, starred: a };
+      } else {
+        return obj;
+      }
+    });
     // } else {
-      // console.log("Removed Star");
-      // updatedMessage = userAllMessage.map((obj) => {
-      //   if (tempChatsArr.includes(obj._id)) {
-      //     return { ...obj, starred: false };
-      //   } else {
-      //     return obj;
-      //   }
-      // });
+    // console.log("Removed Star");
+    // updatedMessage = userAllMessage.map((obj) => {
+    //   if (tempChatsArr.includes(obj._id)) {
+    //     return { ...obj, starred: false };
+    //   } else {
+    //     return obj;
+    //   }
+    // });
     // }
     setUserAllMessages(updatedMessage);
 
@@ -309,9 +357,10 @@ const UserChatingWith = ({
     // setDeleteHeaderShow()
   };
 
-  const SelectstarMess = () => {
-    // setUserAllMessageSearch();
-  };
+  // const SelectstarMess = () => {
+  //   // setUserAllMessageSearch();
+  // };
+
   const SelectAllMessages = () => {
     setdeleteAll(!deleteAll);
   };
@@ -391,26 +440,10 @@ const UserChatingWith = ({
                     />
                     <div>
                       <img
-                        src={
-                          (userChatWithData.User1_Name === userInfo.Name
-                            ? userChatWithData.User2_Avatar
-                            : userChatWithData.User1_Avatar) ||
-                          userChatWithData.GroupImage ||
-                          GroupImage
-                        }
+                        src={senderDPData.Image}
                         alt="SenderIMG"
                         id="userImg"
-                        style={
-                          userChatWithData.User1_Name === userInfo.Name
-                            ? {
-                                backgroundColor:
-                                  userChatWithData.User2_AvatarBackground,
-                              }
-                            : {
-                                backgroundColor:
-                                  userChatWithData.User1_AvatarBackground,
-                              }
-                        }
+                        style={{ backgroundColor: senderDPData.Background }}
                         onClick={(e) => setShowDP(e.target.src)}
                       />
                     </div>
@@ -419,12 +452,7 @@ const UserChatingWith = ({
                       id="senderName"
                       onLoad={() => setUserChatWithData(true)}
                     >
-                      <h3>
-                        {userChatWithData.User1_Name === userInfo.Name
-                          ? userChatWithData.User2_Name
-                          : userChatWithData.User1_Name ||
-                            userChatWithData.GroupName}
-                      </h3>
+                      <h3>{senderDPData.Name}</h3>
                       <p>
                         {new Date(userChatWithData?.lastMessage).toLocaleString(
                           "en-US",
@@ -465,7 +493,9 @@ const UserChatingWith = ({
                     <div id="threeBotMenu">
                       <BsThreeDotsVertical id="backBTN" />
                       <div id="dropDownMenu">
-                        <h4 onClick={() => setstarHeaderShow(true)}>Select & Star</h4>
+                        <h4 onClick={() => setstarHeaderShow(true)}>
+                          Select & Star
+                        </h4>
                         <h4>Export Chat</h4>
                         <h4>Block</h4>
                         <h4 onClick={() => setDeleteHeaderShow(true)}>
@@ -491,7 +521,16 @@ const UserChatingWith = ({
                     <h3>{tempChatsArr.length} Selected Chat</h3>
                   </div>
                   <div id="deleteHeaderText">
-                    <button onClick={deleteChat} style={tempChatsArr?.length ===  0  ? {backgroundColor:"grey"}:{backgroundColor:""}}>Delete</button>
+                    <button
+                      onClick={deleteChat}
+                      style={
+                        tempChatsArr?.length === 0
+                          ? { backgroundColor: "grey" }
+                          : { backgroundColor: "" }
+                      }
+                    >
+                      Delete
+                    </button>
                     <button onClick={cancelSelection}>Cancel</button>
                   </div>
                 </div>
@@ -512,7 +551,16 @@ const UserChatingWith = ({
                     <h3>{tempChatsArr.length} Selected Chat</h3>
                   </div>
                   <div id="starHeaderText">
-                    <button onClick={() => starChats(true)} style={tempChatsArr?.length ===  0  ? {backgroundColor:"grey"}:{backgroundColor:""}}>Star</button>
+                    <button
+                      onClick={() => starChats(true)}
+                      style={
+                        tempChatsArr?.length === 0
+                          ? { backgroundColor: "grey" }
+                          : { backgroundColor: "" }
+                      }
+                    >
+                      Star
+                    </button>
                     <button onClick={cancelSelection}>Cancel</button>
                   </div>
                 </div>
@@ -527,7 +575,7 @@ const UserChatingWith = ({
                         setUserAllMessageSearch(userAllMessage);
                         setselectStarMessages(false);
                         setstarMessagesShow(false);
-                        setAttachmentShow(false)
+                        setAttachmentShow(false);
                       }}
                     />
 
@@ -536,7 +584,16 @@ const UserChatingWith = ({
                   </div>
                   <div id="starHeaderText">
                     {selectStarMessages && (
-                      <button onClick={() => starChats(false)} style={tempChatsArr?.length ===  0  ? {backgroundColor:"grey"}:{backgroundColor:""}}>Done</button>
+                      <button
+                        onClick={() => starChats(false)}
+                        style={
+                          tempChatsArr?.length === 0
+                            ? { backgroundColor: "grey" }
+                            : { backgroundColor: "" }
+                        }
+                      >
+                        Done
+                      </button>
                     )}
                     {/* <button onClick={cancelSelection}>Cancel</button> */}
                     <div id="threeBotMenu">
@@ -618,6 +675,18 @@ const UserChatingWith = ({
                       let senders = userChatWithData?.Users?.find(
                         (e) => e.User_id === curr.whoWrote
                       );
+
+                      // console.log(userChatWithData?.Users)
+                      let SeenBy = curr.SeenBy;
+                      let areAllIdsPresent;
+                      areAllIdsPresent = userChatWithData?.Users?.every(
+                        (item) => SeenBy.includes(item.User_id)
+                      );
+                      if (areAllIdsPresent) areAllIdsPresent = MessageSeen;
+                      else areAllIdsPresent = MessageDelever;
+                      // console.log(areAllIdsPresent);
+                      // areAllIdsPresent = false
+
                       return (
                         <div
                           key={ids}
@@ -648,7 +717,10 @@ const UserChatingWith = ({
                                 {curr.Message && (
                                   <>
                                     <div>
-                                      <img src={MessageSeen} alt="SendStatus" />
+                                      <img
+                                        src={areAllIdsPresent}
+                                        alt="SendStatus"
+                                      />
                                       <p>{curr.Message}</p>
                                     </div>
                                     <div id="messageTime">
@@ -668,7 +740,10 @@ const UserChatingWith = ({
                                       onClick={(e) => setShowDP(e.target.src)}
                                     />
                                     <div>
-                                      <img src={MessageSeen} alt="SendStatus" />
+                                      <img
+                                        src={areAllIdsPresent}
+                                        alt="SendStatus"
+                                      />
                                       <p id="timeStamp">{messageTiming}</p>
                                       {curr?.starred && (
                                         <AiFillStar id="starLogo" />
@@ -694,7 +769,10 @@ const UserChatingWith = ({
                                       </a>
                                     </div>
                                     <div>
-                                      <img src={MessageSeen} alt="SendStatus" />
+                                      <img
+                                        src={areAllIdsPresent}
+                                        alt="SendStatus"
+                                      />
                                       <p id="timeStamp">{messageTiming}</p>
                                       {curr?.starred && (
                                         <AiFillStar id="starLogo" />

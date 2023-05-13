@@ -10,7 +10,12 @@ import RightClickShow from "./RightClickShow";
 import GroupImage from "../../Assets/groupImg.png";
 import ChattingCollection from "./chattingCollection";
 import UserDpShow from "../userDpShow";
-const Chatting = ({ setUserChatWithData, userType, userChatWithData }) => {
+const Chatting = ({
+  setUserChatWithData,
+  setUpdate,
+  userType,
+  userChatWithData,
+}) => {
   const userInfo = useContext(UserData);
   const [Count, setCount] = useState(null);
   const [chattingUsers, setChattingUsers] = useState([]);
@@ -26,28 +31,26 @@ const Chatting = ({ setUserChatWithData, userType, userChatWithData }) => {
       const data = snapshot.val();
       if (data !== null && userInfo) {
         Object.values(data).map((curr) => {
-          if (userType == "/") {
-            if (
-              curr.User1_id === userInfo._id ||
-              curr.User2_id === userInfo._id
-            ) {
+          if (userType == "/Single") {
+            if (curr.chatType === "Single") {
               setChattingUsers((oldArray) => [...oldArray, curr]);
             }
-            curr.Users?.find((user) => {
-              if (user.User_id === userInfo._id) {
-                setChattingUsers((oldArray) => [...oldArray, curr]);
-                // console.log(curr);
-              }
-              return user.User_id === userInfo._id;
-            });
-          } else if (userType == "/Single") {
-            if (
-              curr.User1_id === userInfo._id ||
-              curr.User2_id === userInfo._id
-            ) {
-              setChattingUsers((oldArray) => [...oldArray, curr]);
+          } else if (userType == "/Groups") {
+            if (curr.chatType === "Group") {
+              curr.Users?.find((user) => {
+                if (user.User_id === userInfo._id) {
+                  setChattingUsers((oldArray) => [...oldArray, curr]);
+                }
+                return user.User_id === userInfo._id;
+              });
             }
           } else {
+            if (
+              curr.User1_id === userInfo._id ||
+              curr.User2_id === userInfo._id
+            ) {
+              setChattingUsers((oldArray) => [...oldArray, curr]);
+            }
             curr.Users?.find((user) => {
               if (user.User_id === userInfo._id) {
                 setChattingUsers((oldArray) => [...oldArray, curr]);
@@ -79,6 +82,7 @@ const Chatting = ({ setUserChatWithData, userType, userChatWithData }) => {
 
   const userChatWith = (curr, id) => {
     setCount(curr.ChatID);
+    setUpdate(id);
     setUserChatWithData(curr);
   };
 
@@ -99,14 +103,15 @@ const Chatting = ({ setUserChatWithData, userType, userChatWithData }) => {
   const searchUsers = (e) => {
     let a = e.target.value.toLowerCase();
     let b = chattingUsers.filter((users) => {
-      // let f = users.Users?.filter(u1 => u1.User_id !== userInfo._id )
-      // console.log(f)
-      if (users.User1_id === userInfo._id) {
-        return users.User2_Name?.toLowerCase().includes(a);
-      } else if (users.GroupName) {
+      if (users.chatType === "Single") {
+        if (users.Users[0].User_id === userInfo._id) {
+          return users.Users[1]?.User_Name.toLowerCase().includes(a);
+        } else {
+          return users.Users[0]?.User_Name.toLowerCase().includes(a);
+        }
+      }
+      if (users.GroupName) {
         return users.GroupName?.toLowerCase().includes(a);
-      } else {
-        return users.User1_Name?.toLowerCase().includes(a);
       }
     });
     setChatsArr(b);
@@ -134,27 +139,32 @@ const Chatting = ({ setUserChatWithData, userType, userChatWithData }) => {
                 let SenderName;
                 let user_ID;
                 let Status = "Online";
-                // console.log(curr)
-                if (curr?.User1_Name === userInfo.Name) {
-                  SenderName = curr.User2_Name;
-                  user_ID = curr.User2_id;
-                } else if (curr?.User2_Name === userInfo.Name) {
-                  SenderName = curr.User1_Name;
-                  user_ID = curr.User1_id;
+                let userDP = GroupImage;
+                let senderAvatarTheme;
+                if (curr?.chatType === "Single" && curr.Users.length === 2) {
+                  if (curr?.Users[0]?.User_id === userInfo._id) {
+                    SenderName = curr.Users[1].User_Name;
+                    user_ID = curr.Users[1].User_id;
+                    userDP = curr.Users[1].User_Avatar;
+                    senderAvatarTheme = curr.Users[1].User_AvatarBackground;
+                  } else {
+                    SenderName = curr.Users[0].User_Name;
+                    user_ID = curr.Users[0].User_id;
+                    userDP = curr.Users[0].User_Avatar;
+                    senderAvatarTheme = curr.Users[0].User_AvatarBackground;
+                  }
                 } else {
                   SenderName = curr.GroupName;
+                  userDP = curr.GroupImage;
                 }
-                if(curr.chatType === "Single" && user_ID) {
+
+                if (curr.chatType === "Single" && user_ID) {
                   onValue(ref(db, `${user_ID}`), (snapshot) => {
-                    // console.log(snapshot.val());
                     Status = snapshot.val()?.status;
                   });
-                } else if(curr.chatType === "Group"){
-                  // console.log(curr.Users)
+                } else if (curr.chatType === "Group") {
                   curr?.Users.map((user) => {
-                    // console.log(user.User_id)
                     onValue(ref(db, `${user.User_id}`), (snapshot) => {
-                      // console.log(snapshot.val());
                       if (Status === "Online") {
                         Status = snapshot.val()?.status;
                       } else {
@@ -164,6 +174,17 @@ const Chatting = ({ setUserChatWithData, userType, userChatWithData }) => {
                     return 0;
                   });
                 }
+                let notificationShow = 0;
+                onValue(ref(db, `${curr.ChatID}`), (snapshot) => {
+                  let a;
+                  snapshot?.val()?.Messages?.map((curr) => {
+                    a = curr.SeenBy.includes(userInfo._id);
+                    if (!a) {
+                      notificationShow++;
+                    }
+                  });
+                });
+
                 return (
                   <Dropdown
                     overlay={
@@ -188,23 +209,22 @@ const Chatting = ({ setUserChatWithData, userType, userChatWithData }) => {
                           : {}
                       }
                     >
-                      <img
-                        src={
-                          (curr.User1_Name === userInfo.Name
-                            ? curr.User2_Avatar
-                            : curr.User1_Avatar) ||
-                          curr.GroupImage ||
-                          GroupImage
-                        }
-                        alt="SenderIMG"
-                        id="userImages"
-                        style={
-                          curr.User1_Name === userInfo.Name
-                            ? { backgroundColor: curr.User2_AvatarBackground }
-                            : { backgroundColor: curr.User1_AvatarBackground }
-                        }
-                        onClick={(e) => setShowDP(e.target.src)}
-                      />
+                      <div id="MessageImgNotification">
+                        <img
+                          src={userDP}
+                          alt="SenderIMG"
+                          id="userImages"
+                          style={{ backgroundColor: senderAvatarTheme }}
+                          onClick={(e) => setShowDP(e.target.src)}
+                        />
+                        {notificationShow > 0 && (
+                          <span
+                            style={{ backgroundColor: userInfo.ColorSchema }}
+                          >
+                            {notificationShow}
+                          </span>
+                        )}
+                      </div>
                       <div id="userInfoText">
                         <div id="chattingStatus">
                           <h4>{SenderName}</h4>
