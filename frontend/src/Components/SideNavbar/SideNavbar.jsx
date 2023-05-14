@@ -10,8 +10,7 @@ import { AiFillSetting } from "react-icons/ai";
 
 import { useNavigate } from "react-router-dom";
 import { UserData } from "../../App";
-const SideNavbar = () => {
-  const [count, setCount] = useState(0);
+const SideNavbar = ({ currRoute, setCurrRoute }) => {
   const userInfo = useContext(UserData);
   const navigate = useNavigate();
   return (
@@ -32,42 +31,42 @@ const SideNavbar = () => {
         <TiHome
           className="navbarIcons"
           onClick={() => {
-            setCount(0);
+            setCurrRoute("Recent");
             navigate("/");
           }}
-          id={count === 0 ? "active" : ""}
+          id={currRoute === "Recent" || currRoute === "" ? "active" : ""}
         />
         <FaUserAlt
           className="navbarIcons"
           onClick={() => {
-            setCount(1);
+            setCurrRoute("Single");
             navigate("/Single");
           }}
-          id={count === 1 ? "active" : ""}
+          id={currRoute === "Single" ? "active" : ""}
         />
         <MdGroups2
           className="navbarIcons"
           onClick={() => {
-            setCount(2);
+            setCurrRoute("Groups");
             navigate("/Groups");
           }}
-          id={count === 2 ? "active" : ""}
+          id={currRoute === "Groups" ? "active" : ""}
         />
         <IoMdNotifications
           className="navbarIcons"
           onClick={() => {
-            setCount(3);
+            setCurrRoute("Notification");
             navigate("/");
           }}
-          id={count === 3 ? "active" : ""}
+          id={currRoute === "Notification" ? "active" : ""}
         />
         <AiFillSetting
           className="setting"
           onClick={() => {
-            setCount(4);
+            setCurrRoute("Setting");
             navigate("/setting");
           }}
-          id={count === 4 ? "active" : ""}
+          id={currRoute === "Setting" ? "active" : ""}
         />
       </div>
     </div>

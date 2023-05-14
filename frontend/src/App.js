@@ -26,7 +26,7 @@ const UserData = createContext();
 function App() {
   const [userInfo, setUserInfo] = useState();
   const [showLoading, setShowLoading] = useState(false);
-
+  const [currRoute, setCurrRoute] = useState("Recent");
   const db = getDatabase();
 
   const fetchUserInfo = () => {
@@ -96,14 +96,14 @@ function App() {
             <Loading />
           ) : (
             <div>
-              <SideNavbar />
+              <SideNavbar currRoute={currRoute} setCurrRoute={setCurrRoute}/>
               <div id="secondHalf">
                 <Header />
                 <div id="Routers">
                   <Routes>
-                    <Route path="/" element={<MainPage />} />
-                    <Route path="/Single" element={<MainPage />} />
-                    <Route path="/Groups" element={<MainPage />} />
+                    <Route path="/" element={<MainPage currRoute={currRoute} setCurrRoute={setCurrRoute}/>} />
+                    <Route path="/Single" element={<MainPage currRoute={currRoute} setCurrRoute={setCurrRoute}/>} />
+                    <Route path="/Groups" element={<MainPage currRoute={currRoute} setCurrRoute={setCurrRoute}/>} />
                     <Route path="/setting" element={<Setting />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />

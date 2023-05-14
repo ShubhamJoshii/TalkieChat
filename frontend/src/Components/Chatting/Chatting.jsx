@@ -65,18 +65,14 @@ const Chatting = ({
     });
   };
   useEffect(() => {
-    // fetchUseRecentChat();
     fetchUserChat();
   }, [userType]);
-
-  // console.log(userType);
 
   useEffect(() => {
     fetchUserChat();
   }, []);
 
   useEffect(() => {
-    // console.log(chattingUsers);
     setChatsArr(chattingUsers);
   }, [chattingUsers]);
 
@@ -116,10 +112,6 @@ const Chatting = ({
     });
     setChatsArr(b);
   };
-
-  // useEffect(() => {
-  //   console.log(userType);
-  // }, []);
 
   return (
     <div className="Chatting">
@@ -254,7 +246,9 @@ const Chatting = ({
             <div className="chattingNotLOgin">
               <p>Enjoy your chat and have fun communicating with others</p>
               {userInfo ? (
-                <div></div>
+                <div>
+                  <img src={ChatPNG} alt="Restricted" />
+                </div>
               ) : (
                 <div id="userChatting2">
                   <img src={ChatPNG} alt="Restricted" />

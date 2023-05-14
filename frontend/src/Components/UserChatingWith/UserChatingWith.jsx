@@ -49,6 +49,8 @@ const UserChatingWith = ({
   userChatWithData,
   setSenderInfoShow,
   senderInfoShow,
+  display,
+  setDisplay,
   updateCurr,
   setUserChatWithData,
 }) => {
@@ -360,13 +362,10 @@ const UserChatingWith = ({
     // setDeleteHeaderShow()
   };
 
-  // const SelectstarMess = () => {
-  //   // setUserAllMessageSearch();
-  // };
-
   const SelectAllMessages = () => {
     setdeleteAll(!deleteAll);
   };
+
   const [CheckBoxLogo, setCheckBoxLogo] = useState(
     <BiCheckbox id="checkBox" onClick={SelectAllMessages} />
   );
@@ -417,7 +416,7 @@ const UserChatingWith = ({
         <UserDpShow ShowDP={ShowDP} setShowDP={setShowDP} />
       </div>
       {userChatWithData ? (
-        <div className="userChatting">
+        <div className="userChatting" style={{ display: {display} }}>
           {load ? (
             <Loading />
           ) : (
@@ -427,10 +426,8 @@ const UserChatingWith = ({
                   <div className="chattinguserInfo">
                     <IoMdArrowRoundBack
                       onClick={() => {
-                        document.getElementsByClassName(
-                          "userChatting"
-                        )[0].style.display = "none";
-                        setUserChatWithData(null);
+                        setDisplay("none");
+                        // setUserChatWithData(null);
                       }}
                       id="backBTN"
                     />
@@ -672,14 +669,15 @@ const UserChatingWith = ({
                         (e) => e.User_id === curr.whoWrote
                       );
                       let seenBy = "";
-                        if(curr.SeenBy.length === userChatWithData.Users.length){
-                          seenBy = MessageSeen; 
-                          console.log(true)
-                        }else if(curr.DeliveredTo.length === 1){
-                          seenBy = MessageNotSend
-                        }else{
-                          seenBy = MessageDelever
-                        }
+                      if (
+                        curr?.SeenBy?.length === userChatWithData?.Users?.length
+                      ) {
+                        seenBy = MessageSeen;
+                      } else if (curr.DeliveredTo.length === 1) {
+                        seenBy = MessageNotSend;
+                      } else {
+                        seenBy = MessageDelever;
+                      }
                       return (
                         <div
                           key={ids}
@@ -710,10 +708,7 @@ const UserChatingWith = ({
                                 {curr.Message && (
                                   <>
                                     <div>
-                                      <img
-                                        src={seenBy}
-                                        alt="SendStatus"
-                                      />
+                                      <img src={seenBy} alt="SendStatus" />
                                       <p>{curr.Message}</p>
                                     </div>
                                     <div id="messageTime">
@@ -733,10 +728,7 @@ const UserChatingWith = ({
                                       onClick={(e) => setShowDP(e.target.src)}
                                     />
                                     <div>
-                                      <img
-                                        src={seenBy}
-                                        alt="SendStatus"
-                                      />
+                                      <img src={seenBy} alt="SendStatus" />
                                       <p id="timeStamp">{messageTiming}</p>
                                       {curr?.starred && (
                                         <AiFillStar id="starLogo" />
@@ -762,10 +754,7 @@ const UserChatingWith = ({
                                       </a>
                                     </div>
                                     <div>
-                                      <img
-                                        src={seenBy}
-                                        alt="SendStatus"
-                                      />
+                                      <img src={seenBy} alt="SendStatus" />
                                       <p id="timeStamp">{messageTiming}</p>
                                       {curr?.starred && (
                                         <AiFillStar id="starLogo" />

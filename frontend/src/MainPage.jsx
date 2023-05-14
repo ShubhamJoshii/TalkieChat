@@ -5,15 +5,21 @@ import UserInfo from "./Components/UserInfo/UserInfo";
 import Logo from "./Assets/TalkieChatLogo.png";
 import { useLocation } from "react-router-dom";
 
-const MainPage = () => {
+const MainPage = ({currRoute, setCurrRoute}) => {
   const [userChatWithData, setUserChatWithData] = useState("");
   const [senderInfoShow, setSenderInfoShow] = useState(true);
   const [updateCurr,setUpdate] = useState(null)
+  const [display, setDisplay] = useState("block");
   // useEffect(()=>{
   //   console.log(userChatWithData)
   // },[userChatWithData])
   const location = useLocation();
-
+  useEffect(()=>{
+    let a = location.pathname;
+    setUserChatWithData(null)
+    setDisplay("none")
+    setCurrRoute(a.slice(1,))
+  },[location])
   useEffect(() => {
     if (window.innerWidth <= 685) setSenderInfoShow(false);
   }, []);
@@ -25,11 +31,14 @@ const MainPage = () => {
         setUpdate={setUpdate}
         userType={location.pathname}
         userChatWithData={userChatWithData}
-      />
+        />
       <UserChatingWith
         userChatWithData={userChatWithData}
         setUserChatWithData={setUserChatWithData}
         updateCurr={updateCurr}
+        userType={location.pathname}
+        display={display}
+        setDisplay={setDisplay}
         senderInfoShow={senderInfoShow}
         setSenderInfoShow={setSenderInfoShow}
       />

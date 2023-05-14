@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.99c24a5e.css",
-    "main.js": "/static/js/main.16e5d528.js",
+    "main.css": "/static/css/main.92310e2d.css",
+    "main.js": "/static/js/main.bedf5b96.js",
     "static/media/chatAppBackground.png": "/static/media/chatAppBackground.93db05b9839caed1ff0a.png",
     "static/media/chat.png": "/static/media/chat.67c4d27ff612f6cd8e8b.png",
     "static/media/Spinner (1).gif": "/static/media/Spinner (1).b8c7f3dd824455900e73.gif",
@@ -26,11 +26,11 @@
     "static/media/MessageDelivered.png": "/static/media/MessageDelivered.5d8ca821f54138b18b47.png",
     "static/media/TalkieChatLogo.png": "/static/media/TalkieChatLogo.843c6c5f489085d736ad.png",
     "index.html": "/index.html",
-    "main.99c24a5e.css.map": "/static/css/main.99c24a5e.css.map",
-    "main.16e5d528.js.map": "/static/js/main.16e5d528.js.map"
+    "main.92310e2d.css.map": "/static/css/main.92310e2d.css.map",
+    "main.bedf5b96.js.map": "/static/js/main.bedf5b96.js.map"
   },
   "entrypoints": [
-    "static/css/main.99c24a5e.css",
-    "static/js/main.16e5d528.js"
+    "static/css/main.92310e2d.css",
+    "static/js/main.bedf5b96.js"
   ]
 }

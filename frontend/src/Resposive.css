@@ -100,8 +100,8 @@
     bottom: 40px;
   }
   #writeMessage {
-    width: 100%;
-    position: absolute;
+    /* width: 100%; */
+    /* position: absolute; */
     bottom: 38px;
   }
   #chatId {

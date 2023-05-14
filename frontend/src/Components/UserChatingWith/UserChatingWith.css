@@ -1,5 +1,4 @@
 .userChatting{
-    /* width: 835px; */
     width: 50vw;
     overflow-x: hidden;
     overflow-y: hidden;
@@ -39,7 +38,7 @@
     padding: 10px 30px;
     align-items: center;
     border-bottom: 1px solid #707070;
-    position: absolute;
+    /* position: absolute; */
     /* width: 774px; */
     width: 92%;
     background-color: #F2F1F1;
@@ -244,7 +243,7 @@ button:disabled, button[disabled]{
     overflow-y: scroll;
     width: 100%;
     height: 91.4%;
-    margin-top: 60px;
+    /* margin-top: 60px; */
     /* padding-top: 25px;   */
     display: flex;
     flex-direction: column-reverse;
