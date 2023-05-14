@@ -53,7 +53,15 @@ router.post("/login", async (req, res) => {
           const Token = await userExist.generateAuthToken();
           console.log(Token);
           res.cookie("talkieChatToken", Token, {
-            expires: new Date(Date.now() + 25892000000),
+            expires: new Date(Date.now() + 31 * 24 * 60 * 60 *1000 ),
+            httpOnly: true,
+          });
+          userExist.save();
+        }else{
+          const Token = await userExist.generateAuthToken();
+          console.log(Token);
+          res.cookie("talkieChatToken", Token, {
+            expires: new Date(Date.now() + 24 * 60 * 60 * 1000),
             httpOnly: true,
           });
           userExist.save();

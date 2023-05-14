@@ -22,7 +22,7 @@ import { CgClose } from "react-icons/cg";
 import { GrGallery } from "react-icons/gr";
 import { FaRegStar } from "react-icons/fa";
 import MessageDelever from "../../Assets/MessageDelivered.png";
-// import MessageNotSend from "../../Assets/MessageNotSend.png";
+import MessageNotSend from "../../Assets/MessageNotSend.png";
 import MessageSeen from "../../Assets/MessageSeen.png";
 import PdfLogo from "../../Assets/pdfLogo.png";
 import ChatPNG from "../../Assets/chat.png";
@@ -177,6 +177,7 @@ const UserChatingWith = ({
         whoWrote: chat_id,
         format: "textMessage",
         SeenBy: [userInfo._id],
+        DeliveredTo: [userInfo._id],
       }),
       lastMessage: time,
     });
@@ -218,6 +219,7 @@ const UserChatingWith = ({
             whoWrote: chat_id,
             format: "Image",
             SeenBy: [userInfo._id],
+            DeliveredTo: [userInfo._id],
           }),
           lastMessage: time,
         });
@@ -247,6 +249,7 @@ const UserChatingWith = ({
             whoWrote: chat_id,
             format: "Document",
             SeenBy: [userInfo._id],
+            DeliveredTo: [userInfo._id],
           }),
           lastMessage: time,
         });
@@ -404,16 +407,9 @@ const UserChatingWith = ({
     setUserAllMessageSearch(b);
   };
 
-  // const updateChatHistory = (diffInDays) => {
-  //   setchatDateHistory(diffInDays)
-  // }
-
   useEffect(() => {
     if (!searchActive) setUserAllMessageSearch(userAllMessage);
   }, [searchActive, userAllMessage]);
-
-  let history = -1;
-  let asd = true;
 
   return (
     <>
@@ -629,8 +625,8 @@ const UserChatingWith = ({
                       chatDateHistory.find((e) => {
                         if (e.message_id === curr._id) {
                           dateHeader = messageTiming.toDateString();
-                          // console.log(curr)
                         }
+                        return 0;
                       });
 
                       if (
@@ -675,18 +671,15 @@ const UserChatingWith = ({
                       let senders = userChatWithData?.Users?.find(
                         (e) => e.User_id === curr.whoWrote
                       );
-
-                      // console.log(userChatWithData?.Users)
-                      let SeenBy = curr.SeenBy;
-                      let areAllIdsPresent;
-                      areAllIdsPresent = userChatWithData?.Users?.every(
-                        (item) => SeenBy.includes(item.User_id)
-                      );
-                      if (areAllIdsPresent) areAllIdsPresent = MessageSeen;
-                      else areAllIdsPresent = MessageDelever;
-                      // console.log(areAllIdsPresent);
-                      // areAllIdsPresent = false
-
+                      let seenBy = "";
+                        if(curr.SeenBy.length === userChatWithData.Users.length){
+                          seenBy = MessageSeen; 
+                          console.log(true)
+                        }else if(curr.DeliveredTo.length === 1){
+                          seenBy = MessageNotSend
+                        }else{
+                          seenBy = MessageDelever
+                        }
                       return (
                         <div
                           key={ids}
@@ -718,7 +711,7 @@ const UserChatingWith = ({
                                   <>
                                     <div>
                                       <img
-                                        src={areAllIdsPresent}
+                                        src={seenBy}
                                         alt="SendStatus"
                                       />
                                       <p>{curr.Message}</p>
@@ -741,7 +734,7 @@ const UserChatingWith = ({
                                     />
                                     <div>
                                       <img
-                                        src={areAllIdsPresent}
+                                        src={seenBy}
                                         alt="SendStatus"
                                       />
                                       <p id="timeStamp">{messageTiming}</p>
@@ -770,7 +763,7 @@ const UserChatingWith = ({
                                     </div>
                                     <div>
                                       <img
-                                        src={areAllIdsPresent}
+                                        src={seenBy}
                                         alt="SendStatus"
                                       />
                                       <p id="timeStamp">{messageTiming}</p>
@@ -785,7 +778,7 @@ const UserChatingWith = ({
                           ) : (
                             <>
                               <div className="messageReceve">
-                                {userChatWithData?.chatType == "Group" && (
+                                {userChatWithData?.chatType === "Group" && (
                                   <div id="groupSenderInfo">
                                     <img
                                       src={senders.User_Avatar}

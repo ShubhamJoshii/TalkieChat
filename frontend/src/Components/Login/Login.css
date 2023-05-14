@@ -124,3 +124,19 @@
 .Login form input:focus {
   outline: none;
 }
+
+#inputPassword{
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+#inputPassword input{
+  width: 100%;
+
+}
+
+#inputPassword div{
+  position: absolute;
+  right: 20px;
+  cursor: pointer;
+}

@@ -13,7 +13,14 @@ import Loading from "./Components/Loading/Loading";
 
 import "./firebase";
 import "./firebase";
-import { getDatabase, ref, onDisconnect, set } from "firebase/database";
+import {
+  getDatabase,
+  ref,
+  onDisconnect,
+  set,
+  onValue,
+  update,
+} from "firebase/database";
 
 const UserData = createContext();
 function App() {
@@ -34,16 +41,46 @@ function App() {
           status: "Online",
           _id: result.data._id,
         });
+
+        onValue(ref(db), (snapshot) => {
+          // console.log(snapshot.val())
+          const data = snapshot.val();
+          Object.values(data).map((curr) => {
+            curr?.Users?.map((curr2) => {
+              onValue(ref(db, `${curr2.User_id}`), (snapshot2) => {
+                if (snapshot2.val().status === "Online") {
+                  curr?.Messages?.map((msg) => {
+                    let deliveredTo = msg.DeliveredTo;
+                    let a = deliveredTo.find((e) => e === result.data._id);
+                    console.log(a);
+                    if (!a) {
+                      deliveredTo.push(result.data._id);
+                      let PrevMessage = curr?.Messages;
+                      PrevMessage = PrevMessage?.map((obj) => {
+                        let DeliveredTo = [...obj.DeliveredTo, result.data._id];
+                        DeliveredTo = [...new Set(DeliveredTo)];
+                        return { ...obj, DeliveredTo };
+                      });
+                      update(ref(db, `${curr.ChatID}`), {
+                        Messages:PrevMessage
+                      });
+                    }
+                  });
+                }
+              });
+            });
+          });
+        });
       })
       .catch((err) => {
         setShowLoading(false);
       });
   };
 
-  if(userInfo){
+  if (userInfo) {
     onDisconnect(ref(db, `${userInfo?._id}`)).set({
       status: "Offline",
-      _id: userInfo._id
+      _id: userInfo._id,
     });
   }
 
