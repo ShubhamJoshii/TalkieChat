@@ -11,6 +11,8 @@ import Register from "./Components/Register/Register";
 import axios from "axios";
 import Loading from "./Components/Loading/Loading";
 
+import Notification from "./Components/Notification/Notification"
+
 import "./firebase";
 import "./firebase";
 import {
@@ -52,7 +54,6 @@ function App() {
                   curr?.Messages?.map((msg) => {
                     let deliveredTo = msg.DeliveredTo;
                     let a = deliveredTo.find((e) => e === result.data._id);
-                    console.log(a);
                     if (!a) {
                       deliveredTo.push(result.data._id);
                       let PrevMessage = curr?.Messages;
@@ -104,7 +105,8 @@ function App() {
                     <Route path="/" element={<MainPage currRoute={currRoute} setCurrRoute={setCurrRoute}/>} />
                     <Route path="/Single" element={<MainPage currRoute={currRoute} setCurrRoute={setCurrRoute}/>} />
                     <Route path="/Groups" element={<MainPage currRoute={currRoute} setCurrRoute={setCurrRoute}/>} />
-                    <Route path="/setting" element={<Setting />} />
+                    <Route path="/Notification" element={<Notification currRoute={currRoute} setCurrRoute={setCurrRoute}/>} />
+                    <Route path="/setting" element={<Setting currRoute={currRoute} setCurrRoute={setCurrRoute}/>} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
                   </Routes>

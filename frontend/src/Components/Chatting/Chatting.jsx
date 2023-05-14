@@ -33,7 +33,12 @@ const Chatting = ({
         Object.values(data).map((curr) => {
           if (userType == "/Single") {
             if (curr.chatType === "Single") {
-              setChattingUsers((oldArray) => [...oldArray, curr]);
+              curr.Users?.find((user) => {
+                if (user.User_id === userInfo._id) {
+                  setChattingUsers((oldArray) => [...oldArray, curr]);
+                }
+                return user.User_id === userInfo._id;
+              });
             }
           } else if (userType == "/Groups") {
             if (curr.chatType === "Group") {
@@ -246,7 +251,7 @@ const Chatting = ({
             <div className="chattingNotLOgin">
               <p>Enjoy your chat and have fun communicating with others</p>
               {userInfo ? (
-                <div>
+                <div id="userChatting2">
                   <img src={ChatPNG} alt="Restricted" />
                 </div>
               ) : (

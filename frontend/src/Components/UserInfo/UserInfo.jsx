@@ -13,6 +13,8 @@ import GroupImage from "../../Assets/groupImg.png";
 import "./UserInfo.css";
 import { UserData } from "../../App";
 import UserDpShow from "../userDpShow";
+import { AiFillStar } from "react-icons/ai";
+
 // import { onValue, ref } from "firebase/database";
 // import { db } from "../../firebase";
 import { getDatabase, ref, onValue } from "firebase/database";
@@ -100,27 +102,27 @@ const UserInfo = ({ userChatWithData, senderInfoShow, setSenderInfoShow }) => {
         }
       });
       if (onlineUser) {
-          const areAllIdsPresent = userChatWithData?.Users?.every((item) =>
-            onlineUser.includes(item.User_id)
-          );
-          if (areAllIdsPresent) {
-            setStatus("Online");
-          } else {
-            setStatus("Offline");
-          }
+        const areAllIdsPresent = userChatWithData?.Users?.every((item) =>
+          onlineUser.includes(item.User_id)
+        );
+        if (areAllIdsPresent) {
+          setStatus("Online");
+        } else {
+          setStatus("Offline");
+        }
         // }
 
         // if (userChatWithData?.chatType === "Single") {
-          // let user;
+        // let user;
         //   if (userChatWithData.Users[0].User_id === userInfo._id) {
         //     console.log("Hello");
         //     user = userChatWithData.User2_id;
         //   } else {
         //     user = userChatWithData.User1_id;
         //   }
-          // let found = onlineUser.find((e) => e === user);
-          // if (found) setStatus("Online");
-          // else setStatus("Offline");
+        // let found = onlineUser.find((e) => e === user);
+        // if (found) setStatus("Online");
+        // else setStatus("Offline");
         // }
       }
     });
@@ -136,14 +138,35 @@ const UserInfo = ({ userChatWithData, senderInfoShow, setSenderInfoShow }) => {
       ).User_Name;
       let messTime = new Date(curr.time).toDateString();
       if (curr.starred) {
-        setStarredMsg((prev) => [
-          ...prev,
-          {
-            userName,
-            messTime,
-            Message: curr.Message,
-          },
-        ]);
+        if (curr.Message) {
+          setStarredMsg((prev) => [
+            ...prev,
+            {
+              userName,
+              messTime,
+              Message: curr.Message,
+            },
+          ]);
+        } else if (curr.FileName) {
+          setStarredMsg((prev) => [
+            ...prev,
+            {
+              userName,
+              FileName: curr.FileName,
+              Files_Url:curr.Files_Url,
+              messTime,
+            },
+          ]);
+        } else {
+          setStarredMsg((prev) => [
+            ...prev,
+            {
+              userName,
+              Image: curr.Image,
+              messTime,
+            },
+          ]);
+        }
       }
     });
     setshowUsersStaredMess(false);
@@ -254,19 +277,26 @@ const UserInfo = ({ userChatWithData, senderInfoShow, setSenderInfoShow }) => {
 
           {showUsersStaredMess &&
             StarredMsg.map((curr) => {
-              // console.log(curr);
-              // let userName;
-              // userName = userChatWithData.Users.find(
-              //   (e) => e.User_id === curr.whoWrote
-              // ).User_Name;
-              // let messTime = new Date(curr.time).toDateString();
               return (
                 <>
                   {
                     <div id="sharedMsg">
-                      <span id="msg">{curr.Message}</span>
+                      <p>
+                        {curr.Message && <span id="msg">{curr.Message}</span>}
+                        {curr.FileName &&
+                        <span id="msg">
+                          <a href={curr.Files_Url} target="_blank" rel="noopener noreferrer">{curr.FileName}</a>
+                        </span>
+                        }
+                        {curr.Image &&
+                        <span id="msg">
+                          <img src={curr.Image} alt="starredImage" width="200px"/>  
+                        </span>
+                        }
+                        <AiFillStar id="starLogo" />
+                      </p>
                       <p id="sharedMsgTime">
-                        <span>{curr.userName}</span>
+                        <span>Send by: {curr.userName}</span>
                         <span>{curr.messTime}</span>
                       </p>
                     </div>

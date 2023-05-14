@@ -130,7 +130,13 @@
     box-shadow: 0 0 5px grey;
 }
 
+#sharedMsg p:first-child{
+    display: flex;
+    justify-content: space-between;
+}
+
 #sharedMsg #msg{
+    font-size: 15px;
     font-weight: 700;
 }
 

@@ -47,7 +47,8 @@
 
 #deleteHeaderText{
     display: flex;
-    padding: 10px 0px;
+    /* padding: 10px 0px; */
+    padding: 6px 0px;
     gap: 15px;
     align-items: center;
 }
@@ -72,7 +73,8 @@
 
 #starHeaderText{
     display: flex;
-    padding: 10px 0px;
+    /* padding: 10px 0px; */
+    padding: 6px 0px;
     gap: 15px;
     align-items: center;
 }
@@ -355,9 +357,10 @@ button:disabled, button[disabled]{
 
 #writeMessage{
     /* width: 815px; */
+    width: 97%;
     background-color: white;
     height: 40px;
-    /* position: absolute; */
+    position: absolute;
     bottom: 0;
     padding:5px 10px;
 }

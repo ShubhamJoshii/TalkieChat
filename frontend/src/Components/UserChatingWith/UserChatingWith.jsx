@@ -17,10 +17,9 @@ import { BsThreeDotsVertical, BsFillSendFill } from "react-icons/bs";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { ImAttachment } from "react-icons/im";
 import { CgClose } from "react-icons/cg";
-
-// import {} from "react-icons/io"
 import { GrGallery } from "react-icons/gr";
 import { FaRegStar } from "react-icons/fa";
+
 import MessageDelever from "../../Assets/MessageDelivered.png";
 import MessageNotSend from "../../Assets/MessageNotSend.png";
 import MessageSeen from "../../Assets/MessageSeen.png";
@@ -416,18 +415,20 @@ const UserChatingWith = ({
         <UserDpShow ShowDP={ShowDP} setShowDP={setShowDP} />
       </div>
       {userChatWithData ? (
-        <div className="userChatting" style={{ display: {display} }}>
+        <div className="userChatting" style={display ? { display : "block" }:{display:"none"}}>
           {load ? (
             <Loading />
           ) : (
             <>
-              {!deleteHeaderShow && !starHeaderShow && (
+              {!deleteHeaderShow && !starHeaderShow && !starMessagesShow && (
                 <div className="chattingUserHeader">
                   <div className="chattinguserInfo">
                     <IoMdArrowRoundBack
                       onClick={() => {
-                        setDisplay("none");
-                        // setUserChatWithData(null);
+                        console.log("Click",display)
+                        setTempChatsArr([]);
+                        setDisplay(false);
+                        setSenderInfoShow(false)
                       }}
                       id="backBTN"
                     />

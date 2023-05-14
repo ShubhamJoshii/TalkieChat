@@ -56,7 +56,7 @@ const SideNavbar = ({ currRoute, setCurrRoute }) => {
           className="navbarIcons"
           onClick={() => {
             setCurrRoute("Notification");
-            navigate("/");
+            navigate("/Notification");
           }}
           id={currRoute === "Notification" ? "active" : ""}
         />
@@ -66,7 +66,7 @@ const SideNavbar = ({ currRoute, setCurrRoute }) => {
             setCurrRoute("Setting");
             navigate("/setting");
           }}
-          id={currRoute === "Setting" ? "active" : ""}
+          id={currRoute === "setting" ? "active" : ""}
         />
       </div>
     </div>

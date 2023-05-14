@@ -7,7 +7,7 @@ import Github from "../../Assets/Github.jpg";
 import { BsFillCameraFill } from "react-icons/bs";
 import { RiCloseLine } from "react-icons/ri";
 import { UserData } from "../../App";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Avatar from "./Avatar";
 import axios from "axios";
 // import { BiListOl } from "react-icons/bi";
@@ -21,7 +21,7 @@ import {
 } from "firebase/storage";
 import { uid } from "uid";
 
-const Setting = () => {
+const Setting = ({currRoute, setCurrRoute}) => {
   const [avatarPage, setAvatarPage] = useState(false);
 
   const [Notification, setNotifications] = useState(false);
@@ -29,6 +29,14 @@ const Setting = () => {
   const navigate = useNavigate();
   const userInfo = useContext(UserData);
   const [currTheme, setCurrTheme] = useState("red");
+  
+  
+  const location = useLocation();
+  useEffect(()=>{
+    let a = location.pathname;
+    setCurrRoute(a.slice(1,))
+    console.log(a)
+  },[location])
 
   const uploadImage = async (e) => {
     const name = e.target.files[0];
