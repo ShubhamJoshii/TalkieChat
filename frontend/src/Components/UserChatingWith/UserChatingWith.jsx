@@ -141,7 +141,7 @@ const UserChatingWith = ({
           });
         }
         if (
-          userChatWithData.Users[1].User_id === userInfo._id &&
+          userChatWithData?.Users[1]?.User_id === userInfo._id &&
           userChatWithData.Users.length > 1
         ) {
           setSenderDPData({

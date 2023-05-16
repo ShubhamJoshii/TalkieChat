@@ -4,6 +4,7 @@ const bcrypt = require("bcrypt");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const Authenication = require("./Authenication");
+// const { default: FriendRequest } = require("./frontend/src/Components/FriendRequest/FriendRequest");
 router.post("/register", async (req, res) => {
   const { Name, Email, Password, Confirm_Password, Register_Date, Avatar } =
     req.body;
@@ -48,16 +49,16 @@ router.post("/login", async (req, res) => {
       const password_Match = await bcrypt.compare(Password, userExist.Password);
       if (password_Match) {
         userExist.Login = userExist.Login.concat({ Login_Date });
-        
+
         if (rememberME) {
           const Token = await userExist.generateAuthToken();
           console.log(Token);
           res.cookie("talkieChatToken", Token, {
-            expires: new Date(Date.now() + 31 * 24 * 60 * 60 *1000 ),
+            expires: new Date(Date.now() + 31 * 24 * 60 * 60 * 1000),
             httpOnly: true,
           });
           userExist.save();
-        }else{
+        } else {
           const Token = await userExist.generateAuthToken();
           console.log(Token);
           res.cookie("talkieChatToken", Token, {
@@ -71,7 +72,7 @@ router.post("/login", async (req, res) => {
         res.send("User Password is Wrong");
       }
     }
-  } catch (error) {}
+  } catch (error) { }
 });
 
 router.get("/logout", (req, res) => {
@@ -217,15 +218,54 @@ router.post("/sendMessage", Authenication, async (req, res) => {
   }
 });
 
-router.post("/findChatData",async (req,res) => {
-  const {_id} = req.body;
+router.post("/findChatData", async (req, res) => {
+  const { _id } = req.body;
   console.log(_id)
-  const fetchMessage = await ChatDataModel.findOne({_id})
-  if(fetchMessage){
+  const fetchMessage = await ChatDataModel.findOne({ _id })
+  if (fetchMessage) {
     res.send(fetchMessage.Messages);
-  }else{
+  } else {
     res.send()
   }
 });
+
+router.get("/allUSers", async (req, res) => {
+  let Users = []
+  let User = await DBModel.find();
+  for (i = 0; i < User.length; i++) {
+    Users.push({
+      _id: User[i]._id,
+      Name: User[i].Name,
+      Avatar: User[i].Avatar,
+      Email: User[i].Email
+    })
+  }
+  res.send(Users)
+})
+
+router.post("/sendRequest", Authenication, async (req, res) => {
+  // console.log(req.body);
+  const { _id, Name, Email, Avatar } = req.body;
+  const userExist = await DBModel.findOne({_id})
+  if(userExist){
+    userExist.Friend_Request = userExist.Friend_Request?.concat({_id:req.rootUser._id,Name:req.rootUser.Name,Email:req.rootUser.Email,Avatar:req.rootUser.Avatar,AvatarBackground:req.rootUser.AvatarBackground})
+    await userExist.save();
+  }
+  res.send("Request Sended")
+})
+
+router.post("/rejectfriend",Authenication,async(req,res)=>{
+  let {_id} = req.body; 
+  // console.log(_id)
+  let userData = req.rootUser;
+  const userExist = await DBModel.findOne({_id:req.userID})
+  let updateUser = userData.Friend_Request.filter(e => e._id !== _id)
+  console.log(updateUser)
+  if(userExist){
+    userExist.Friend_Request = updateUser
+    await userExist.save();
+  }
+})
+
 
 module.exports = router;

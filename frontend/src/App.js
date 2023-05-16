@@ -11,7 +11,6 @@ import Register from "./Components/Register/Register";
 import axios from "axios";
 import Loading from "./Components/Loading/Loading";
 
-import Notification from "./Components/Notification/Notification"
 
 import "./firebase";
 import "./firebase";
@@ -30,6 +29,7 @@ function App() {
   const [userInfo, setUserInfo] = useState();
   const [showLoading, setShowLoading] = useState(false);
   const [currRoute, setCurrRoute] = useState("Recent");
+  
   const db = getDatabase();
 
   const fetchUserInfo = () => {
@@ -106,7 +106,6 @@ function App() {
                     <Route path="/" element={<MainPage currRoute={currRoute} setCurrRoute={setCurrRoute}/>} />
                     <Route path="/Single" element={<MainPage currRoute={currRoute} setCurrRoute={setCurrRoute}/>} />
                     <Route path="/Groups" element={<MainPage currRoute={currRoute} setCurrRoute={setCurrRoute}/>} />
-                    <Route path="/Notification" element={<Notification currRoute={currRoute} setCurrRoute={setCurrRoute}/>} />
                     <Route path="/setting" element={<Setting currRoute={currRoute} setCurrRoute={setCurrRoute}/>} />
                     <Route path="/FriendRequest" element={<FriendRequest currRoute={currRoute} setCurrRoute={setCurrRoute}/>} />
                     <Route path="/login" element={<Login />} />

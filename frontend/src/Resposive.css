@@ -68,7 +68,7 @@
   #Notificiation{
     bottom: 50px;
     top: auto;
-    /* left: 0; */
+    left: auto;
     right: -500%;
   }
   
@@ -119,6 +119,17 @@
   #chatId {
     width: 350px;
   }
+
+  #FriendRequest{
+    margin: 20px 110px;
+    position: fixed;
+    /* margin: 5vw; */
+    top: auto;
+    bottom: 36px;
+    /* left: 0; */
+    /* width: 90vw; */
+    max-height: 70vh;
+  }
 }
 
 @media only screen and (max-width: 560px) {
@@ -145,9 +156,36 @@
   #sharedImg {
     width: 90%;
   }
+  
+  #FriendRequest{
+    margin: 20px 10px;
+  }
 }
 
-
+@media only screen and (max-width: 420px) {
+  #Notificiation{
+    position: fixed;
+    margin: 5vw;
+    /* top: 0; */
+    bottom: 36px;
+    left: 0;
+    width: 85vw;
+    max-height: 50vh;
+  }
+  
+  #FriendRequest{
+    position: fixed;
+    margin: 5vw;
+    /* top: 0; */
+    bottom: 36px;
+    left: 0;
+    width: 85vw;
+    max-height: 50vh;
+  }
+  #FriendRequestBOX{
+    margin: 0;
+  }
+}
 @media only screen and (max-width: 380px) {
   #picker1 {
     flex-direction: column;

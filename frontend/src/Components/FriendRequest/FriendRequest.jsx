@@ -3,7 +3,8 @@ import "./FriendRequest.css"
 const FriendRequest = () =>{
     return(
         <div id="FriendRequest">
-            jjhasfjd
+            <h3>Add Friends</h3>
+            <h3>Requests</h3>
         </div>
     )
 }

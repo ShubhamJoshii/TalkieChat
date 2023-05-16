@@ -71,7 +71,7 @@ const UserInfo = ({ userChatWithData, senderInfoShow, setSenderInfoShow }) => {
           });
         }
         if (
-          userChatWithData.Users[1].User_id === userInfo._id &&
+          userChatWithData?.Users[1]?.User_id === userInfo._id &&
           userChatWithData.Users.length > 1
         ) {
           setSenderDPData({
@@ -133,9 +133,9 @@ const UserInfo = ({ userChatWithData, senderInfoShow, setSenderInfoShow }) => {
     setStarredMsg([]);
     userChatWithData?.Messages?.map((curr) => {
       let userName;
-      userName = userChatWithData.Users.find(
-        (e) => e.User_id === curr.whoWrote
-      ).User_Name;
+      userName = userChatWithData?.Users?.find(
+        (e) => e?.User_id === curr.whoWrote
+      )?.User_Name;
       let messTime = new Date(curr.time).toDateString();
       if (curr.starred) {
         if (curr.Message) {

@@ -1,0 +1,102 @@
+#FriendRequestOuter{
+    position: relative;
+}
+#FriendRequest{
+    position: absolute;
+    top: -100px;
+    left: 50px;
+    z-index: 99;
+}
+
+#RequestCard {
+    display: flex;
+    align-items: center;    
+    gap: 15px;
+    justify-content: center;
+    margin: 5px 10px;
+    padding: 2px;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+#RequestCard img{
+    width: 50px;
+    height: 50px;
+}
+#RequestCard h4{
+    margin: 0;
+}
+
+#FriendRequest input{
+    width: 84%;    
+    margin: 0px 5%;
+    padding: 5px 10px;
+    
+}
+
+#AddFriends h4{
+    margin: 0;
+}
+#AddFriends {
+    margin: auto;
+    margin-top: 10px;
+    border-radius: 5px;
+    border: 1px solid black;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    width: 270px;
+}
+
+#AddFriends div{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+#AddFriends p{
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    cursor: pointer;
+    color: blue;
+}
+#AddFriends p:hover{
+    text-decoration: underline;
+}
+#AddFriends img{
+    width: 45px;
+    height: 45px;
+    
+}
+
+#RequestCard #icons:hover{
+    transform: scale(1.1);
+}
+
+#RequestCard #icons{
+    font-size: 15px;
+    padding: 4px;
+    border-radius:50%;
+    color: white;
+    cursor: pointer;
+}
+#RequestCard #icons{
+    background-color: green;
+}
+#RequestCard #icons:last-child{
+    color: white;
+    background-color: red;
+}
+
+#FriendRequestBOX{
+    padding: 0px 5px;
+    width: 310px;
+    min-height: 200px;
+    max-height: 400px;
+    overflow: scroll;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0 0 10px grey;
+    color: black;
+}

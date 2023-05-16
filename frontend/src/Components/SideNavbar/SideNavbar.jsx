@@ -3,36 +3,45 @@ import "./SideNavbar.css";
 import UserImage from "../../Assets/Avatar (13).png";
 
 import { TiHome } from "react-icons/ti";
-import { BsChevronDown, BsChevronUp } from "react-icons/bs";
 import { FaUserAlt } from "react-icons/fa";
 import { MdGroups2 } from "react-icons/md";
 import { IoMdNotifications } from "react-icons/io";
 import { AiFillSetting } from "react-icons/ai";
 import { ImUserPlus } from "react-icons/im"
-import { AiOutlineRight } from "react-icons/ai"
 import { useNavigate } from "react-router-dom";
 import { UserData } from "../../App";
+import { TiTick } from "react-icons/ti"
+import { RxCross2 } from "react-icons/rx"
 
-import Notification from "../Notification/Notification";
-import { onValue, ref } from "firebase/database";
+import Notification from "./Notification";
+import { onValue, ref, set } from "firebase/database";
 import { db } from "../../firebase";
+import FriendRequest from "../FriendRequest/FriendRequest";
+import UserImg from "../../Assets/Avatar (7).png"
+import axios from "axios";
+// import { set } from "mongoose";
+
 
 const SideNavbar = ({ currRoute, setCurrRoute }) => {
   const userInfo = useContext(UserData);
+  const [userInfoUpdate, setUserInfoUpdate] = useState([]);
   const [Notifications, setNotification] = useState([]);
   const [NotificationsColl, setNotificationColl] = useState([]);
   const [show, setShow] = useState(null)
+  const [allUsers, setAllUsers] = useState([]);
+  const [allUsersSearch, setAllUsersSearch] = useState([]);
+  const [chattingUsers, setChattingUsers] = useState([]);
   const navigate = useNavigate();
   const fetchNotification = () => {
     onValue(ref(db), (snapshot) => {
       if (userInfo) {
         let data = snapshot.val();
         setNotification([]);
-        Object.values(data).map((curr) => {
+        Object.values(data)?.map((curr) => {
           if (curr.Users) {
             const exists = curr.Users.some((e) => e.User_id === userInfo._id);
             if (exists) {
-              curr.Messages.map((curr2) => {
+              curr?.Messages?.map((curr2) => {
                 let seenby = curr2.SeenBy.includes(userInfo._id);
                 // console.log(seenby);
                 if (!seenby) {
@@ -57,18 +66,46 @@ const SideNavbar = ({ currRoute, setCurrRoute }) => {
     });
   };
 
-  const showNotification = () => {
-    let a = document.getElementById("showNotificaition").style;
-    a.display === "block" ? a.display = "none" : a.display = "block"
-  }
+
+  const fetchUserChat = () => {
+    onValue(ref(db), (snapshot) => {
+      setChattingUsers([]);
+      const data = snapshot.val();
+      if (data !== null && userInfo) {
+        Object.values(data).map((curr) => {
+          if (curr.chatType === "Single") {
+            curr.Users?.find((user) => {
+              if (user.User_id === userInfo._id) {
+                curr.Users?.find((user) => {
+                  if (user.User_id !== userInfo._id) {
+                    setChattingUsers((oldArray) => [...oldArray, user.User_id]);
+                  }
+                })
+              }
+              return user.User_id === userInfo._id;
+            });
+          }
+          return {};
+        });
+      }
+    });
+  };
+
+
+  useEffect(() => {
+    setUserInfoUpdate(userInfo)
+  }, [userInfo])
+
 
   useEffect(() => {
     fetchNotification();
+    fetchUserChat()
   }, []);
 
   useEffect(() => {
-    currRoute !== "Notification" && (document.getElementById("showNotificaition").style.display = "none");
-  }, [currRoute])
+    console.log(chattingUsers)
+  }, [chattingUsers])
+
 
   useEffect(() => {
     let da = Notifications.sort((b, a) => {
@@ -79,6 +116,76 @@ const SideNavbar = ({ currRoute, setCurrRoute }) => {
     // console.log(da)
     setNotificationColl(da)
   }, [Notifications])
+
+  useEffect(() => {
+    axios.get("/allUSers").then((res) => {
+      setAllUsers(res.data);
+    }).catch((err) => {
+      console.log("Error")
+    })
+  }, [])
+
+
+  const findUser = (e) => {
+    let value = e.target.value;
+    let found;
+    if (value !== "")
+      found = allUsers.filter(e => e.Name.toLowerCase().includes(value.toLowerCase()))
+    setAllUsersSearch(found);
+  }
+
+  const sendRequest = async (curr) => {
+    console.log(curr)
+    await axios.post("/sendRequest", {
+      _id: curr._id,
+      Name: curr.Name,
+      Email: curr.Email,
+      Avatar: curr.Avatar
+    }).then((res) => {
+      alert(res.data)
+    }).catch(() => {
+      console.log("Error in Sending Request");
+    })
+  }
+
+  const connectFriend = (curr) => {
+    const randomNumber = Math.floor(Math.random() * 10000000);
+    // console.log(curr)
+    set(ref(db, `${randomNumber}`), {
+      ChatID: randomNumber,
+      chatType: "Single",
+      Users: [
+        {
+          User_id: userInfo._id,
+          User_Name: userInfo.Name,
+          User_Avatar: userInfo.Avatar,
+          User_AvatarBackground: userInfo.AvatarBackground,
+        },
+        {
+          User_id: curr._id,
+          User_Name: curr.Name,
+          User_Avatar: curr.Avatar,
+        },
+      ],
+    });
+    rejectFriend(curr);
+  }
+
+  const rejectFriend = (curr) => {
+    axios.post("/rejectfriend", {
+      _id: curr._id
+    }).then((data) => {
+      alert(data)
+    }).catch(() => {
+      console.log("Error");
+    })
+    setUserInfoUpdate(userInfo.Friend_Request.filter(e => e._id !== curr._id))
+  }
+
+
+
+
+
 
   return (
     <div className="SideNavbar">
@@ -122,99 +229,86 @@ const SideNavbar = ({ currRoute, setCurrRoute }) => {
         <div className=" NotificationICON">
           {
             NotificationsColl.length > 0 &&
-          <span id="notifyCount">{NotificationsColl.length}</span>
+            <span id="notifyCount">{NotificationsColl.length}</span>
           }
           <IoMdNotifications
             className="navbarIcons"
             onClick={() => {
-              setCurrRoute("Notification");
-              showNotification();
+              if (currRoute === "Notification") setCurrRoute("");
+              else setCurrRoute("Notification")
             }}
             id={currRoute === "Notification" ? "active" : ""}
           />
-          <div id="showNotificaition">
-            <div id="triangleNoti"></div>
-            <div id="Notificiation">
-              <h3>Notifications</h3>
-              {NotificationsColl.map((curr, id) => {
-                let time = new Date(curr.time).toLocaleString();
-                const removeNotification = (_id) => {
-                  let found = NotificationsColl.filter(e => e._id !== _id);
-                  setNotificationColl(found);
-                }
-
-                return (
-                  <div id="chatsHistory" style={{ backgroundColor: userInfo.ColorSchema }}
-                    onClick={(e) => {
-                      // console.log()
-                      if (e.target.id.toLowerCase() === 'logoextendedmessage')
-                        return
-                      navigate("/", { state: { ChatID: curr.ChatID } })
-                    }
-                    }
-                  >
-                    <div id="userInfoText">
-                      <div id="chattingStatus">
-                        {curr.chatType === "Group" ? <>
-                          <div id="groupNotification">
-                            <img src={curr.GroupImage} alt="GroupImg" width="20px" />
-                            <h4>{curr.GroupName}</h4>
-                            <AiOutlineRight id="logo" />
-                            <h4>{curr.whoWroteName.User_Name}</h4>
-                          </div>
-                          <p id="onlineTime">{time}</p>
-                        </> :
-                          <>
-                            <div id="groupNotification">
-                              <img src={curr.whoWroteName.User_Avatar} alt="GroupImg" width="20px" />
-                              <h4>{curr.whoWroteName.User_Name}</h4>
-                            </div>
-                            <p id="onlineTime">{time}</p>
-                          </>
-
-                        }
-
-                        {/* <RxCross2 id="deleteNotification" onClick={() => removeNotification(curr._id)} /> */}
-                      </div>
-                      <div id="NotificationMessage">
-                        {
-                          show === id ?
-                            <span>{curr.Message.length > 36 ? curr.Message : curr.Message}</span> :
-                            <span>{curr.Message.length > 36 ? curr.Message.substring(0, 36) + "...." : curr.Message}</span>
-                        }
-                        {/* <div id="logoExtendedMessage"> */}
-                        {curr.Message.length > 36 && <>
-                          {
-                            show !== null ?
-                              <BsChevronUp onClick={() => setShow(null)} id="logoExtendedMessage" />
-                              : <BsChevronDown onClick={() => setShow(id)} id="logoExtendedMessage" />
-                          }
-                        </>
-                        }
-                        {/* </div> */}
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            {
-            NotificationsColl.length === 0 &&
-            <p id="noNotification">Their is No Notification</p>
-            }
-            </div>
-          </div>
-
+          {
+            currRoute === "Notification" &&
+            <Notification NotificationsColl={NotificationsColl} userInfo={userInfo} show={show} setNotificationColl={setNotificationColl} setShow={setShow} />
+          }
         </div>
-        {/* {currRoute === "Notification" && } */}
 
-        <ImUserPlus
-          className="navbarIcons"
-          onClick={() => {
-            setCurrRoute("FriendRequest");
-            navigate("/FriendRequest");
-          }}
-          id={currRoute === "FriendRequest" ? "active" : ""}
-        />
+        <div id="FriendRequestOuter">
+          <ImUserPlus
+            className="navbarIcons"
+            onClick={() => {
+              if (currRoute === "FriendRequest") setCurrRoute("");
+              else setCurrRoute("FriendRequest")
+            }}
+            id={currRoute === "FriendRequest" ? "active" : ""}
+          />{
+            currRoute === "FriendRequest" &&
+            <div id="triangleNoti"></div>
+          }
+          {
+            currRoute === "FriendRequest" &&
+            <div id="FriendRequest">
+              <div id="FriendRequestBOX">
+                <h3>Add Friends</h3>
+                <input type="text" placeholder="Search..." onChange={findUser} />
+                {
+                  allUsersSearch?.map((curr) => {
+                    console.log(curr._id)
+                    // let alreadyConnected = false;
+                    let a;
+                    a = chattingUsers.includes(curr._id)
+                    console.log(a)
+                    return (
+                      <>
+                        {
+                          curr.Name !== userInfo.Name &&
+                          <div id="AddFriends">
+                            <div>
+                              <img src={curr.Avatar} alt="User_Image" />
+                              <h4>{curr.Name}</h4>
+                            </div>
+                            {
+                              a ?
+                                <p>Already Connected</p>
+                                : <p onClick={() => sendRequest(curr)}>Send Request</p>
+                            }
+                          </div>
+                        }
+                      </>
+                    )
+
+                  })
+                }
+                <h3>Requests</h3>
+                {
+                  userInfoUpdate?.Friend_Request?.map((curr) => {
+                    // console.log(curr)
+                    return (
+                      <div id="RequestCard">
+                        <img src={curr.Avatar} alt="User_Image" />
+                        <h4>{curr.Name}</h4>
+                        <TiTick id="icons" style={{ backgroundColor: userInfoUpdate?.ColorSchema }} onClick={() => connectFriend(curr)} />
+                        <RxCross2 id="icons" onClick={() => rejectFriend(curr)} />
+                      </div>
+                    )
+                  })
+                }
+              </div>
+            </div>
+          }
+        </div>
         <AiFillSetting
           className="setting"
           onClick={() => {

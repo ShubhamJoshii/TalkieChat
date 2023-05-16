@@ -52,6 +52,30 @@ const DBSchema = new mongoose.Schema({
     type: String,
     require: true,
   },
+  Friend_Request:[
+    {
+      _id:{
+        type: String,
+        require: true,
+      },
+      Name:{
+        type: String,
+        require: true,
+      },
+      Email:{
+        type: String,
+        require: true,
+      },
+      Avatar:{
+        type: String,
+        require: true,
+      },
+      AvatarBackground:{
+        type: String,
+        require: true,
+      },
+    },
+  ],
   Login: [
     {
       Login_Date: {
