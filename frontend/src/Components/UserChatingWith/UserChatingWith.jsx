@@ -48,8 +48,8 @@ const UserChatingWith = ({
   userChatWithData,
   setSenderInfoShow,
   senderInfoShow,
-  display,
-  setDisplay,
+  // display,
+  // setDisplay,
   updateCurr,
   setUserChatWithData,
 }) => {
@@ -163,6 +163,9 @@ const UserChatingWith = ({
     setstarHeaderShow(false);
     setAttachmentShow(false);
     setstarMessagesShow(false);
+    // console.log("he;;p")
+    // console.log(userChatWithData)
+    // if(userChatWithData === null) setUserAllMessageSearch([])
   }, [userChatWithData]);
 
   const saveMessage = async () => {
@@ -193,7 +196,7 @@ const UserChatingWith = ({
         // console.log(result.data._id);
         setUser_ID(result.data._id);
       })
-      .catch((err) => {});
+      .catch((err) => { });
   };
 
   const uploadImage = async (e) => {
@@ -269,6 +272,7 @@ const UserChatingWith = ({
   };
 
   useEffect(() => {
+    console.log(updateCurr,userInfo,userChatWithData)
     if (updateCurr >= 0 && userInfo && userChatWithData) {
       let PrevMessage = userChatWithData?.Messages;
       PrevMessage = PrevMessage?.map((obj) => {
@@ -333,6 +337,9 @@ const UserChatingWith = ({
     }
   };
 
+
+
+
   const starChats = (a) => {
     let updatedMessage;
     // if (a) {
@@ -372,9 +379,9 @@ const UserChatingWith = ({
   useEffect(() => {
     deleteAll === true
       ? userAllMessageSearch.map((curr) => {
-          ChatSelection(curr);
-          return null;
-        })
+        ChatSelection(curr);
+        return null;
+      })
       : setTempChatsArr([]);
   }, [deleteAll, userAllMessageSearch]);
 
@@ -405,6 +412,7 @@ const UserChatingWith = ({
     setUserAllMessageSearch(b);
   };
 
+  
   useEffect(() => {
     if (!searchActive) setUserAllMessageSearch(userAllMessage);
   }, [searchActive, userAllMessage]);
@@ -415,7 +423,9 @@ const UserChatingWith = ({
         <UserDpShow ShowDP={ShowDP} setShowDP={setShowDP} />
       </div>
       {userChatWithData ? (
-        <div className="userChatting" style={display ? { display : "block" }:{display:"none"}}>
+        <div className="userChatting"
+        // style={display ? { display: "block" } : { display: "none" }}
+        >
           {load ? (
             <Loading />
           ) : (
@@ -425,9 +435,10 @@ const UserChatingWith = ({
                   <div className="chattinguserInfo">
                     <IoMdArrowRoundBack
                       onClick={() => {
-                        console.log("Click",display)
+                        // console.log("Click", display)
                         setTempChatsArr([]);
-                        setDisplay(false);
+                        setUserChatWithData(null)
+                        // setDisplay(false);
                         setSenderInfoShow(false)
                       }}
                       id="backBTN"
@@ -669,6 +680,9 @@ const UserChatingWith = ({
                       let senders = userChatWithData?.Users?.find(
                         (e) => e.User_id === curr.whoWrote
                       );
+
+
+
                       let seenBy = "";
                       if (
                         curr?.SeenBy?.length === userChatWithData?.Users?.length
@@ -679,6 +693,7 @@ const UserChatingWith = ({
                       } else {
                         seenBy = MessageDelever;
                       }
+
                       return (
                         <div
                           key={ids}
@@ -771,7 +786,7 @@ const UserChatingWith = ({
                                 {userChatWithData?.chatType === "Group" && (
                                   <div id="groupSenderInfo">
                                     <img
-                                      src={senders.User_Avatar}
+                                      src={senders?.GroupImage}
                                       alt="senderDP"
                                       style={{
                                         borderColor: `${userInfo.ColorSchema}`,
@@ -783,7 +798,7 @@ const UserChatingWith = ({
                                         color: `${userInfo.ColorSchema}`,
                                       }}
                                     >
-                                      {senders.User_Name}
+                                      {senders?.User_Name}
                                     </p>
                                     {Status === "Online" && (
                                       <div id="Senderstatus">

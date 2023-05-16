@@ -3,8 +3,8 @@ import "./Chatting.css";
 import { UserData } from "../../App";
 import ChatPNG from "../../Assets/chat.png";
 import { useNavigate } from "react-router-dom";
-import { db } from "../../firebase";
 import { Dropdown } from "antd";
+import { db } from "../../firebase";
 import { ref, onValue } from "firebase/database";
 import RightClickShow from "./RightClickShow";
 import GroupImage from "../../Assets/groupImg.png";
@@ -14,64 +14,12 @@ const Chatting = ({
   setUserChatWithData,
   setUpdate,
   userType,
-  userChatWithData,
+  userChatWithData,Count, setCount,
+  chatsArr, setChatsArr, fetchUserChat, chattingUsers, setChattingUsers
 }) => {
   const userInfo = useContext(UserData);
-  const [Count, setCount] = useState(null);
-  const [chattingUsers, setChattingUsers] = useState([]);
-  const [chatsArr, setChatsArr] = useState([]);
   const [ShowDP, setShowDP] = useState(undefined);
-
   const navigate = useNavigate();
-
-  //reading DB
-  const fetchUserChat = () => {
-    onValue(ref(db), (snapshot) => {
-      setChattingUsers([]);
-      const data = snapshot.val();
-      if (data !== null && userInfo) {
-        Object.values(data).map((curr) => {
-          if (userType == "/Single") {
-            if (curr.chatType === "Single") {
-              curr.Users?.find((user) => {
-                if (user.User_id === userInfo._id) {
-                  setChattingUsers((oldArray) => [...oldArray, curr]);
-                }
-                return user.User_id === userInfo._id;
-              });
-            }
-          } else if (userType == "/Groups") {
-            if (curr.chatType === "Group") {
-              curr.Users?.find((user) => {
-                if (user.User_id === userInfo._id) {
-                  setChattingUsers((oldArray) => [...oldArray, curr]);
-                }
-                return user.User_id === userInfo._id;
-              });
-            }
-          } else {
-            if (
-              curr.User1_id === userInfo._id ||
-              curr.User2_id === userInfo._id
-            ) {
-              setChattingUsers((oldArray) => [...oldArray, curr]);
-            }
-            curr.Users?.find((user) => {
-              if (user.User_id === userInfo._id) {
-                setChattingUsers((oldArray) => [...oldArray, curr]);
-                // console.log(curr);
-              }
-              return user.User_id === userInfo._id;
-            });
-          }
-          return {};
-        });
-      }
-    });
-  };
-  useEffect(() => {
-    fetchUserChat();
-  }, [userType]);
 
   useEffect(() => {
     fetchUserChat();
@@ -85,6 +33,7 @@ const Chatting = ({
     setCount(curr.ChatID);
     setUpdate(id);
     setUserChatWithData(curr);
+    // console.log(curr)
   };
 
   useEffect(() => {
@@ -97,8 +46,12 @@ const Chatting = ({
         new Date(a.lastMessage).valueOf() - new Date(b.lastMessage).valueOf()
       );
     });
-    setChattingUsers(da);
-    setUserChatWithData(chattingUsers.find((e) => e.ChatID === Count));
+    // console.log(chattingUsers)
+    if (chattingUsers !== null) {
+      setChattingUsers(da);
+      if (userChatWithData !== null)
+        setUserChatWithData(chattingUsers.find((e) => e.ChatID === Count));
+    }
   }, [chattingUsers]);
 
   const searchUsers = (e) => {
@@ -200,9 +153,9 @@ const Chatting = ({
                       style={
                         userInfo && curr.ChatID === Count
                           ? {
-                              backgroundColor: `${userInfo.ColorSchema}`,
-                              color: "white",
-                            }
+                            backgroundColor: `${userInfo.ColorSchema}`,
+                            color: "white",
+                          }
                           : {}
                       }
                     >

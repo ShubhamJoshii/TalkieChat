@@ -250,6 +250,7 @@ button:disabled, button[disabled]{
     display: flex;
     flex-direction: column-reverse;
     height: calc(100vh -  150px);
+    /* height: calc(100vh -  180px); */
     /* justify-content: end; */
     
 }

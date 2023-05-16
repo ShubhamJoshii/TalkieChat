@@ -25,7 +25,6 @@
 }
 @media only screen and (max-width: 685px) {
   .Chatting {
-    /* width: calc(100vw - 40px); */
     width: 100vw;
   }
 
@@ -64,6 +63,19 @@
     /* justify-content:space-between; */
     /* gap:20%; */
     margin-top: 0;
+  }
+
+  #Notificiation{
+    bottom: 50px;
+    top: auto;
+    /* left: 0; */
+    right: -500%;
+  }
+  
+  #triangleNoti{
+    bottom: 43px;
+    top: auto;
+    left: 5px;
   }
 
   #secondHalf {

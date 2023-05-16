@@ -23,6 +23,7 @@ import {
   onValue,
   update,
 } from "firebase/database";
+import FriendRequest from "./Components/FriendRequest/FriendRequest";
 
 const UserData = createContext();
 function App() {
@@ -107,6 +108,8 @@ function App() {
                     <Route path="/Groups" element={<MainPage currRoute={currRoute} setCurrRoute={setCurrRoute}/>} />
                     <Route path="/Notification" element={<Notification currRoute={currRoute} setCurrRoute={setCurrRoute}/>} />
                     <Route path="/setting" element={<Setting currRoute={currRoute} setCurrRoute={setCurrRoute}/>} />
+                    <Route path="/FriendRequest" element={<FriendRequest currRoute={currRoute} setCurrRoute={setCurrRoute}/>} />
+                    <Route path="/login" element={<Login />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
                   </Routes>

@@ -1,4 +1,4 @@
-.SideNavbar{
+.SideNavbar {
     width: 35px;
     background-color: black;
     height: 100%;
@@ -34,12 +34,12 @@
 }
 
 .SideNavbar .navbarIcons {
-    color: hsla(0,0%,100%,.684);
+    color: hsla(0, 0%, 100%, .684);
     cursor: pointer;
     font-size: 22px;
 }
 
-.SideNavbar .navbarIcons:hover{
+.SideNavbar .navbarIcons:hover {
     color: #fff;
     font-size: 30px;
 }
@@ -52,13 +52,131 @@
 
 .SideNavbar .setting {
     bottom: 30px;
-    color: hsla(0,0%,100%,.684);
+    color: hsla(0, 0%, 100%, .684);
     cursor: pointer;
     font-size: 30px;
     left: 4px;
     position: absolute;
 }
+
 .SideNavbar .setting:hover {
     color: #fff;
     font-size: 30px;
+}
+
+.Notification #chatsHistory{
+    padding: 7px 10px;
+    color: white;
+    position: relative;
+}
+
+#deleteNotification{
+    font-size: 15px;
+    margin-right: 5px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 5px;
+}
+
+#deleteNotification:hover{
+    /* font-size: 15px; */
+    transform: scale(1.1);
+    font-size: bolder;
+}
+
+
+
+.NotificationICON{
+    position: relative;
+}
+
+.NotificationICON:hover #showNotificaition{
+    display: block;
+}
+
+#showNotificaition{
+    display: none;
+}
+
+#triangleNoti{
+    background-color: #000000;
+    position: absolute;
+    width: 20px;
+    top: 0;
+    left: 40px;
+    z-index: 99;
+    transform: rotate(45deg);
+    border-radius: 2px;
+    /* display: none; */
+    height: 20px;
+}
+
+#notifyCount{
+    color: white;
+    font-size: 10px;
+    background-color: rgb(255, 149, 0);
+    position: absolute;
+    top: 0;
+    margin-left: -5px;
+    padding: 1px;
+    font-weight: 900;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 10px;
+    height: 10px;
+}
+
+
+#Notificiation {
+    position: absolute;
+    left: 50px;
+    top: -10px;
+    overflow: scroll;
+    /* min-height: 50vh; */
+    max-height: 50vh;
+    /* bottom: 0; */
+    padding: 10px;
+    width: 340px;
+    z-index: 99;
+    box-shadow: 0 0 10px grey;
+    border-radius: 5px;
+    background-color: white;
+    /* display: none; */
+}
+
+#noNotification{
+    font-size: 12px;
+    text-align: center;
+}
+
+#groupNotification{
+    display: flex;
+    gap: 10px;
+    margin-bottom: 5px;
+    align-items: center;
+}
+#groupNotification #logo{
+    font-size: 10px;
+}
+
+#chattingStatus img{
+    border-radius: 50%;
+    aspect-ratio: 1;
+    border: 2px solid white;
+}
+
+#NotificationMessage{
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 10px;
+    align-items: flex-end;
+}
+#NotificationMessage span{
+    font-size: 14px;
+    font-weight: 600;
+    word-break: break-all;
+    width: 90%;
 }
