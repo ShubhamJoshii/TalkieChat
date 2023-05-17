@@ -21,7 +21,7 @@ const HeaderTop = () => {
   const [NoOfUser, setNoOfUser] = useState("Single");
   const [groupImage, setGroupImage] = useState();
   const [groupName, setGroupName] = useState();
-
+  const [selectedFeature, setSelectedFeature] = useState(false);
   const navigate = useNavigate();
   const copyNumber = async () => {
     navigator.clipboard.writeText(randomNumber);
@@ -84,7 +84,7 @@ const HeaderTop = () => {
         }
         // }
       })
-      .catch((err) => {});
+      .catch((err) => { });
   };
 
   const saveChatID = async () => {
@@ -133,7 +133,7 @@ const HeaderTop = () => {
           randomNumGenerate();
         }
       )
-      .catch((err) => {});
+      .catch((err) => { });
   };
 
   const randomNumGenerate = () => {
@@ -157,78 +157,93 @@ const HeaderTop = () => {
       </div>
       <div id="generateChatID">
         <p>Generate Chat ID</p>
-        {addChatID === true ? (
-          <div id="chatId">
-            <p>Enter Chat ID here:</p>
-            <div id="randomNum">
-              <input
-                type="text"
-                id="chatID"
-                placeholder="Enter Chat Id..."
-                onChange={(e) => setrandomNumber(e.target.value)}
-              />
-              <div>
-                <TiTick id="copyLogo" onClick={saveChatID} />
-              </div>
-            </div>
-            <div id="noOfUser">
-              <p id="addChatID" onClick={() => setAddChatID(false)}>
-                Generate Chat ID
-              </p>
-            </div>
+        <div id="chatId">
+          <div id="selectFeature">
+            <h6 style={!selectedFeature ? { borderBottom: "3px solid green" } : {}} onClick={() => setSelectedFeature(false)}>Generate Chat ID</h6>
+            <h6 style={selectedFeature ? { borderBottom: "3px solid green" } : {}} onClick={() => setSelectedFeature(true)}>Share a File</h6>
           </div>
-        ) : (
-          <div id="chatId">
-            <p>Chat ID is</p>
-            <div id="randomNum">
-              <h3>{randomNumber}</h3>
-              <div>
-                <TiTick id="copyLogo" onClick={copyNumber} />
-                <BiRefresh id="copyLogo" onClick={randomNumGenerate} />
-              </div>
-            </div>
-            {NoOfUser === "Group" && (
-              <div id="groupForm">
-                <input
-                  type="text"
-                  placeholder="Enter Group Name or Automatically assigned"
-                  name="GroupName"
-                  onChange={(e) => setGroupName(e.target.value)}
-                />
-                <input
-                  type="file"
-                  id="uploadImg"
-                  name="GroupDP"
-                  onChange={(e) => setGroupImage(e.target.files[0])}
-                />
-                <label htmlFor="uploadImg">Upload Group DP</label>
-              </div>
-            )}
-            <div id="noOfUser">
-              <input
-                type="radio"
-                id="Single"
-                name="codeFor"
-                defaultChecked
-                onChange={(e) => setNoOfUser(e.target.id)}
-              />
-              <label htmlFor="Single">Single</label>
-              <input
-                type="radio"
-                name="codeFor"
-                id="Group"
-                onChange={(e) => setNoOfUser(e.target.id)}
-              />
-              <label htmlFor="Group">Group</label>
-              <p id="addChatID" onClick={() => setAddChatID(true)}>
-                Add Chat ID
-              </p>
-            </div>
-            <span>
-              Share this Chat ID to your friend to stabilize connection
-            </span>
-          </div>
-        )}
+          {
+            !selectedFeature ? <>
+
+
+              {addChatID === true ? (
+                <>
+                  <p>Enter Chat ID here:</p>
+                  <div id="randomNum">
+                    <input
+                      type="text"
+                      id="chatID"
+                      placeholder="Enter Chat Id..."
+                      onChange={(e) => setrandomNumber(e.target.value)}
+                    />
+                    <div>
+                      <TiTick id="copyLogo" onClick={saveChatID} />
+                    </div>
+                  </div>
+                  <div id="noOfUser">
+                    <p id="addChatID" onClick={() => setAddChatID(false)}>
+                      Generate Chat ID
+                    </p>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <p>Chat ID is</p>
+                  <div id="randomNum">
+                    <h3>{randomNumber}</h3>
+                    <div>
+                      <TiTick id="copyLogo" onClick={copyNumber} />
+                      <BiRefresh id="copyLogo" onClick={randomNumGenerate} />
+                    </div>
+                  </div>
+                  {NoOfUser === "Group" && (
+                    <div id="groupForm">
+                      <input
+                        type="text"
+                        placeholder="Enter Group Name or Automatically assigned"
+                        name="GroupName"
+                        onChange={(e) => setGroupName(e.target.value)}
+                      />
+                      <input
+                        type="file"
+                        id="uploadImg"
+                        name="GroupDP"
+                        onChange={(e) => setGroupImage(e.target.files[0])}
+                      />
+                      <label htmlFor="uploadImg">Upload Group DP</label>
+                    </div>
+                  )}
+                  <div id="noOfUser">
+                    <input
+                      type="radio"
+                      id="Single"
+                      name="codeFor"
+                      defaultChecked
+                      onChange={(e) => setNoOfUser(e.target.id)}
+                    />
+                    <label htmlFor="Single">Single</label>
+                    <input
+                      type="radio"
+                      name="codeFor"
+                      id="Group"
+                      onChange={(e) => setNoOfUser(e.target.id)}
+                    />
+                    <label htmlFor="Group">Group</label>
+                    <p id="addChatID" onClick={() => setAddChatID(true)}>
+                      Add Chat ID
+                    </p>
+                  </div>
+                  <span>
+                    Share this Chat ID to your friend to stabilize connection
+                  </span>
+                </>
+              )}</> : 
+              <>
+                <pre>Share a File </pre>
+                <input type="file"/>
+                <label>Share a File</label>
+              </>}
+        </div>
       </div>
     </header>
   );

@@ -165,8 +165,26 @@
 #chattingStatus img{
     border-radius: 50%;
     aspect-ratio: 1;
+    background-color: white;
     border: 2px solid white;
 }
+
+#NotPresent{
+    font-size: 10px;
+    text-align: center;
+    margin-top: -19px;
+    margin-bottom: 20px;
+}
+
+#RequestCard div{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+/* .RequestSendCard{
+    justify-content: space-between;
+} */
 
 #NotificationMessage{
     display: flex;

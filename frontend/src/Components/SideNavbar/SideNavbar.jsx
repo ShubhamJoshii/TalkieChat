@@ -135,22 +135,37 @@ const SideNavbar = ({ currRoute, setCurrRoute }) => {
   }
 
   const sendRequest = async (curr) => {
-    console.log(curr)
     await axios.post("/sendRequest", {
       _id: curr._id,
       Name: curr.Name,
       Email: curr.Email,
-      Avatar: curr.Avatar
+      Avatar: curr.Avatar,
     }).then((res) => {
+      let a = [...userInfoUpdate.Friend_Request_Sended
+        , {
+        _id: curr._id,
+        Name: curr.Name,
+        Email: curr.Email,
+        Avatar: curr.Avatar,
+      }]
+      setUserInfoUpdate({
+        ...userInfoUpdate, Friend_Request_Sended
+          : a
+      })
+      
       alert(res.data)
     }).catch(() => {
       console.log("Error in Sending Request");
     })
   }
 
-  const connectFriend = (curr) => {
+
+  useEffect(() => {
+    console.log(userInfoUpdate);
+  }, [userInfoUpdate])
+
+  const connectFriend = async (curr) => {
     const randomNumber = Math.floor(Math.random() * 10000000);
-    // console.log(curr)
     set(ref(db, `${randomNumber}`), {
       ChatID: randomNumber,
       chatType: "Single",
@@ -168,7 +183,14 @@ const SideNavbar = ({ currRoute, setCurrRoute }) => {
         },
       ],
     });
-    rejectFriend(curr);
+    let a = userInfoUpdate.Friend_Request.filter(e => e._id !== curr._id)
+    setUserInfoUpdate({
+      ...userInfoUpdate, Friend_Request: a
+    })
+    await axios.post("/accepted_request", {
+      _id: curr._id
+    })
+    // rejectFriend(curr);
   }
 
   const rejectFriend = (curr) => {
@@ -179,13 +201,37 @@ const SideNavbar = ({ currRoute, setCurrRoute }) => {
     }).catch(() => {
       console.log("Error");
     })
-    setUserInfoUpdate(userInfo.Friend_Request.filter(e => e._id !== curr._id))
+    let a = userInfo.Friend_Request.filter(e => e._id !== curr._id)
+    setUserInfoUpdate({...userInfoUpdate,Friend_Request:a})
   }
 
 
+  const getUSerSendRequests = async () => {
+    await axios.get("/userSendedRequest").then((data) => {
+      console.log(data);
+    }).catch((e) => {
+      console.log(e);
+    })
+  }
 
+  useEffect(() => {
+    getUSerSendRequests()
+  }, [])
 
-
+  const revertFriendRequest = async (curr) => {
+    await axios.post("/revertFriendRequest", {
+      _id: curr._id
+    }).then((res) => {
+      alert(res.data);
+      let a = userInfoUpdate.Friend_Request_Sended.filter(e => e._id !== curr._id)
+      setUserInfoUpdate({
+        ...userInfoUpdate, Friend_Request_Sended
+          : a
+      })
+    }).catch(() => {
+      console.log("Error")
+    })
+  }
 
   return (
     <div className="SideNavbar">
@@ -293,18 +339,48 @@ const SideNavbar = ({ currRoute, setCurrRoute }) => {
                 }
                 <h3>Requests</h3>
                 {
+                  userInfoUpdate?.Friend_Request?.length == 0 && <p id="NotPresent">No Request Send </p>
+                }
+                {
                   userInfoUpdate?.Friend_Request?.map((curr) => {
-                    // console.log(curr)
                     return (
                       <div id="RequestCard">
-                        <img src={curr.Avatar} alt="User_Image" />
-                        <h4>{curr.Name}</h4>
-                        <TiTick id="icons" style={{ backgroundColor: userInfoUpdate?.ColorSchema }} onClick={() => connectFriend(curr)} />
-                        <RxCross2 id="icons" onClick={() => rejectFriend(curr)} />
+                        <div>
+                          <img src={curr.Avatar} alt="User_Image" />
+                          <h4>{curr.Name}</h4>
+                        </div>
+                        <div>
+                          <TiTick id="icons" style={{ backgroundColor: userInfoUpdate?.ColorSchema }} onClick={() => connectFriend(curr)} />
+                          <RxCross2 id="icons" onClick={() => rejectFriend(curr)} />
+
+                        </div>
                       </div>
                     )
                   })
                 }
+
+                <h3>Requests Send</h3>
+                {
+                  userInfoUpdate?.Friend_Request_Sended?.length == 0 && <p id="NotPresent">No Request Send </p>
+                }
+                {
+                  userInfoUpdate?.Friend_Request_Sended?.map((curr) => {
+                    // console.log(curr)
+                    return (
+                      <div id="RequestCard">
+                        <div>
+                          <img src={curr.Avatar} alt="User_Image" />
+                          <h4>{curr.Name}</h4>
+
+                        </div>
+                        <RxCross2 id="icons" onClick={() => revertFriendRequest(curr)} />
+                      </div>
+                    )
+                  })
+                }
+
+
+
               </div>
             </div>
           }

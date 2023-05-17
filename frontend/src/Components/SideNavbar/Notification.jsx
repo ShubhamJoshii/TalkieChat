@@ -1,5 +1,5 @@
 import React from "react";
-
+import UserImage from "../../Assets/Avatar (7).png"
 import { BsChevronDown, BsChevronUp } from "react-icons/bs";
 import { AiOutlineRight } from "react-icons/ai"
 import { useNavigate } from "react-router-dom";
@@ -32,17 +32,17 @@ const Notification = ({NotificationsColl,userInfo,show,setNotificationColl,setSh
                                 <div id="chattingStatus">
                                     {curr.chatType === "Group" ? <>
                                         <div id="groupNotification">
-                                            <img src={curr.GroupImage} alt="GroupImg" width="20px" />
-                                            <h4>{curr.GroupName}</h4>
+                                            <img src={curr?.GroupImage} alt="GroupImg" width="20px" />
+                                            <h4>{curr?.GroupName}</h4>
                                             <AiOutlineRight id="logo" />
-                                            <h4>{curr.whoWroteName.User_Name}</h4>
+                                            <h4>{curr?.whoWroteName?.User_Name}</h4>
                                         </div>
                                         <p id="onlineTime">{time}</p>
                                     </> :
                                         <>
                                             <div id="groupNotification">
-                                                <img src={curr.whoWroteName.User_Avatar} alt="GroupImg" width="20px" />
-                                                <h4>{curr.whoWroteName.User_Name}</h4>
+                                                <img src={curr?.whoWroteName?.User_Avatar || UserImage} alt="GroupImg" width="20px" />
+                                                <h4>{curr?.whoWroteName?.User_Name}</h4>
                                             </div>
                                             <p id="onlineTime">{time}</p>
                                         </>

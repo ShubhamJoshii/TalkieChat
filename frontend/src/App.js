@@ -51,7 +51,7 @@ function App() {
           Object.values(data).map((curr) => {
             curr?.Users?.map((curr2) => {
               onValue(ref(db, `${curr2.User_id}`), (snapshot2) => {
-                if (snapshot2.val().status === "Online") {
+                if (snapshot2.val()?.status === "Online") {
                   curr?.Messages?.map((msg) => {
                     let deliveredTo = msg.DeliveredTo;
                     let a = deliveredTo.find((e) => e === result.data._id);

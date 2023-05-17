@@ -10,6 +10,8 @@ import RightClickShow from "./RightClickShow";
 import GroupImage from "../../Assets/groupImg.png";
 import ChattingCollection from "./chattingCollection";
 import UserDpShow from "../userDpShow";
+import UserImage from "../../Assets/Avatar (7).png"
+
 const Chatting = ({
   setUserChatWithData,
   setUpdate,
@@ -161,7 +163,7 @@ const Chatting = ({
                     >
                       <div id="MessageImgNotification">
                         <img
-                          src={userDP}
+                          src={userDP || UserImage}
                           alt="SenderIMG"
                           id="userImages"
                           style={{ backgroundColor: senderAvatarTheme }}

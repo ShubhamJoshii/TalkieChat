@@ -244,28 +244,79 @@ router.get("/allUSers", async (req, res) => {
 })
 
 router.post("/sendRequest", Authenication, async (req, res) => {
-  // console.log(req.body);
   const { _id, Name, Email, Avatar } = req.body;
-  const userExist = await DBModel.findOne({_id})
-  if(userExist){
-    userExist.Friend_Request = userExist.Friend_Request?.concat({_id:req.rootUser._id,Name:req.rootUser.Name,Email:req.rootUser.Email,Avatar:req.rootUser.Avatar,AvatarBackground:req.rootUser.AvatarBackground})
+  console.log(req.body);
+  const userExist = await DBModel.findOne({ _id })
+  const userExist2 = await DBModel.findOne({ _id: req.userID });
+  if (userExist) {
+    userExist.Friend_Request = userExist.Friend_Request?.concat({ _id: req.rootUser._id, Name: req.rootUser.Name, Email: req.rootUser.Email, Avatar: req.rootUser.Avatar })
     await userExist.save();
+  }
+  if (userExist2) {
+    userExist2.Friend_Request_Sended = userExist2.Friend_Request_Sended?.concat({ _id, Name, Email, Avatar })
+    await userExist2.save();
   }
   res.send("Request Sended")
 })
 
-router.post("/rejectfriend",Authenication,async(req,res)=>{
-  let {_id} = req.body; 
+router.post("/rejectfriend", Authenication, async (req, res) => {
+  // let { _id } = req.body;
+  let requestSenderId = req.body._id;
   // console.log(_id)
   let userData = req.rootUser;
-  const userExist = await DBModel.findOne({_id:req.userID})
-  let updateUser = userData.Friend_Request.filter(e => e._id !== _id)
-  console.log(updateUser)
-  if(userExist){
+  const userExist = await DBModel.findOne({ _id: req.userID })
+  const userExist2 = await DBModel.findOne({ _id: requestSenderId })
+  if (userExist) {
+    let updateUser = userData.Friend_Request.filter(e => e._id !== requestSenderId)
     userExist.Friend_Request = updateUser
     await userExist.save();
   }
+  if(userExist2){
+    let updateUser2 = userExist2.Friend_Request_Sended.filter(e => e._id !== req.rootUser._id.toString())
+      userExist2.Friend_Request_Sended = updateUser2;
+    await userExist2.save(); 
+    console.log(updateUser2)
+  }
+
 })
 
+router.post("/accepted_request", Authenication, async (req, res) => {
+    // console.log(req.rootUser,req.body._id)
+    // console.log()
+    let data = req.rootUser.Friend_Request;
+    const userExist = await DBModel.findOne({_id:req.rootUser});
+    let a = data.filter(e => e._id !== req.body._id)
+    if(userExist){
+      userExist.Friend_Request = a
+      userExist.save();
+    }
+  })
+
+router.get("/userSendedRequest", Authenication, async (req, res) => {
+  // console.log(req.userID)
+  // let 
+})
+
+
+router.post("/revertFriendRequest", Authenication, async (req, res) => {
+  const friendRequestRevert = req.body._id;
+  let friendRequestSender = req.rootUser._id.toString();
+
+  const userExist = await DBModel.findOne({ _id: friendRequestRevert });
+  const userExist2 = await DBModel.findOne({ _id: friendRequestSender });
+  if (userExist) {
+    let updateUser = userExist.Friend_Request.filter(e => e._id !== friendRequestSender)
+    // console.log(updateUser,friendRequestSender)
+    userExist.Friend_Request = updateUser;
+    userExist.save();
+  }
+  if (userExist2) {
+    let updateUser = userExist2.Friend_Request_Sended.filter(e => e._id !== friendRequestRevert)
+    console.log(updateUser)
+    userExist2.Friend_Request_Sended = updateUser;
+    userExist2.save();
+  }
+  res.send("Friend Request Remove");
+})
 
 module.exports = router;

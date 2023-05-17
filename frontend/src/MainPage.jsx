@@ -137,6 +137,8 @@ const MainPage = ({ currRoute, setCurrRoute }) => {
         fetchUserChat={fetchUserChat}
         chattingUsers={chattingUsers} setChattingUsers={setChattingUsers} Count={Count} setCount={setCount}
       />
+      {/* <div id="userChatWithCollection"> */}
+
       <UserChatingWith
         userChatWithData={userChatWithData}
         setUserChatWithData={setUserChatWithData}
@@ -146,14 +148,14 @@ const MainPage = ({ currRoute, setCurrRoute }) => {
         // setDisplay={setDisplay}
         senderInfoShow={senderInfoShow}
         setSenderInfoShow={setSenderInfoShow}
-      />
+        />
       <UserInfo
         userChatWithData={userChatWithData}
         setUserChatWithData={setUserChatWithData}
         senderInfoShow={senderInfoShow}
         setSenderInfoShow={setSenderInfoShow}
-
-      />
+        />
+    {/* </div> */}
 
       {!userChatWithData ? (
         <div className="backgroundLogos">
