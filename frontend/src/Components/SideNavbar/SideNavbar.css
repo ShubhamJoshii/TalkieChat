@@ -175,6 +175,17 @@
     margin-top: -19px;
     margin-bottom: 20px;
 }
+/* 
+#friendRequestLogo{
+    position: relative;
+} */
+
+#friendReuestNotification{
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: white;
+}
 
 #RequestCard div{
     display: flex;

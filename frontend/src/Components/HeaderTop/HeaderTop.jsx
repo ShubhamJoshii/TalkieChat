@@ -2,16 +2,18 @@ import React, { useEffect, useState } from "react";
 import "./HeaderTop.css";
 import { TiTick } from "react-icons/ti";
 import { BiRefresh, BiSave } from "react-icons/bi";
-
+import { RxCross2 } from "react-icons/rx"
+import { BsCloudDownloadFill } from "react-icons/bs"
 import Logo from "../../Assets/TalkieChatLogo.png";
 import axios from "axios";
 import { uid } from "uid";
 import { db, storage } from "../../firebase";
-import { set, ref, update, onValue } from "firebase/database";
+import { set, ref, update, onValue} from "firebase/database";
+import PdfLogo from "../../Assets/pdfLogo.png"
 import {
   getDownloadURL,
   uploadBytes,
-  ref as storageRef,
+  ref as storageRef
 } from "firebase/storage";
 import { useNavigate } from "react-router-dom";
 
@@ -22,6 +24,10 @@ const HeaderTop = () => {
   const [groupImage, setGroupImage] = useState();
   const [groupName, setGroupName] = useState();
   const [selectedFeature, setSelectedFeature] = useState(false);
+  const [selectFiles, setSelectFiles] = useState(null);
+  const [shareMethod, setShareMethod] = useState(true);
+  // const [urlCollection, setUrlCollection] = useState([]);
+  const [SharesFilesReceive, setShareFilesReceive] = useState([]);
   const navigate = useNavigate();
   const copyNumber = async () => {
     navigator.clipboard.writeText(randomNumber);
@@ -149,6 +155,77 @@ const HeaderTop = () => {
     setGroupName(`Group_${randomNumber}`.substring(0, 10));
   }, [randomNumber]);
 
+  const removeFile = (curr) => {
+    let a = selectFiles.filter(e => e.name !== curr.name)
+    setSelectFiles(a)
+  }
+
+  const shareFiles = async () => {
+    let images = selectFiles.filter(e => e.type.includes("image/"));
+    let files = selectFiles.filter(e => !e.type.includes("image/"));
+
+    // let Messages = [];
+    const uuid = uid();
+    let prevImage = []
+    let prevDocuments = []
+
+    await axios.get("/home").then((res) => {
+      {
+        images.map((curr) => {
+          const imageRef = storageRef(storage, `Share_Files${randomNumber}/Images/${curr.name + uuid}`);
+          let imageURL = "";
+          uploadBytes(imageRef, curr)
+            .then((res) => {
+              return getDownloadURL(res.ref);
+            })
+            .then((url) => {
+              console.log(url);
+              imageURL = url;
+              prevImage.push(url);
+              set(ref(db, `${randomNumber}`), {
+                ShareID: randomNumber,
+                Image: [...prevImage],
+                Document: [...prevDocuments]
+              })
+            });
+        }
+        )
+      }
+      {
+        files?.map((curr) => {
+          const filesRef = storageRef(storage, `Share_Files${randomNumber}/Documents/${curr.name + uuid}`);
+          // let imageURL = "";
+          uploadBytes(filesRef, curr)
+            .then((res) => {
+              return getDownloadURL(res.ref);
+            })
+            .then((url) => {
+              prevDocuments.push({ DocUrl: url, DocName: curr.name });
+            });
+          set(ref(db, `${randomNumber}`), {
+            ShareID: randomNumber,
+            Image: [...prevImage],
+            Document: [...prevDocuments]
+          })
+        }
+        )
+      }
+    })
+  }
+
+  
+  const fetchShareFiles = async () => {
+    // onValue(ref(db,`${randomNumber}`)).then(snapshot => {
+    //   console.log(snapshot.val())
+    // })
+    console.log(randomNumber);
+    onValue(ref(db, `${randomNumber}`), (snapshot) => {
+      let data = snapshot.val();
+      console.log(data);
+      setShareFilesReceive(data);
+    });
+  }
+
   return (
     <header className="headerText">
       <div id="talkieHeaderLogo" onClick={() => navigate("/")}>
@@ -164,8 +241,6 @@ const HeaderTop = () => {
           </div>
           {
             !selectedFeature ? <>
-
-
               {addChatID === true ? (
                 <>
                   <p>Enter Chat ID here:</p>
@@ -237,12 +312,111 @@ const HeaderTop = () => {
                     Share this Chat ID to your friend to stabilize connection
                   </span>
                 </>
-              )}</> : 
+              )}</> :
               <>
-                <pre>Share a File </pre>
-                <input type="file"/>
-                <label>Share a File</label>
-              </>}
+                {
+                  shareMethod ?
+                    <>
+                      <div id="ShareAFile">
+                        <div id="shareMethod">
+                          <pre>Share a File </pre>
+                          <p onClick={() => setShareMethod(false)}>Receive</p>
+                        </div>
+                        <div id="inputSharedFiles">
+                          <input type="file" id="ShareFile" onChange={(e) => setSelectFiles(Object.values(e.target.files))} multiple />
+                          <label htmlFor="ShareFile">Select a File</label>
+                        </div>
+                        {
+                          selectFiles?.map((curr) => {
+                            // console.log(curr)
+                            return (
+                              <div id="allSelectedFiles">
+                                <p>{curr.name}</p>
+                                <RxCross2 id="logo" onClick={() => removeFile(curr)} />
+                              </div>
+                            )
+                          })
+                        }
+                        {
+                          selectFiles && <div>
+                            <button onClick={shareFiles}>Share File</button>
+                            <p>Share this Id: {randomNumber}</p>
+                          </div>
+                        }
+                        <br />
+                        <span>Sharing Files Available in Database only for 24 hours</span>
+                      </div>
+
+                    </> : <>
+                      <div id="ShareAFile">
+                        <div id="shareMethod">
+                          <pre>Receive Files</pre>
+                          <p onClick={() => setShareMethod(true)}>Send Files</p>
+                        </div>
+                        <p>Enter Share File ID here:</p>
+                        <div id="randomNum">
+                          <input
+                            type="text"
+                            id="chatID"
+                            placeholder="Enter Chat Id..."
+                            onChange={(e) => setrandomNumber(e.target.value)}
+                          />
+                          <div>
+                            <TiTick id="copyLogo" onClick={fetchShareFiles} />
+                          </div>
+                        </div>
+                        <br />
+                        {
+                          SharesFilesReceive?.Image?.length > 0 && <div id="fileType">
+                            <p>Images</p>
+                            <BsCloudDownloadFill id="logo" />
+                          </div>
+                        }
+                        <div id="sharedFileRecieve">
+                          {
+                            SharesFilesReceive?.Image?.map((curr) => {
+                              return (
+                                <div id="sharedImageRecieve">
+                                  <img src={curr} alt="SharedImage"/>
+
+                                  <div id="downloadImgHover">
+                                      <BsCloudDownloadFill id="logo"/>
+                                  </div>
+                                </div>
+                              )
+                            })
+                          }
+                        </div>
+                        {
+                          SharesFilesReceive?.Image?.length > 0 && <div id="fileType">
+                            <p>Documents</p>
+                            <BsCloudDownloadFill id="logo" />
+                          </div>
+                        }
+                        <div id="sharedFileRecieve">
+
+                          {
+                            SharesFilesReceive?.Document?.map((curr) => {
+                              return (
+                                <div id="sharedDocRecieve">
+                                  <img src={PdfLogo} alt="SharedImage" width="25px" />
+                                  <a href={curr.DocUrl} download={curr.DocUrl}>{curr.DocName}</a>
+                                  <BsCloudDownloadFill id="logo" />
+                                </div>
+                              )
+                            })
+                          }
+                        </div>
+                        <span>Sharing Files Available in Database only for 24 hours</span>
+                      </div>
+
+
+                    </>
+                }
+
+
+              </>
+          }
         </div>
       </div>
     </header>
@@ -250,3 +424,29 @@ const HeaderTop = () => {
 };
 
 export default HeaderTop;
+
+
+{/* <div id="ShareAFile">
+  <pre>Share a File </pre>
+  <input type="file" id="ShareFile" onChange={(e) => setSelectFiles(Object.values(e.target.files))} multiple />
+  <label htmlFor="ShareFile">Select a File</label>
+  {
+    selectFiles?.map((curr) => {
+      // console.log(curr)
+      return (
+        <div id="allSelectedFiles">
+          <p>{curr.name}</p>
+          <RxCross2 id="logo" onClick={() => removeFile(curr)} />
+        </div>
+      )
+    })
+  }
+  {
+    selectFiles && <div>
+      <button onClick={shareFiles}>Share File</button>
+      <p>Share this Id: {randomNumber}</p>
+    </div>
+  }
+  <br />
+  <span>Sharing Files Available in Database only for 24 hours</span>
+</div> */}

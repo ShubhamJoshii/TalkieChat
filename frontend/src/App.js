@@ -21,6 +21,7 @@ import {
   set,
   onValue,
   update,
+  remove,
 } from "firebase/database";
 import FriendRequest from "./Components/FriendRequest/FriendRequest";
 
@@ -48,6 +49,12 @@ function App() {
         onValue(ref(db), (snapshot) => {
           // console.log(snapshot.val())
           const data = snapshot.val();
+          Object.values(data).map((curr) => {
+            // console.log(curr)
+            if(!curr.Users){
+              remove(ref(db,`${curr.ChatID}`))
+            }
+          })
           Object.values(data).map((curr) => {
             curr?.Users?.map((curr2) => {
               onValue(ref(db, `${curr2.User_id}`), (snapshot2) => {
@@ -89,6 +96,8 @@ function App() {
   useEffect(() => {
     fetchUserInfo();
   }, []);
+
+
 
   return (
     <div className="App">

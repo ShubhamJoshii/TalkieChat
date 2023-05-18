@@ -152,7 +152,7 @@ const SideNavbar = ({ currRoute, setCurrRoute }) => {
         ...userInfoUpdate, Friend_Request_Sended
           : a
       })
-      
+
       alert(res.data)
     }).catch(() => {
       console.log("Error in Sending Request");
@@ -202,7 +202,7 @@ const SideNavbar = ({ currRoute, setCurrRoute }) => {
       console.log("Error");
     })
     let a = userInfo.Friend_Request.filter(e => e._id !== curr._id)
-    setUserInfoUpdate({...userInfoUpdate,Friend_Request:a})
+    setUserInfoUpdate({ ...userInfoUpdate, Friend_Request: a })
   }
 
 
@@ -292,6 +292,10 @@ const SideNavbar = ({ currRoute, setCurrRoute }) => {
         </div>
 
         <div id="FriendRequestOuter">
+          {
+            userInfoUpdate?.Friend_Request?.length > 0 &&
+            <span id="notifyCount">{userInfoUpdate?.Friend_Request?.length}</span>
+          }
           <ImUserPlus
             className="navbarIcons"
             onClick={() => {
@@ -299,7 +303,8 @@ const SideNavbar = ({ currRoute, setCurrRoute }) => {
               else setCurrRoute("FriendRequest")
             }}
             id={currRoute === "FriendRequest" ? "active" : ""}
-          />{
+          />
+          {
             currRoute === "FriendRequest" &&
             <div id="triangleNoti"></div>
           }
@@ -378,9 +383,6 @@ const SideNavbar = ({ currRoute, setCurrRoute }) => {
                     )
                   })
                 }
-
-
-
               </div>
             </div>
           }
