@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import "./UserChatingWith.css";
 import {
   BiSearchAlt,
@@ -416,6 +416,25 @@ const UserChatingWith = ({
   useEffect(() => {
     if (!searchActive) setUserAllMessageSearch(userAllMessage);
   }, [searchActive, userAllMessage]);
+
+
+  // const [showDiv, setShowDiv] = useState(false);
+  const attachementRef = useRef(null);
+
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (attachementRef.current && !attachementRef.current.contains(event.target)) {
+        // setShowDiv(false);
+        setAttachmentShow(false)
+      }
+    };
+
+    document.addEventListener('mousedown', handleOutsideClick);
+
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, []);
 
   return (
     <>
@@ -880,7 +899,7 @@ const UserChatingWith = ({
               )}
 
               {AttachmentShow && (
-                <div className="Attachments">
+                <div className="Attachments" ref={attachementRef}>
                   <input
                     type="file"
                     id="selectImage"

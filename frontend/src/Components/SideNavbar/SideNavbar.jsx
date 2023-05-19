@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import "./SideNavbar.css";
 import UserImage from "../../Assets/Avatar (13).png";
 
@@ -19,6 +19,8 @@ import { db } from "../../firebase";
 import FriendRequest from "../FriendRequest/FriendRequest";
 import UserImg from "../../Assets/Avatar (7).png"
 import axios from "axios";
+import UserDpShow from "../userDpShow";
+import UserInfo from "../UserInfo/UserInfo";
 // import { set } from "mongoose";
 
 
@@ -31,7 +33,41 @@ const SideNavbar = ({ currRoute, setCurrRoute }) => {
   const [allUsers, setAllUsers] = useState([]);
   const [allUsersSearch, setAllUsersSearch] = useState([]);
   const [chattingUsers, setChattingUsers] = useState([]);
+  const [ShowDP,setShowDP] = useState(null);
   const navigate = useNavigate();
+
+  const notificationRef = useRef(null);
+  const friednRequestRef = useRef(null);
+  const [ShowNoti, setShowNoti] = useState(false);
+  const [ShowFriendRequest, setShowFriendRequest] = useState(false);
+
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (notificationRef.current && !notificationRef.current.contains(event.target)) {
+        setShowNoti(false);
+        setCurrRoute("");
+      }
+    };
+    document.addEventListener('mousedown', handleOutsideClick);
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, []);
+
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (friednRequestRef.current && !friednRequestRef.current.contains(event.target)) {
+        // setShowNoti(false);
+        setShowFriendRequest(false)
+        setCurrRoute("");
+      }
+    };
+    document.addEventListener('mousedown', handleOutsideClick);
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+    };
+  }, []);
+
   const fetchNotification = () => {
     onValue(ref(db), (snapshot) => {
       if (userInfo) {
@@ -235,11 +271,15 @@ const SideNavbar = ({ currRoute, setCurrRoute }) => {
 
   return (
     <div className="SideNavbar">
+      {/* <div style={ShowDP ? { display: "block" } : { display: "none" }}>
+        <UserDpShow ShowDP={ShowDP} setShowDP={setShowDP} />
+      </div> */}
       <div id="userImage">
         <div id="onlineStatue"></div>
         <img
           src={userInfo ? userInfo.Avatar : UserImage}
           alt="DP"
+          onClick={()=>setShowDP(UserInfo.Avatar)}
           style={
             userInfo
               ? { backgroundColor: userInfo.AvatarBackground }
@@ -272,6 +312,7 @@ const SideNavbar = ({ currRoute, setCurrRoute }) => {
           }}
           id={currRoute === "Groups" ? "active" : ""}
         />
+
         <div className=" NotificationICON">
           {
             NotificationsColl.length > 0 &&
@@ -280,14 +321,18 @@ const SideNavbar = ({ currRoute, setCurrRoute }) => {
           <IoMdNotifications
             className="navbarIcons"
             onClick={() => {
-              if (currRoute === "Notification") setCurrRoute("");
-              else setCurrRoute("Notification")
+              // if (currRoute === "Notification") setCurrRoute("");
+              // else 
+              setCurrRoute("Notification")
+              setShowNoti(!ShowNoti)
+              console.log("Click")
             }}
             id={currRoute === "Notification" ? "active" : ""}
           />
-          {
-            currRoute === "Notification" &&
-            <Notification NotificationsColl={NotificationsColl} userInfo={userInfo} show={show} setNotificationColl={setNotificationColl} setShow={setShow} />
+          {ShowNoti &&
+          <div ref={notificationRef}>
+            <Notification  NotificationsColl={NotificationsColl} userInfo={userInfo} show={show} setNotificationColl={setNotificationColl} setShow={setShow} />
+          </div>
           }
         </div>
 
@@ -299,17 +344,21 @@ const SideNavbar = ({ currRoute, setCurrRoute }) => {
           <ImUserPlus
             className="navbarIcons"
             onClick={() => {
-              if (currRoute === "FriendRequest") setCurrRoute("");
-              else setCurrRoute("FriendRequest")
+              // if (currRoute === "FriendRequest") setCurrRoute("");
+              // else 
+              setCurrRoute("FriendRequest")
+              setShowFriendRequest(!ShowFriendRequest);
             }}
             id={currRoute === "FriendRequest" ? "active" : ""}
           />
+          
+          {/* {
+            currRoute === "FriendRequest" &&
+          } */}
           {
             currRoute === "FriendRequest" &&
+            <div ref={friednRequestRef}>
             <div id="triangleNoti"></div>
-          }
-          {
-            currRoute === "FriendRequest" &&
             <div id="FriendRequest">
               <div id="FriendRequestBOX">
                 <h3>Add Friends</h3>
@@ -344,7 +393,7 @@ const SideNavbar = ({ currRoute, setCurrRoute }) => {
                 }
                 <h3>Requests</h3>
                 {
-                  userInfoUpdate?.Friend_Request?.length == 0 && <p id="NotPresent">No Request Send </p>
+                  userInfoUpdate?.Friend_Request?.length == 0 && <p id="NotPresent">No Request Received </p>
                 }
                 {
                   userInfoUpdate?.Friend_Request?.map((curr) => {
@@ -366,7 +415,7 @@ const SideNavbar = ({ currRoute, setCurrRoute }) => {
 
                 <h3>Requests Send</h3>
                 {
-                  userInfoUpdate?.Friend_Request_Sended?.length == 0 && <p id="NotPresent">No Request Send </p>
+                  userInfoUpdate?.Friend_Request_Sended?.length == 0 && <p id="NotPresent">No Request Sended </p>
                 }
                 {
                   userInfoUpdate?.Friend_Request_Sended?.map((curr) => {
@@ -385,6 +434,7 @@ const SideNavbar = ({ currRoute, setCurrRoute }) => {
                 }
               </div>
             </div>
+            </div>
           }
         </div>
         <AiFillSetting
@@ -396,7 +446,7 @@ const SideNavbar = ({ currRoute, setCurrRoute }) => {
           id={currRoute === "setting" ? "active" : ""}
         />
       </div>
-    </div>
+    </div >
   );
 };
 

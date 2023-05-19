@@ -433,7 +433,7 @@ button:disabled, button[disabled]{
     bottom: 40px;
     background-color: rgba(0, 0, 0, 0.344);
     width: 60%;
-    z-index: 9999;
+    z-index: 9;
     height: 140px;
     /* width: 70%; */
     padding: 0px 20%;
