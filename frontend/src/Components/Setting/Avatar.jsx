@@ -14,6 +14,7 @@ import Avatar11 from "../../Assets/Avatar (11).png";
 import Avatar12 from "../../Assets/Avatar (12).png";
 import { CgCloseO } from "react-icons/cg";
 import axios from "axios";
+import { toast } from "react-toastify";
 const Avatar = ({ setAvatarPage,notificationShow }) => {
   const AvatarArr = [
     Avatar1,
@@ -53,7 +54,16 @@ const Avatar = ({ setAvatarPage,notificationShow }) => {
       AvatarBackground
     })
     .then((result) => {
-      notificationShow(result.data,true)
+      toast.success(result.data, {
+        position: "bottom-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     })
     .catch((err) => {});
   };

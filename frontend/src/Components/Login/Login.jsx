@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
 import axios from "axios";
+import { toast } from "react-toastify";
 const Login = () => {
   const [inputData, setInputData] = useState();
   const [rememberME, setRememberMe] = useState(false);
@@ -34,12 +35,26 @@ const Login = () => {
           document.getElementById("Password").style.borderBottom =
             "2px solid red";
         } else {
-          alert(result.data);
-          navigate("/");
-          window.location.reload(true);
+          // alert(result.data);
+          toast.success(result.data, {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "dark",
+          });
+          setTimeout(()=>{
+            navigate("/");
+            window.location.reload(true);
+          },2000);
+          // navigate("/");
+          // window.location.reload(true);
         }
       })
-      .catch((err) => {});
+      .catch((err) => { });
   };
 
   const handleInput = (e) => {

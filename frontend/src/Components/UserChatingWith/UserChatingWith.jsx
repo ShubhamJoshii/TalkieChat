@@ -42,6 +42,7 @@ import { update } from "firebase/database";
 import UserDpShow from "../userDpShow";
 import { uid } from "uid";
 import { message } from "antd";
+import { toast } from "react-toastify";
 // import { message } from "antd";
 
 const UserChatingWith = ({
@@ -206,7 +207,17 @@ const UserChatingWith = ({
     const imageRef = storageRef(storage, `images/${name.name + uuid}`);
     uploadBytes(imageRef, name)
       .then((res) => {
-        alert("Image Upload");
+        // alert("Image Upload");
+        toast.success("Image Upload", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
         // console.log(getDownloadURL(res.ref));
         return getDownloadURL(res.ref);
       })
@@ -237,7 +248,16 @@ const UserChatingWith = ({
     const documentRef = storageRef(storage, `files/${name.name + uuid}`);
     uploadBytes(documentRef, name)
       .then((res) => {
-        alert("Image Upload");
+        toast.success("Document Upload", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
         return getDownloadURL(res.ref);
       })
       .then((url) => {

@@ -18,10 +18,11 @@ import { onValue, ref, set } from "firebase/database";
 import { db } from "../../firebase";
 import FriendRequest from "../FriendRequest/FriendRequest";
 import UserImg from "../../Assets/Avatar (7).png"
-import axios from "axios";
 import UserDpShow from "../userDpShow";
+import axios from "axios";
 import UserInfo from "../UserInfo/UserInfo";
-// import { set } from "mongoose";
+import { toast } from "react-toastify";
+
 
 
 const SideNavbar = ({ currRoute, setCurrRoute }) => {
@@ -189,7 +190,17 @@ const SideNavbar = ({ currRoute, setCurrRoute }) => {
           : a
       })
 
-      alert(res.data)
+      // alert(res.data)
+      toast.success(res.data, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     }).catch(() => {
       console.log("Error in Sending Request");
     })
@@ -233,7 +244,17 @@ const SideNavbar = ({ currRoute, setCurrRoute }) => {
     axios.post("/rejectfriend", {
       _id: curr._id
     }).then((data) => {
-      alert(data)
+      // alert(data)
+      toast.success(data, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
     }).catch(() => {
       console.log("Error");
     })
@@ -258,7 +279,17 @@ const SideNavbar = ({ currRoute, setCurrRoute }) => {
     await axios.post("/revertFriendRequest", {
       _id: curr._id
     }).then((res) => {
-      alert(res.data);
+      // alert(res.data);
+      toast.success(res.data, {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
       let a = userInfoUpdate.Friend_Request_Sended.filter(e => e._id !== curr._id)
       setUserInfoUpdate({
         ...userInfoUpdate, Friend_Request_Sended

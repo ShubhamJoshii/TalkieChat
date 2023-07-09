@@ -20,6 +20,7 @@ import {
   uploadBytes,
 } from "firebase/storage";
 import { uid } from "uid";
+import { toast } from "react-toastify";
 
 const Setting = ({currRoute, setCurrRoute}) => {
   const [avatarPage, setAvatarPage] = useState(false);
@@ -44,8 +45,17 @@ const Setting = ({currRoute, setCurrRoute}) => {
     const imageRef = storageRef(storage, `userDP/${name.name + uuid}`);
     uploadBytes(imageRef, name)
       .then((res) => {
-        alert("Image Upload");
-        // console.log(getDownloadURL(res.ref));
+        // alert("Image Upload");
+        toast("Image Upload", {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
         return getDownloadURL(res.ref);
       })
       .then(async (url) => {
@@ -56,7 +66,16 @@ const Setting = ({currRoute, setCurrRoute}) => {
           })
           .then((result) => {
             console.log(result.data);
-            notificationShow(result.data, true);
+            toast.success(result.data, {
+              position: "top-right",
+              autoClose: 2000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+            });
           })
       });
   };
@@ -68,7 +87,16 @@ const Setting = ({currRoute, setCurrRoute}) => {
       })
       .then((result) => {
         // alert(result.data)
-        notificationShow(result.data, true);
+        toast.success(result.data, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
       });
   };
 
@@ -80,9 +108,21 @@ const Setting = ({currRoute, setCurrRoute}) => {
     axios
       .get("/logout")
       .then((result) => {
-        alert(result.data);
-        navigate("/");
-        window.location.reload(true);
+        // alert(result.data);
+        toast.success(result.data, {
+          position: "top-right",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+        setTimeout(()=>{
+          navigate("/");
+          window.location.reload(true);
+        },2000);
       })
       .catch((err) => {});
   };

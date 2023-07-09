@@ -10,8 +10,8 @@ import Login from "./Components/Login/Login";
 import Register from "./Components/Register/Register";
 import axios from "axios";
 import Loading from "./Components/Loading/Loading";
-
-
+import { ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import "./firebase";
 import "./firebase";
 import {
@@ -110,6 +110,7 @@ function App() {
               <SideNavbar currRoute={currRoute} setCurrRoute={setCurrRoute}/>
               <div id="secondHalf">
                 <Header />
+                <ToastContainer />
                 <div id="Routers">
                   <Routes>
                     <Route path="/" element={<MainPage currRoute={currRoute} setCurrRoute={setCurrRoute}/>} />
