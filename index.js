@@ -11,15 +11,15 @@ require("dotenv").config();
 app.use(cookieParser());
 app.use(express.json());
 app.use(require("./auth"));
-app.use(express.static(path.resolve(__dirname, "frontend", "build")));
+app.use(express.static(path.resolve(__dirname, "frontend", "dist")));
 
 app.get("/", (req, res) => {
-  console.log(path.resolve(__dirname, "frontend", "build"));
-  res.status(200).sendFile(path.resolve(__dirname, "frontend", "build"));
+  console.log(path.resolve(__dirname, "frontend", "dist"));
+  res.status(200).sendFile(path.resolve(__dirname, "frontend", "dist"));
 });
 
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname + "/frontend/build/index.html"));
+  res.sendFile(path.join(__dirname + "/frontend/dist/index.html"));
 });
 
 app.listen(5000, () => {

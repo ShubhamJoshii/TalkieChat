@@ -5,7 +5,10 @@ const router = express.Router();
 const jwt = require("jsonwebtoken");
 const Authenication = require("./Authenication");
 // const { default: FriendRequest } = require("./frontend/src/Components/FriendRequest/FriendRequest");
-router.post("/register", async (req, res) => {
+
+const envURL="/api/";
+// const envURL="/";
+router.post(`${envURL}register`, async (req, res) => {
   const { Name, Email, Password, Confirm_Password, Register_Date, Avatar } =
     req.body;
   if (!Name || !Email || !Password || !Confirm_Password) {
@@ -35,7 +38,7 @@ router.post("/register", async (req, res) => {
   }
 });
 
-router.post("/login", async (req, res) => {
+router.post(`${envURL}login`, async (req, res) => {
   const { Name_Email, Password, Login_Date, rememberME } = req.body;
   console.log(Name_Email, Password, Login_Date, rememberME);
   if (!Name_Email || !Password) {
@@ -75,16 +78,16 @@ router.post("/login", async (req, res) => {
   } catch (error) { }
 });
 
-router.get("/logout", (req, res) => {
+router.get(`${envURL}logout`, (req, res) => {
   res.clearCookie("talkieChatToken", { path: "/" });
   res.status(200).send("User Logout");
 });
 
-router.get("/home", Authenication, async (req, res) => {
+router.get(`${envURL}home`, Authenication, async (req, res) => {
   res.send(req.rootUser);
 });
 
-router.post("/changeDP", Authenication, async (req, res) => {
+router.post(`${envURL}changeDP`, Authenication, async (req, res) => {
   const { Avatar } = req.body;
   console.log(Avatar)
   try {
@@ -115,7 +118,7 @@ router.post("/changeDP", Authenication, async (req, res) => {
   }
 });
 
-router.post("/avatarSave", Authenication, async (req, res) => {
+router.post(`${envURL}avatarSave`, Authenication, async (req, res) => {
   const { Avatar, AvatarBackground } = req.body;
   try {
     const userExists = await DBModel.findOne({ _id: req.userID });
@@ -148,7 +151,7 @@ router.post("/avatarSave", Authenication, async (req, res) => {
   }
 });
 
-router.post("/changeColorSchema", Authenication, async (req, res) => {
+router.post(`${envURL}changeColorSchema`, Authenication, async (req, res) => {
   const { ColorSchema } = req.body;
   try {
     const userExists = await DBModel.findOne({ _id: req.userID });
@@ -162,7 +165,7 @@ router.post("/changeColorSchema", Authenication, async (req, res) => {
   }
 });
 
-router.post("/saveChatID", Authenication, async (req, res) => {
+router.post(`${envURL}saveChatID`, Authenication, async (req, res) => {
   const { ChatID } = req.body;
   const chatIDExists = await ChatDataModel.findOne({ ChatID });
   if (chatIDExists) {
@@ -186,7 +189,7 @@ router.post("/saveChatID", Authenication, async (req, res) => {
   }
 });
 
-router.get("/chattingData", Authenication, async (req, res) => {
+router.get(`${envURL}chattingData`, Authenication, async (req, res) => {
   try {
     const fetchUserID = await ChatDataModel.find({
       $or: [{ User1_id: req.userID }, { User2_id: req.userID }],
@@ -197,7 +200,7 @@ router.get("/chattingData", Authenication, async (req, res) => {
   }
 });
 
-router.post("/sendMessage", Authenication, async (req, res) => {
+router.post(`${envURL}sendMessage`, Authenication, async (req, res) => {
   const { chat_id, Message, time } = req.body;
   let whoWrote = req.rootUser._id;
   console.log(chat_id, Message, time, whoWrote);
@@ -218,7 +221,7 @@ router.post("/sendMessage", Authenication, async (req, res) => {
   }
 });
 
-router.post("/findChatData", async (req, res) => {
+router.post(`${envURL}findChatData`, async (req, res) => {
   const { _id } = req.body;
   console.log(_id)
   const fetchMessage = await ChatDataModel.findOne({ _id })
@@ -229,7 +232,7 @@ router.post("/findChatData", async (req, res) => {
   }
 });
 
-router.get("/allUSers", async (req, res) => {
+router.get(`${envURL}allUSers`, async (req, res) => {
   let Users = []
   let User = await DBModel.find();
   for (i = 0; i < User.length; i++) {
@@ -243,7 +246,7 @@ router.get("/allUSers", async (req, res) => {
   res.send(Users)
 })
 
-router.post("/sendRequest", Authenication, async (req, res) => {
+router.post(`${envURL}sendRequest`, Authenication, async (req, res) => {
   const { _id, Name, Email, Avatar } = req.body;
   console.log(req.body);
   const userExist = await DBModel.findOne({ _id })
@@ -259,7 +262,7 @@ router.post("/sendRequest", Authenication, async (req, res) => {
   res.send("Request Sended")
 })
 
-router.post("/rejectfriend", Authenication, async (req, res) => {
+router.post(`${envURL}rejectfriend`, Authenication, async (req, res) => {
   // let { _id } = req.body;
   let requestSenderId = req.body._id;
   // console.log(_id)
@@ -280,7 +283,7 @@ router.post("/rejectfriend", Authenication, async (req, res) => {
 
 })
 
-router.post("/accepted_request", Authenication, async (req, res) => {
+router.post(`${envURL}accepted_request`, Authenication, async (req, res) => {
     // console.log(req.rootUser,req.body._id)
     // console.log()
     let data = req.rootUser.Friend_Request;
@@ -292,13 +295,13 @@ router.post("/accepted_request", Authenication, async (req, res) => {
     }
   })
 
-router.get("/userSendedRequest", Authenication, async (req, res) => {
+router.get(`${envURL}userSendedRequest`, Authenication, async (req, res) => {
   // console.log(req.userID)
   // let 
 })
 
 
-router.post("/revertFriendRequest", Authenication, async (req, res) => {
+router.post(`${envURL}revertFriendRequest`, Authenication, async (req, res) => {
   const friendRequestRevert = req.body._id;
   let friendRequestSender = req.rootUser._id.toString();
 
