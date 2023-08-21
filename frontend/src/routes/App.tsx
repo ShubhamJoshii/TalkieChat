@@ -149,7 +149,7 @@ function App() {
             {showLoading ? (
               <Loading />
             ) : (
-              <div>
+              <>
                 <ToastContainer />
                 <SideNavbar />
                 <div id="secondHalf">
@@ -166,7 +166,7 @@ function App() {
                     </Routes>
                   </div>
                 </div>
-              </div>
+              </>
             )}
           </Router>
         </MainFunction.Provider>

@@ -102,7 +102,6 @@
         z-index: 99;
         transform: rotate(45deg);
         border-radius: 2px;
-        /* display: none; */
         height: 20px;
     }
 
@@ -129,7 +128,7 @@
         left: 50px;
         top: -10px;
         overflow: scroll;
-        /* min-height: 50vh; */
+        min-height: 50vh; 
         max-height: 50vh;
         /* bottom: 0; */
         padding: 10px;

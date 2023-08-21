@@ -14,15 +14,22 @@
     .userChatting {
       width: 65.8vw;
     }
+    .Setting #userSetting #socialLogo{
+      display: none;
+    }
   }
   
   @media only screen and (max-width: 685px) {
     .Chatting {
       width: 100vw;
     }
+    #MainPage .backgroundLogos{
+      display: none;
+    }
   
     #MainPage {
       width: 100vw;
+      height: 95%;
     }
   
     .Attachments {
@@ -32,8 +39,8 @@
       display: none;
     }
   
-    /* .SenderInfo {
-      display: none;
+    /* #FriendRequestOuter #FriendRequestBOX{
+      
     } */
     .SideNavbar #userImage {
       display: none;
@@ -58,28 +65,33 @@
       margin-top: 0;
     }
   
-    #Notificiation{
-      bottom: 50px;
-      top: auto;
-      left: auto;
-      right: -500%;
-    }
-    
-    #triangleNoti{
-      bottom: 43px;
-      top: auto;
-      left: 5px;
-    }
+    .SideNavbar{
+      #Notificiation{
+        bottom: 50px;
+        top: auto;
+        left: auto;
+        right: -500%;
+      }
+      
+      #triangleNoti{
+        bottom: 43px;
+        top: auto;
+        left: 5px;
+      }
+      .setting {
+        position: relative;
+        bottom: 0;
+      }
+    } 
   
+    .Setting{
+      margin-bottom: 120px;
+    }
     #secondHalf {
       left: 0;
       width: 100vw;
     }
   
-    .SideNavbar .setting {
-      position: relative;
-      bottom: 0;
-    }
   
     .userChatting {
       /* width: calc(100vw - 40px); */
@@ -113,7 +125,8 @@
       width: 350px;
     }
   
-    #FriendRequest{
+    #FriendRequestOuter #FriendRequest{
+      /* margin: 20px 110px; */
       margin: 20px 110px;
       position: fixed;
       /* margin: 5vw; */
@@ -136,10 +149,13 @@
       justify-content: center;
       flex-wrap: wrap;
     }
+    #FriendRequestOuter #FriendRequest{
+      margin: 20px 0px;
+    }
     .themes {
       padding-bottom: 150px;
     }
-  
+    
     #pickers {
       flex-wrap: wrap;
     }

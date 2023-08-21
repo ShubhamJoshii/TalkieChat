@@ -455,7 +455,7 @@ setUserChatWithData:any;
                     />
                     <div>
                       <img
-                        src={senderDPData.Image}
+                        src={senderDPData.Image || "https://w7.pngwing.com/pngs/821/381/png-transparent-computer-user-icon-peolpe-avatar-group.png"}
                         alt="SenderIMG"
                         id="userImg"
                         style={{ backgroundColor: senderDPData.Background }}

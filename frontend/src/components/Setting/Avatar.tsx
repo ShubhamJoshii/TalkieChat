@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import Avatar1 from "../../Assets/Avatar (1).png";
 import Avatar2 from "../../Assets/Avatar (2).png";
 import Avatar3 from "../../Assets/Avatar (3).png";
@@ -62,18 +62,14 @@ const Avatar : React.FC<{
   };
   
 
-  useEffect(()=>{
-    console.log(SelectedAvatar)
-  },[SelectedAvatar])
-
   return (
     <div className="Avatar">
       <h1>Select Avatar</h1>
       <CgCloseO id="closeBtnAvatars" onClick={() => setAvatarPage(false)} />
       <div id="AvatarCollections">
-        {AvatarArr.map((curr) => {
+        {AvatarArr.map((curr:any,id:number) => {
           return (
-            <div id="avatarImgBack">
+            <div id="avatarImgBack" key={curr+id}>
               <img src={curr} alt="avatar Img" onClick={(e:any)=>setSelectAvatar({...SelectedAvatar,"Avatar":e.target.src})}/>
             </div>
           );
@@ -81,12 +77,13 @@ const Avatar : React.FC<{
       </div>
       <h3>Select Avatar Background Color</h3>
       <div className="avatarBackGroundColor">
-        {themeColor.map((curr) => {
+        {themeColor.map((curr:any,id:number) => {
           return (
             <div
               className="AvatarthemeColors"
               style={{ backgroundColor: curr }}
               onClick={()=>setSelectAvatar({...SelectedAvatar,"AvatarBackground":curr})}
+              key={curr+id}
             ></div>
           );
         })}

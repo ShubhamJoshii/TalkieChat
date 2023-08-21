@@ -1,7 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { UserData } from "../../routes/App";
 import ChatPNG from "../../assets/chat.png";
-import UserImage from "../../assets/Avatar (7).png"
 import { useNavigate } from "react-router-dom";
 import { Dropdown } from "antd";
 import { db } from "../../firebase";
@@ -90,14 +89,14 @@ const Chatting: React.FC<{
           <UserDpShow ShowDP={ShowDP} setShowDP={setShowDP} />
         </div>
         <input type="text" placeholder="Search..." onChange={searchUsers} />
-        <div id="chatsPersons">
+        <div id="chatting-Type">
           <h3>
             {userType == "/" && "Recent"} {userType == "/Single" && "Single"}{" "}
             {userType == "/Groups" && "Group"} Chats
           </h3>
-          <div>
+          <div className="chats-collection">
             {chatsArr.length !== 0 ? (
-              <div>
+              <>
                 {chatsArr.map((curr: any, id: number) => {
                   let SenderName;
                   let user_ID;
@@ -174,7 +173,7 @@ const Chatting: React.FC<{
                       >
                         <div id="MessageImgNotification">
                           <img
-                            src={userDP || UserImage}
+                            src={userDP || "https://w7.pngwing.com/pngs/821/381/png-transparent-computer-user-icon-peolpe-avatar-group.png"}
                             alt="SenderIMG"
                             id="userImages"
                             style={{ backgroundColor: senderAvatarTheme }}
@@ -212,7 +211,7 @@ const Chatting: React.FC<{
                     </Dropdown>
                   );
                 })}
-              </div>
+              </>
             ) : (
               <div className="chattingNotLOgin">
                 <p>Enjoy your chat and have fun communicating with others</p>

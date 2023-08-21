@@ -172,7 +172,7 @@ const UserInfo: React.FC<{
           />
           <div id="UserImg">
             <img
-              src={senderDPData.Image}
+              src={senderDPData.Image || "https://w7.pngwing.com/pngs/821/381/png-transparent-computer-user-icon-peolpe-avatar-group.png"}
               alt="SenderDP"
               style={{ backgroundColor: senderDPData.Background }}
               onClick={(e:any) => setShowDP(e.target.src)}

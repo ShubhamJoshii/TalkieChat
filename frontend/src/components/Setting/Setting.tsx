@@ -4,7 +4,7 @@ import Linkedin from "../../Assets/Linkedin (2).png";
 import Github from "../../Assets/Github.jpg";
 import { BsFillCameraFill } from "react-icons/bs";
 import { MainFunction, UserData } from "../../routes/App";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Avatar from "./Avatar";
 import axios from "axios";
 import { AlphaPicker, HuePicker, TwitterPicker } from "react-color";
@@ -23,12 +23,6 @@ const Setting = () => {
   const userInfo: any = useContext(UserData);
   const { notification, fetchUserInfo }: any = useContext(MainFunction);
   const [currTheme, setCurrTheme] = useState<string>("red");
-
-  const location = useLocation();
-  useEffect(() => {
-    let a = location.pathname;
-    console.log(a)
-  }, [location])
 
   const uploadImage = async (e: any) => {
     const name = e.target.files[0];

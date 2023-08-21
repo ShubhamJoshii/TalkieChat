@@ -1,107 +1,111 @@
-#FriendRequestOuter{
+#FriendRequestOuter {
     position: relative;
-}
-#FriendRequest{
-    position: absolute;
-    top: -100px;
-    left: 50px;
-    z-index: 99;
-}
 
-#RequestCard {
-    display: flex;
-    align-items: center;    
-    gap: 15px;
-    /* justify-content: center; */
-    /* justify-content:space-evenly; */
-    justify-content: space-between;
-    margin: 5px 10px;
-    padding: 2px 10px;
-    border: 1px solid black;
-    border-radius: 5px;
-}
+    #FriendRequest {
+        position: absolute;
+        top: -100px;
+        left: 50px;
+        z-index: 99;
 
-#RequestCard img{
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    margin: 2px 0;
-    border: 2px solid black;
-}
-#RequestCard h4{
-    margin: 0;
-}
+        input {
+            width: 84%;
+            margin: 2px 5%;
+            padding: 5px 10px;
+        }
 
-#FriendRequest input{
-    width: 84%;    
-    margin: 2px 5%;
-    padding: 5px 10px;
-    
-}
+        #RequestCard {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            justify-content: space-between;
+            margin: 5px 10px;
+            padding: 2px 10px;
+            border: 1px solid black;
+            border-radius: 5px;
 
-#AddFriends h4{
-    margin: 0;
-}
-#AddFriends {
-    margin: auto;
-    margin-top: 10px;
-    border-radius: 5px;
-    border: 1px solid black;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 10px;
-    width: 270px;
-}
+            img {
+                width: 50px;
+                height: 50px;
+                border-radius: 50%;
+                margin: 2px 0;
+                border: 2px solid black;
+            }
 
-#AddFriends div{
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
+            h4 {
+                margin: 0;
+            }
 
-#AddFriends p{
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 1px;
-    cursor: pointer;
-    color: blue;
-}
-#AddFriends p:hover{
-    text-decoration: underline;
-}
-#AddFriends img{
-    width: 45px;
-    height: 45px;
-    
-}
 
-#RequestCard #icons:hover{
-    transform: scale(1.1);
-}
+            #icons {
+                font-size: 15px;
+                padding: 4px;
+                border-radius: 50%;
+                color: white;
+                cursor: pointer;
 
-#RequestCard #icons{
-    font-size: 15px;
-    padding: 4px;
-    border-radius:50%;
-    color: white;
-    cursor: pointer;
-}
-#RequestCard #icons{
-    background-color: green;
-}
-#RequestCard #icons:last-child{
-    color: white;
-    background-color: red;
-}
+                &:hover {
+                    transform: scale(1.1);
+                }
 
-#FriendRequestBOX{
-    padding: 0px 5px;
-    width: 310px;
-    min-height: 200px;
-    max-height: 400px;
-    overflow: scroll;
-    background-color: rgb(255, 255, 255);
-    box-shadow: 0 0 10px grey;
-    color: black;
+                background-color: green;
+
+                &:last-child {
+                    color: white;
+                    background-color: red;
+                }
+            }
+
+
+        }
+
+        #AddFriends {
+            margin: auto;
+            margin-top: 10px;
+            border-radius: 5px;
+            border: 1px solid black;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 10px;
+            width: 270px;
+
+            h4 {
+                margin: 0;
+            }
+
+            div {
+                display: flex;
+                align-items: center;
+                gap: 5px;
+            }
+
+            p {
+                font-size: 10px;
+                font-weight: 600;
+                letter-spacing: 1px;
+                cursor: pointer;
+                color: blue;
+
+                &:hover {
+                    text-decoration: underline;
+                }
+            }
+
+            img {
+                width: 45px;
+                height: 45px;
+            }
+        }
+    }
+
+    #FriendRequestBOX {
+        padding: 0px 5px;
+        width: 310px;
+        min-height: 200px;
+        max-height: 400px;
+        overflow: scroll;
+        background-color: rgb(255, 255, 255);
+        box-shadow: 0 0 10px grey;
+        color: black;
+    }
 }

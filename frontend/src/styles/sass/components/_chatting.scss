@@ -1,161 +1,159 @@
 .Chatting {
   display: flex;
   align-items: center;
-  border-right: 1px solid #707070;
   flex-direction: column;
-  /* width: 300px; */
+  gap: 20px;
+  border-right: 1px solid #707070;
   width: calc(25vw - 40px);
-  height: calc(100%);
+  padding : 15px 0;
+  input {
+    border: none;
+    outline: none;
+    border-radius: 2px;
+    box-shadow: 0 0 2px #707070;
+    font-size: 14px;
+    padding: 7px 20px 7px 10px;
+    width: 85%;
+    &:focus{
+      border: 1px solid rgb(0, 0, 0);
+    }
+  }
+  #userImages {
+    aspect-ratio: 1;
+    border-radius: 50%;
+    width: 40px;
+  }
+  #chatting-Type {
+    background-color: #fff;
+    border: 1px solid #707070;
+    border-radius: 10px;
+    flex: 1;
+    overflow: hidden;
+    overflow-y: scroll;
+    padding: 20px 10px;
+    text-align: left;
+    width: 86%;
+    h3 {
+      margin: 0 0 10px;
+    }
+    .chats-collection{
+      display: flex;
+      flex-direction: column;
+      // justify-content: center;
+      flex: 1;
+      gap: 20px;
+      #chatsHistory {
+        align-items: center;
+        border-radius: 3px;
+        box-shadow: 0 0 2px #707070;
+        cursor: pointer;
+        display: flex;
+        gap: 13px;
+        // margin-bottom: 20px;
+        padding: 7px 5px;
+      
+        &:hover {
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.193);
+        }
+        #MessageImgNotification {
+          aspect-ratio: 1;
+          border-radius: 50%;
+          width: 40px;
+          position: relative;
+        
+          span {
+            position: absolute;
+            bottom: 4px;
+            right: 0;
+            background-color: lightseagreen;
+            font-size: 10px;
+            border-radius: 50%;
+            width: 10px;
+            height: 10px;
+            padding: 1px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: 700;
+          }
+        }
+      
+        #userInfoText {
+          flex: 1;
+          #Senderstatus,
+          #SenderstatusRed {
+            font-size: 12px;
+            letter-spacing: 1px;
+          }
+          #chattingStatus {
+            display: flex;
+            /* flex: 0; */
+            justify-content: space-between;
+            align-items: center;
+          }
+        }
+      
+        h4 {
+          font-size: 14px;
+          margin: 0;
+        }
+      
+        #lastMessage {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+      
+        p {
+          font-size: 10px;
+          margin: 0;
+        }
+      
+        #onlineTime {
+          font-size: 7px;
+          font-weight: 600;
+          letter-spacing: 2px;
+        }
+      }
+    }
+    .chattingNotLOgin {
+      font-size: 14px;
+      z-index: 99999;
+    
+      #userChatting2 {
+        font-size: 10px;
+        margin: auto;
+        margin-top: 50%;
+    
+        img {
+          width: 200px;
+        }
+      }
+    
+      p {
+        text-align: center;
+      }
+    }
+  }
 }
 
-.Chatting input {
-  border: none;
-  border-radius: 4px;
-  box-shadow: 0 0 2px #707070;
-  font-size: 14px;
-  margin-top: 10px;
-  padding: 5px 20px 5px 10px;
-  width: 80%;
-}
 
-#chatsPersons {
-  background-color: #fff;
-  border: 1px solid #707070;
-  border-radius: 10px;
-  height: 85%;
-  overflow: hidden;
-  overflow-y: scroll;
-  margin-top: 20px;
-  padding: 20px 10px;
-  text-align: left;
-  width: 86%;
-}
-
-.chattingNotLOgin {
-  font-size: 14px;
-  z-index: 99999;
-}
-.chattingNotLOgin #userChatting2 {
-  font-size: 10px;
-  margin: auto;
-  margin-top: 50%;
-}
-
-.chattingNotLOgin #userChatting2 img {
-  width: 200px;
-}
-
-.chattingNotLOgin p {
-  text-align: center;
-}
-
-#chatsPersons h3 {
-  margin: 0 0 10px;
-}
-
-#chatsHistory {
-  align-items: center;
-  border-radius: 3px;
-  box-shadow: 0 0 2px #707070;
-  cursor: pointer;
-  display: flex;
-  gap: 13px;
-  margin-bottom: 20px;
-  padding: 7px 5px;
-}
-
-#chatsHistory:hover {
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.193);
-}
-
-#chatsHistory #userInfoText {
-  flex: 1;
-}
-
-#userInfoText #Senderstatus,
-#userInfoText #SenderstatusRed {
-  font-size: 12px;
-  letter-spacing: 1px;
-}
-
-#chattingStatus {
-  display: flex;
-  /* flex: 0; */
-  justify-content: space-between;
-  align-items: center;
-}
-
-.Chatting #userImages {
-  aspect-ratio: 1;
-  border-radius: 50%;
-  width: 40px;
-  /* pointer-events: none; */
-}
-
-#MessageImgNotification {
-  aspect-ratio: 1;
-  /* overflow: hidden; */
-  border-radius: 50%;
-  width: 40px;
-  position: relative;
-}
-
-#MessageImgNotification span {
-  position: absolute;
-  bottom: 4px;
-  right: 0;
-  background-color: lightseagreen;
-  font-size: 10px;
-  border-radius: 50%;
-  width: 10px;
-  height: 10px;
-  padding: 1px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  font-weight: 700;
-}
-
-#chatsHistory h4 {
-  font-size: 14px;
-  margin: 0;
-}
-
-#chatsHistory #lastMessage {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  /* width: 150%; */
-}
-
-#chatsHistory p {
-  font-size: 10px;
-  margin: 0;
-}
-
-#chatsHistory #onlineTime {
-  font-size: 7px;
-  font-weight: 600;
-  letter-spacing: 2px;
-}
 
 .RightClickShow {
   background: white;
   border-radius: 2px;
-  /* border: 1px solid grey; */
   z-index: 99;
   padding-bottom: 4px;
   box-shadow: 0 0 5px grey;
-}
-
-.RightClickShow p {
-  border-bottom: 1px solid grey;
-  padding: 2px 10px;
-  cursor: pointer;
-  font-weight: 500;
-}
-
-.RightClickShow p:hover {
-  background-color: rgba(0, 0, 0, 0.185);
+  p {
+    border-bottom: 1px solid grey;
+    padding: 2px 10px;
+    cursor: pointer;
+    font-weight: 500;
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.185);
+    }
+  }
+  
 }
