@@ -1,5 +1,5 @@
-import React, { useContext, useState, useEffect } from "react";
-import { UserData } from "../../routes/App";
+import React, { useContext, useEffect } from "react";
+import { MainFunction, UserData } from "../../routes/App";
 import ChatPNG from "../../assets/chat.png";
 import { useNavigate } from "react-router-dom";
 import { Dropdown } from "antd";
@@ -8,7 +8,6 @@ import { ref, onValue } from "firebase/database";
 import RightClickShow from "./RightClickShow";
 import GroupImage from "../../assets/groupImg.png";
 import ChattingCollection from "./chattingCollection";
-import UserDpShow from "../userDpShow";
 
 const Chatting: React.FC<{
   setUserChatWithData: any;
@@ -30,7 +29,7 @@ const Chatting: React.FC<{
   chatsArr, setChatsArr, fetchUserChat, chattingUsers, setChattingUsers
 }) => {
     const userInfo: any = useContext(UserData);
-    const [ShowDP, setShowDP] = useState<any>(undefined);
+    const {showDPfun}:any = useContext(MainFunction);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -85,9 +84,6 @@ const Chatting: React.FC<{
 
     return (
       <div className="Chatting">
-        <div style={ShowDP ? { display: "block" } : { display: "none" }}>
-          <UserDpShow ShowDP={ShowDP} setShowDP={setShowDP} />
-        </div>
         <input type="text" placeholder="Search..." onChange={searchUsers} />
         <div id="chatting-Type">
           <h3>
@@ -177,7 +173,7 @@ const Chatting: React.FC<{
                             alt="SenderIMG"
                             id="userImages"
                             style={{ backgroundColor: senderAvatarTheme }}
-                            onClick={(e: any) => setShowDP(e.target.src)}
+                            onClick={(e: any) => showDPfun(e.target.src)}
                           />
                           {notificationShow > 0 && (
                             <span

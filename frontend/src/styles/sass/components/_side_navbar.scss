@@ -9,19 +9,22 @@
         padding-top: 50px;
         img {
             aspect-ratio: 1;
+            cursor: pointer;
             border-radius: 50%;
             width: 30px;
+            border: 1.5px solid green;
+            box-shadow: 0 0 20px green;
         }
     }
 
-    #onlineStatue {
-        aspect-ratio: 1;
-        background-color: #00ff89;
-        border-radius: 50%;
-        left: 11px;
-        position: absolute;
-        width: 5px;
-    }
+    // #onlineStatue {
+    //     aspect-ratio: 1;
+    //     background-color: #00ff89;
+    //     border-radius: 50%;
+    //     left: 11px;
+    //     position: absolute;
+    //     width: 5px;
+    // }
 
     #navbarLogo {
         align-items: center;

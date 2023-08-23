@@ -367,7 +367,8 @@ button:disabled, button[disabled]{
 }
 
 .writeMessage{
-    background-color: #00000014;
+    // background-color: #00000014;
+    background-color: rgb(38 36 36 / 13%);
     border-radius: 10px;
     display: flex;
     align-items: center;
@@ -451,6 +452,7 @@ button:disabled, button[disabled]{
     /* width: 295px; */
     width: 270px;
     cursor: pointer;
+    object-fit: cover;
     aspect-ratio: 1.5;
     background-color: rgb(232, 227, 227);
     padding: 2px;
@@ -510,6 +512,7 @@ button:disabled, button[disabled]{
     position:absolute;
     top:40px;
     left:40px;
+    cursor: pointer;
 }
 
 

@@ -21,9 +21,9 @@ import Register from "../components/Register/Register";
 import { Route, Routes, BrowserRouter as Router } from "react-router-dom";
 import Mainpage from "../components/Mainpage";
 import Loading from "../components/Loading/Loading";
-
 import axios from "axios";
 import React, { createContext, useEffect, useState } from "react";
+import UserDpShow from "../components/userDpShow";
 
 const UserData = createContext(null);
 
@@ -67,6 +67,7 @@ function notification (message: string, type: string) {
 type NotificationType = {
   notification: (message: string, type: string) => void;
   fetchUserInfo: () => void;
+  showDPfun:(setContent:string) => void
 };
 
 const MainFunction = React.createContext<NotificationType | null>(null);
@@ -74,6 +75,8 @@ const MainFunction = React.createContext<NotificationType | null>(null);
 function App() {
   const [userInfo, setUserInfo] = useState<any>();
   const [showLoading, setShowLoading] = useState<boolean>(false);
+  const [ShowDP, setShowDP] = useState("");
+
 
   const db = getDatabase();
 
@@ -138,14 +141,19 @@ function App() {
   }
 
 
-
-
+  const showDPfun = (setContent:string) => {
+    // console.log(setContent);
+    setShowDP(setContent);
+  }
 
   return (
     <div className="App">
       <UserData.Provider value={userInfo}>
-        <MainFunction.Provider value={{ notification ,fetchUserInfo}}>
+        <MainFunction.Provider value={{ notification ,fetchUserInfo, showDPfun}}>
           <Router>
+            <div style={ShowDP ? { display: "block" } : { display: "none" }}>
+              <UserDpShow ShowDP={ShowDP} setShowDP={setShowDP} />
+            </div>
             {showLoading ? (
               <Loading />
             ) : (

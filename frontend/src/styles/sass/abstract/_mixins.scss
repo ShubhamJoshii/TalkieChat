@@ -1,0 +1,7 @@
+@mixin flexMixin($ALItems: center, $JScontent: center, $direction: row) {
+    display: flex;
+    align-items: $ALItems;
+    justify-content: $JScontent;
+    flex-direction: $direction;
+  }
+  

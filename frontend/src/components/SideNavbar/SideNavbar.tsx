@@ -8,7 +8,7 @@ import { IoMdNotifications } from "react-icons/io";
 import { AiFillSetting } from "react-icons/ai";
 import { ImUserPlus } from "react-icons/im"
 import { NavLink } from "react-router-dom";
-import { UserData } from "../../routes/App";
+import { MainFunction, UserData } from "../../routes/App";
 
 import Notification from "./Notification";
 import { onValue, ref } from "firebase/database";
@@ -19,6 +19,7 @@ import FriendRequest from "./FriendRequest";
 
 const SideNavbar = () => {
   const userInfo: any = useContext(UserData);
+  const {showDPfun}:any = useContext(MainFunction);
   const [userInfoUpdate, setUserInfoUpdate] = useState<any>([]);
   const [Notifications, setNotification] = useState<any>([]);
   const [NotificationsColl, setNotificationColl] = useState([]);
@@ -133,7 +134,7 @@ const SideNavbar = () => {
   return (
     <div className="SideNavbar">
       <div id="userImage">
-        <div id="onlineStatue"></div>
+        {/* <div id="onlineStatue"></div> */}
         <img
           src={userInfo ? userInfo.Avatar : UserImage}
           alt="DP"
@@ -142,6 +143,7 @@ const SideNavbar = () => {
               ? { backgroundColor: userInfo.AvatarBackground }
               : { backgroundColor: "grey" }
           }
+          onClick={(e: any) => showDPfun(e.target.src)}
         />
       </div>
       <div id="navbarLogo">

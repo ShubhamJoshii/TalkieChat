@@ -1,206 +1,208 @@
-.SenderInfo{
+.SenderInfo {
     padding: 30px;
     /* background-color: aqua; */
     /* width: 300px; */
     max-height: 90vh;
     overflow-y: scroll;
     width: 20vw;
-}
 
-#UserImg{
-    position: relative;
-    text-align: center;
-    margin: auto;
-}
+    h4 {
+        margin: 0;
+        color: rgba(0, 0, 0, 0.61);
+    }
 
-#AllActive{
-    border: 2px solid #3BFE00;
-    box-shadow: 0px 0px 20px  #3BFE00;
-}
+    h3 {
+        font-size: 30px;
+        text-align: center;
+        margin: 0;
+    }
 
-#NoActive{
-    border: 2px solid #E00000;
-    box-shadow: 0px 0px 20px  #E00000;
-    /* border: 5px solid #E00000; */
-}
-
-#UserImg img{
-    width: 200px;
-    aspect-ratio: 1;
-    border-radius: 50%;
-    cursor: pointer;
-}
-
-.SenderInfo h3{
-    font-size: 30px;
-    text-align: center;
-    margin: 0;
-}
-
-.SenderInfo p{
-    font-size: 12px;
-    margin: 0;
-    text-align: end;
-}
-
-#senderContactInfo{
-    /* padding: 50px; */
-    display: flex;
-    gap: 40px;
-    justify-content: center;
-    border-bottom: 1px solid grey;
-    border-top: 1px solid grey;
-    padding: 30px 0px;
-    margin: 40px 0px 7px 0px;
-}
-
-#senderContactInfo img{
-    width: 30px;
-    aspect-ratio: 1;
-}
-
-#Medias{
-    gap: 10px;
-    display: grid;
-    margin-top: 10px;
-    margin-right: 20px;
-    grid-template-columns: auto auto auto;
+    p {
+        font-size: 12px;
+        margin: 0;
+        text-align: end;
+    }
     
-}
-
-#Medias img{
-    box-shadow: 0 0 5px #7b67674a;
-    padding: 5px;
-    background-color: rgba(0, 0, 0, 0.121);
-    width: 80px;
-    aspect-ratio: 1;
-    border-radius: 10px;
-    cursor: pointer;
-}
-
-#shareDocuments{
-    display: flex;
-    justify-content: space-evenly;
-}
-
-#filesShare{
-    background-color: white;
-    padding: 8px 20px;
-    margin-top: 10px;
-    border-radius: 2px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.473);
-    display: flex;
-    gap: 12px;
-}
-#filesShare img{
-    width: 20px;
-}  
-
-#shareDocuments h4{
+    #UserImg {
+        position: relative;
+        text-align: center;
+        margin: auto;
+        img {
+            width: 200px;
+            aspect-ratio: 1;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        
+    }
     
-    cursor: pointer;
-    padding-bottom: 5px;
-    width: 50%;
-    text-align: center;
-}
+    #AllActive {
+        border: 2px solid #3BFE00;
+        box-shadow: 0px 0px 20px #3BFE00;
+    }
+    
+    #NoActive {
+        border: 2px solid #E00000;
+        box-shadow: 0px 0px 20px #E00000;
+        /* border: 5px solid #E00000; */
+    }
+    
+    #senderContactInfo {
+        /* padding: 50px; */
+        display: flex;
+        gap: 40px;
+        justify-content: center;
+        border-bottom: 1px solid grey;
+        border-top: 1px solid grey;
+        padding: 30px 0px;
+        margin: 40px 0px 7px 0px;
+        img {
+            width: 30px;
+            aspect-ratio: 1;
+        }
+    }
+    
+    
+    #Medias {
+        gap: 10px;
+        display: grid;
+        margin-top: 10px;
+        margin-right: 20px;
+        grid-template-columns: auto auto auto;
+        img {
+            box-shadow: 0 0 5px #7b67674a;
+            padding: 5px;
+            background-color: rgba(0, 0, 0, 0.121);
+            width: 80px;
+            aspect-ratio: 1;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+    
+    }
+    
+    
+    #shareDocuments {
+        display: flex;
+        justify-content: space-evenly;
+        h4 {
+            cursor: pointer;
+            padding-bottom: 5px;
+            width: 50%;
+            text-align: center;
+        }
+    }
+    
+    #filesShare {
+        background-color: white;
+        padding: 8px 20px;
+        margin-top: 10px;
+        border-radius: 2px;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.473);
+        display: flex;
+        gap: 12px;
+        img {
+            width: 20px;
+        }
+    }
+    
 
-.SenderInfo h4{
-    margin: 0;
-    color: rgba(0, 0, 0, 0.61);
-}
-
-#starredMessage{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: rgba(0, 0, 0, 0.61);
-    margin-bottom: 10px;
-}
-
-#sharedMsgTime{
-    display: flex;
-    justify-content: space-between;
-}
-
-#sharedMsg{
-    padding: 5px;
-    border: 1px solid grey;
-    margin-bottom: 6px;
-    border-radius: 5px;
-    box-shadow: 0 0 5px grey;
-}
-
-#sharedMsg p:first-child{
-    display: flex;
-    justify-content: space-between;
-}
-
-#sharedMsg #msg{
-    font-size: 15px;
-    font-weight: 700;
-}
-
-#logoDropRight{
-    font-size: 30px;
-    cursor: pointer;
-    border-radius: 50%;
-}
-
-#logoDropRight:hover{
-    font-size: 30px;
-    background-color: rgba(0, 0, 0, 0.07);
-}
-
-
-#allGroupUsers {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.299);
-    /* border-top: 1px solid black; */
-}
-
-#allGroupUsers p{
-    font-weight: 600;
-    font-size: 15px;
-    letter-spacing: 1px;
-    text-align: left;
-}
-
-#groupUser{
-    border-bottom: 1px solid rgba(0, 0, 0, 0.299);
-    padding-bottom: 4px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 10px;
-}
-
-
-#groupUser p span{
-    font-size: 12px;
-    /* margin-left: 10px; */
-}
-
-#groupUsersDPHead{
-    position: relative;
-    border-radius: 50%;
-    overflow: hidden;
-    width: 50px;
-    aspect-ratio: 1;
-}
-
-#groupUser img{
-    width: 50px;
-    border-radius: 50%;
-    aspect-ratio: 1;
-    cursor: pointer;
-}
-
-#groupUsersDPHead div{
-    position: absolute;
-    bottom: 3px;
-    right: 0px;
-    width: 10px;
-    height: 10px;
-    border: 2px solid #f2f1f1;
-    border-radius: 50%;
-    background-color: #3BFE00;
+    
+    #sharedMsgTime {
+        display: flex;
+        justify-content: space-between;
+    }
+    
+    #sharedMsg {
+        padding: 5px;
+        border: 1px solid grey;
+        margin-bottom: 6px;
+        border-radius: 5px;
+        box-shadow: 0 0 5px grey;
+    
+        p:first-child {
+            display: flex;
+            justify-content: space-between;
+        }
+    
+        #msg {
+            font-size: 15px;
+            font-weight: 700;
+        }
+    }
+    
+    
+    #logoDropRight {
+        font-size: 30px;
+        cursor: pointer;
+        border-radius: 50%;
+    
+        &:hover {
+            font-size: 30px;
+            background-color: rgba(0, 0, 0, 0.07);
+        }
+    }
+    
+    
+    
+    #starredMessage {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: rgba(0, 0, 0, 0.61);
+        margin-bottom: 10px;
+    }
+    
+    #allGroupUsers {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.299);
+        /* border-top: 1px solid black; */
+        p {
+            font-weight: 600;
+            font-size: 15px;
+            letter-spacing: 1px;
+            text-align: left;
+        }
+    }
+    
+    
+    #groupUser {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.299);
+        padding-bottom: 4px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+    
+        p span {
+            font-size: 12px;
+            /* margin-left: 10px; */
+        }
+    
+        img {
+            width: 50px;
+            border-radius: 50%;
+            aspect-ratio: 1;
+            cursor: pointer;
+        }
+    }
+    
+    
+    #groupUsersDPHead {
+        position: relative;
+        border-radius: 50%;
+        // overflow: hidden;
+        width: 50px;
+        aspect-ratio: 1;
+    
+        div {
+            position: absolute;
+            bottom: 3px;
+            right: 0px;
+            width: 10px;
+            height: 10px;
+            border: 2px solid #f2f1f1;
+            border-radius: 50%;
+            background-color: #3BFE00;
+        }
+    }
 }

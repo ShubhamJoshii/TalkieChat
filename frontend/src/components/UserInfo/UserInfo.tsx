@@ -9,8 +9,7 @@ import {
 import { IoMdArrowRoundBack } from "react-icons/io";
 import PdfLogo from "../../Assets/pdfLogo.png";
 import GroupImage from "../../Assets/groupImg.png";
-import { UserData } from "../../routes/App";
-import UserDpShow from "../userDpShow";
+import { MainFunction, UserData } from "../../routes/App";
 import { AiFillStar } from "react-icons/ai";
 
 import { getDatabase, ref, onValue } from "firebase/database";
@@ -26,13 +25,13 @@ const UserInfo: React.FC<{
   const [shareDoc, setShareDoc] = useState(false);
   const [showAllUsers, setshowAllUsers] = useState(false);
   const [showUsersStaredMess, setshowUsersStaredMess] = useState(false);
-  const [ShowDP, setShowDP] = useState<any>("");
   const [StarredMsg, setStarredMsg] = useState<any>([]);
   const [senderDPData, setSenderDPData] = useState({
     Image: GroupImage,
     Background: "white",
     Name: "Unknown",
   });
+  const {showDPfun}:any = useContext(MainFunction);
   const [status, setStatus] = useState("Offline");
 
   useEffect(() => {
@@ -159,9 +158,6 @@ const UserInfo: React.FC<{
   }, [userChatWithData]);
   return (
     <>
-      <div style={ShowDP ? { display: "block" } : { display: "none" }}>
-        <UserDpShow ShowDP={ShowDP} setShowDP={setShowDP} />
-      </div>
       {userChatWithData && senderInfoShow ? (
         <div className="SenderInfo">
           <IoMdArrowRoundBack
@@ -175,7 +171,7 @@ const UserInfo: React.FC<{
               src={senderDPData.Image || "https://w7.pngwing.com/pngs/821/381/png-transparent-computer-user-icon-peolpe-avatar-group.png"}
               alt="SenderDP"
               style={{ backgroundColor: senderDPData.Background }}
-              onClick={(e:any) => setShowDP(e.target.src)}
+              onClick={(e: any) => showDPfun(e.target.src)}
               id={status === "Online" ? "AllActive" : "NoActive"}
             />
           </div>
@@ -215,7 +211,8 @@ const UserInfo: React.FC<{
                         <img
                           src={curr.User_Avatar}
                           alt="usersImage"
-                          onClick={(e: any) => setShowDP(e.target.src)}
+                          
+                          onClick={(e: any) => showDPfun(e.target.src)}
                         />
                         {Status === "Online" && <div></div>}
                         {Status === "Offline" && (
@@ -309,7 +306,7 @@ const UserInfo: React.FC<{
                     <img
                       src={message.Image}
                       alt="chatImage"
-                      onClick={(e: any) => setShowDP(e.target.src)}
+                      onClick={(e: any) => showDPfun(e.target.src)}
                     />
                   )
                 );

@@ -1,3 +1,4 @@
+@use "../abstract/" as *;
 #FriendRequestOuter {
     position: relative;
 
@@ -14,10 +15,8 @@
         }
 
         #RequestCard {
-            display: flex;
-            align-items: center;
+            @include flexMixin(center,space-between);
             gap: 15px;
-            justify-content: space-between;
             margin: 5px 10px;
             padding: 2px 10px;
             border: 1px solid black;
@@ -63,9 +62,7 @@
             margin-top: 10px;
             border-radius: 5px;
             border: 1px solid black;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            @include flexMixin(center,space-between);
             padding: 0 10px;
             width: 270px;
 
@@ -74,8 +71,7 @@
             }
 
             div {
-                display: flex;
-                align-items: center;
+                @include flexMixin(center,unset);
                 gap: 5px;
             }
 
