@@ -1,10 +1,11 @@
 .userChatting{
-    width: 50vw;
+    display: block;
     overflow-x: hidden;
     overflow-y: hidden;
     border-right: 1px solid #707070;
     position: relative;
     flex: 1;
+    height: 100%;
 }
 #userChatting2{
     margin: auto;
@@ -40,7 +41,7 @@
     border-bottom: 1px solid #707070;
     /* position: absolute; */
     /* width: 774px; */
-    width: 92%;
+    // width: 92%;
     background-color: #F2F1F1;
     
 }
@@ -364,56 +365,51 @@ button:disabled, button[disabled]{
     position: absolute;
     bottom: 0;
     padding:5px 10px;
+    .writeMessage{
+        // background-color: #00000014;
+        background-color: rgb(38 36 36 / 13%);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 5px 20px;
+        justify-content: space-between;
+        #enterMessage{
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-grow: 1.2;
+            textarea{
+                background-color: transparent;
+                border: none;
+                font-size: 15px;
+                /* width: 670px; */
+                width: 100%;
+                resize: none;
+                overflow: hidden;
+                height: 15px;
+                &:focus{
+                    border: none;
+                    outline: none;
+                }
+            }
+        }
+        
+        #sendMessage{
+            cursor: pointer;
+            width: 20px;
+            aspect-ratio: 1;
+            background-color: #44D7B6;
+            color: white;
+            border-radius: 50%;
+            padding: 6px;
+            display: flex;
+            align-items: center;
+            font-size: 15px;
+            justify-content: center;
+        }
+    }
 }
-
-.writeMessage{
-    // background-color: #00000014;
-    background-color: rgb(38 36 36 / 13%);
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    padding: 5px 20px;
-    justify-content: space-between;
-}
-
-
-#enterMessage{
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    flex-grow: 1.2;
-}
-
-#enterMessage textarea{
-    background-color: transparent;
-    border: none;
-    font-size: 15px;
-    /* width: 670px; */
-    width: 100%;
-    resize: none;
-    overflow: hidden;
-    height: 15px;
-}
-
-#enterMessage textarea:focus{
-    border: none;
-    outline: none;
-}
-
-#sendMessage{
-    width: 20px;
-    aspect-ratio: 1;
-    background-color: #44D7B6;
-    color: white;
-    border-radius: 50%;
-    padding: 6px;
-    display: flex;
-    align-items: center;
-    font-size: 15px;
-    justify-content: center;
-}
-
 
 .UserDpShow{
     position : absolute;

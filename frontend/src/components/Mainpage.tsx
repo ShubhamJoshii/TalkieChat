@@ -12,13 +12,18 @@ import { ref, onValue } from "firebase/database";
 const Mainpage = () => {
   const userInfo: any = useContext(UserData);
   const [userChatWithData, setUserChatWithData] = useState<any>("");
-  const [senderInfoShow, setSenderInfoShow] = useState<any>(true);
   const [updateCurr, setUpdate] = useState<any>(null)
   const [chatsArr, setChatsArr] = useState<any>([]);
   const [chattingUsers, setChattingUsers] = useState<any>([]);
   const [notificationID, setNotificationID] = useState<any>(null);
   const [Count, setCount] = useState<any>(null);
+  const [chatDisplayComp, setchatDisplayComp] = useState<any>({
+    userChatWith: true,
+    userInfo: true
+  });
+
   const location = useLocation();
+
   useEffect(() => {
     fetchUserChat();
     setUserChatWithData(null)
@@ -34,7 +39,7 @@ const Mainpage = () => {
 
   useEffect(() => {
     // if (notificationID !== null && notificationID !== []) {
-    if (notificationID !== null ) {
+    if (notificationID !== null) {
       let id = 0;
       let found = chatsArr.find((e: any) => {
         if (e.ChatID === notificationID) {
@@ -106,7 +111,11 @@ const Mainpage = () => {
   };
 
   useEffect(() => {
-    if (window.innerWidth <= 685) setSenderInfoShow(false);
+    console.log(chatDisplayComp)
+  }, [chatDisplayComp])
+
+  useEffect(() => {
+    if (window.innerWidth <= 1200) setchatDisplayComp({ ...chatDisplayComp, userInfo: false });
   }, []);
 
   return (
@@ -119,32 +128,29 @@ const Mainpage = () => {
         chatsArr={chatsArr}
         setChatsArr={setChatsArr}
         fetchUserChat={fetchUserChat}
-        chattingUsers={chattingUsers}  Count={Count} setCount={setCount} setChattingUsers={setChattingUsers}
+        chattingUsers={chattingUsers} Count={Count} setCount={setCount} setChattingUsers={setChattingUsers}
       />
-      {/* <div id="userChatWithCollection"> */}
+      <div id="userChattingData">
+        <UserChatingWith
+          userChatWithData={userChatWithData}
+          setUserChatWithData={setUserChatWithData}
+          updateCurr={updateCurr}
+          chatDisplayComp={chatDisplayComp}
+          setchatDisplayComp={setchatDisplayComp}
+        />
+        <UserInfo
+          userChatWithData={userChatWithData}
+          chatDisplayComp={chatDisplayComp}
+          setchatDisplayComp={setchatDisplayComp}
+        />
+        {!userChatWithData && (
+          <div className="backgroundLogos">
+            <img src={Logo} alt="logo" />
+            <p>TalkieChat</p>
+          </div>
+        )}
+      </div>
 
-      <UserChatingWith
-        userChatWithData={userChatWithData}
-        setUserChatWithData={setUserChatWithData}
-        updateCurr={updateCurr}
-        senderInfoShow={senderInfoShow}
-        setSenderInfoShow={setSenderInfoShow}
-      />
-      <UserInfo
-        userChatWithData={userChatWithData}
-        senderInfoShow={senderInfoShow}
-        setSenderInfoShow={setSenderInfoShow}
-      />
-      {/* </div> */}
-
-      {!userChatWithData ? (
-        <div className="backgroundLogos">
-          <img src={Logo} alt="logo" />
-          <p>TalkieChat</p>
-        </div>
-      ) : (
-        <div></div>
-      )}
     </div>
   );
 };

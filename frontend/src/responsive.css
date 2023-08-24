@@ -2,12 +2,18 @@
     .Chatting {
       width: calc(30vw - 40px);
     }
-    .userChatting {
+    /* .userChatting {
       width: 69.8vw;
+    } */
+    
+    .SenderInfo{
+      position: absolute;
+      left: 0;
+      width: calc((100% - 60px));
     }
   }
   
-  @media only screen and (max-width: 1000px) {
+  @media only screen and (max-width: 1100px) {
     .Chatting {
       width: calc(35vw - 40px);
     }
@@ -23,14 +29,27 @@
     .Chatting {
       width: 100vw;
     }
-    #MainPage .backgroundLogos{
-      display: none;
-    }
-  
+
     #MainPage {
       width: 100vw;
       height: 95%;
     }
+
+    .SenderInfo{
+      height: calc(100vh - 80px);
+    }
+
+    #MainPage #userChattingData{
+      /* display: none; */
+      position: absolute;
+      /* width: 100vw;
+      height: 95vh; */
+    }
+
+    #MainPage .backgroundLogos{
+      display: none;
+    }
+  
   
     .Attachments {
       bottom: 86px;
@@ -122,7 +141,8 @@
       bottom: 38px;
     }
     #chatId {
-      width: 350px;
+      /* width: 350px; */
+      width: 90vw;
     }
   
     #FriendRequestOuter #FriendRequest{

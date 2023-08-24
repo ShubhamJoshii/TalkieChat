@@ -43,16 +43,16 @@ import { uid } from "uid";
 const UserChatingWith: React.FC<
   {
     userChatWithData: any;
-    setSenderInfoShow: any;
-    senderInfoShow: any;
     updateCurr: any;
     setUserChatWithData: any;
+    chatDisplayComp:any;
+    setchatDisplayComp:any;
   }> = ({
     userChatWithData,
-    setSenderInfoShow,
-    senderInfoShow,
     updateCurr,
     setUserChatWithData,
+    chatDisplayComp,
+    setchatDisplayComp,
   }) => {
     const userInfo: any = useContext(UserData);
     const { notification, showDPfun }: any = useContext(MainFunction);
@@ -331,9 +331,6 @@ const UserChatingWith: React.FC<
       }
     };
 
-
-
-
     const starChats = (a: any) => {
       let updatedMessage;
       // if (a) {
@@ -430,9 +427,7 @@ const UserChatingWith: React.FC<
     return (
       <>
         {userChatWithData ? (
-          <div className="userChatting"
-          // style={display ? { display: "block" } : { display: "none" }}
-          >
+          <div className="userChatting" >
             {load ? (
               <Loading />
             ) : (
@@ -442,11 +437,8 @@ const UserChatingWith: React.FC<
                     <div className="chattinguserInfo">
                       <IoMdArrowRoundBack
                         onClick={() => {
-                          // console.log("Click", display)
                           setTempChatsArr([]);
                           setUserChatWithData(null)
-                          // setDisplay(false);
-                          setSenderInfoShow(false)
                         }}
                         id="backBTN"
                       />
@@ -460,9 +452,9 @@ const UserChatingWith: React.FC<
                         />
                       </div>
                       <div
-                        onClick={() => setSenderInfoShow(!senderInfoShow)}
                         id="senderName"
                         onLoad={() => setUserChatWithData(true)}
+                        onClick={()=>setchatDisplayComp({...chatDisplayComp,userInfo:!chatDisplayComp.userInfo})}
                       >
                         <h3>{senderDPData.Name}</h3>
                         <p>
