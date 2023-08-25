@@ -1,230 +1,110 @@
-@media only screen and (max-width: 1200px) {
-    .Chatting {
-      width: calc(30vw - 40px);
-    }
-    /* .userChatting {
-      width: 69.8vw;
-    } */
-    
-    .SenderInfo{
-      position: absolute;
-      left: 0;
-      width: calc((100% - 60px));
-    }
-  }
-  
-  @media only screen and (max-width: 1100px) {
-    .Chatting {
-      width: calc(35vw - 40px);
-    }
-    .userChatting {
-      width: 65.8vw;
-    }
-    .Setting #userSetting #socialLogo{
-      display: none;
-    }
-  }
-  
-  @media only screen and (max-width: 685px) {
-    .Chatting {
-      width: 100vw;
-    }
+@media only screen and (max-width: 685px) {
+  #MainPage {
+    width: 100vw;
+    height: 100%;
 
-    #MainPage {
-      width: 100vw;
-      height: 95%;
-    }
-
-    .SenderInfo{
-      height: calc(100vh - 80px);
-    }
-
-    #MainPage #userChattingData{
+    #userChattingData {
       /* display: none; */
       position: absolute;
       /* width: 100vw;
-      height: 95vh; */
+        height: 95vh; */
     }
 
-    #MainPage .backgroundLogos{
-      display: none;
-    }
-  
-  
-    .Attachments {
-      bottom: 86px;
-    }
     .backgroundLogos {
       display: none;
     }
-  
-    /* #FriendRequestOuter #FriendRequestBOX{
-      
-    } */
-    .SideNavbar #userImage {
-      display: none;
-    }
-  
-    .SideNavbar {
-      /* display:none; */
-      width: 100vw;
-      height: 40px;
-      position: fixed;
-      bottom: 0;
-      z-index: 9999;
-      align-items: center;
-      display: flex;
-      justify-content: center;
-    }
-  
-    .SideNavbar #navbarLogo {
-      flex-direction: row;
-      /* justify-content:space-between; */
-      /* gap:20%; */
-      margin-top: 0;
-    }
-  
-    .SideNavbar{
-      #Notificiation{
-        bottom: 50px;
-        top: auto;
-        left: auto;
-        right: -500%;
-      }
-      
-      #triangleNoti{
-        bottom: 43px;
-        top: auto;
-        left: 5px;
-      }
-      .setting {
-        position: relative;
-        bottom: 0;
-      }
-    } 
-  
-    .Setting{
-      margin-bottom: 120px;
-    }
-    #secondHalf {
-      left: 0;
-      width: 100vw;
-    }
-  
-  
-    .userChatting {
-      /* width: calc(100vw - 40px); */
-      width: 99vw;
-      height: calc(100vh - 40px);
-      margin-left: 0.5vw;
-      position: absolute;
-      /* display: none; */
-    }
-  
-    .SenderInfo {
-      background-color: white;
-      /* width: calc(100vw - 100px); */
-      width: calc(100vw - 50px);
-      position: absolute;
-      min-height: calc(100vh - 100px);
-    }
-  
-    #userChats {
-      height: calc(100vh - 188px);
-    }
-    .Setting footer {
-      bottom: 40px;
-    }
-    #writeMessage {
-      /* width: 100%; */
-      /* position: absolute; */
-      bottom: 38px;
-    }
-    #chatId {
-      /* width: 350px; */
-      width: 90vw;
-    }
-  
-    #FriendRequestOuter #FriendRequest{
-      /* margin: 20px 110px; */
-      margin: 20px 110px;
-      position: fixed;
-      /* margin: 5vw; */
-      top: auto;
-      bottom: 36px;
-      /* left: 0; */
-      /* width: 90vw; */
-      max-height: 70vh;
-    }
   }
-  
-  @media only screen and (max-width: 560px) {
-    .Setting footer div {
-      display: none;
-    }
+
+  #secondHalf {
+    left: 0;
+    width: 100vw;
   }
-  
-  @media only screen and (max-width: 540px) {
-    .Setting .userImgName {
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-    #FriendRequestOuter #FriendRequest{
-      margin: 20px 0px;
-    }
-    .themes {
-      padding-bottom: 150px;
-    }
-    
-    #pickers {
-      flex-wrap: wrap;
-    }
-    #userChats .messageSend {
-      max-width: 95%;
-    }
-    #sharedImg {
-      width: 90%;
-    }
-    
-    #FriendRequest{
-      margin: 20px 10px;
-    }
+
+  #chatId {
+    /* width: 350px; */
+    width: 90vw;
   }
-  
-  @media only screen and (max-width: 420px) {
-    #Notificiation{
-      position: fixed;
-      margin: 5vw;
-      /* top: 0; */
-      bottom: 36px;
-      left: 0;
-      width: 85vw;
-      max-height: 50vh;
-    }
-    
-    #FriendRequest{
-      position: fixed;
-      margin: 5vw;
-      /* top: 0; */
-      bottom: 36px;
-      left: 0;
-      width: 85vw;
-      max-height: 50vh;
-    }
-    #FriendRequestBOX{
-      margin: 0;
-    }
+
+  #FriendRequestOuter #FriendRequest {
+    /* margin: 20px 110px; */
+    margin: 20px 110px;
+    position: fixed;
+    /* margin: 5vw; */
+    top: auto;
+    bottom: 36px;
+    /* left: 0; */
+    /* width: 90vw; */
+    max-height: 70vh;
   }
-  @media only screen and (max-width: 380px) {
-    #picker1 {
-      flex-direction: column;
-    }
-  
-    #picker1 #showPickedColor {
-      width: 100%;
-      height: 40px;
-      /* flex: 1; */
-      flex-direction: row;
-    }
+}
+
+
+@media only screen and (max-width: 540px) {
+  .Setting .userImgName {
+    justify-content: center;
+    flex-wrap: wrap;
   }
-  
+
+  #FriendRequestOuter #FriendRequest {
+    margin: 20px 0px;
+  }
+
+  .themes {
+    padding-bottom: 150px;
+  }
+
+  #pickers {
+    flex-wrap: wrap;
+  }
+
+  #userChats .messageSend {
+    max-width: 95%;
+  }
+
+  #sharedImg {
+    width: 90%;
+  }
+
+  #FriendRequest {
+    margin: 20px 10px;
+  }
+}
+
+@media only screen and (max-width: 420px) {
+  #Notificiation {
+    position: fixed;
+    margin: 5vw;
+    /* top: 0; */
+    bottom: 36px;
+    left: 0;
+    width: 85vw;
+    max-height: 50vh;
+  }
+
+  #FriendRequest {
+    position: fixed;
+    margin: 5vw;
+    /* top: 0; */
+    bottom: 36px;
+    left: 0;
+    width: 85vw;
+    max-height: 50vh;
+  }
+
+  #FriendRequestBOX {
+    margin: 0;
+  }
+}
+
+@media only screen and (max-width: 380px) {
+  #picker1 {
+    flex-direction: column;
+  }
+
+  #picker1 #showPickedColor {
+    width: 100%;
+    height: 40px;
+    /* flex: 1; */
+    flex-direction: row;
+  }
+}

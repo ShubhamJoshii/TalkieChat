@@ -1,12 +1,12 @@
 import { useContext, useEffect, useState } from "react";
-import Chatting from "./Chatting/Chatting.tsx";
-import UserChatingWith from "../components/UserChatingWith/UserChatingWith";
-import UserInfo from "../components/UserInfo/UserInfo";
+import Chatting from "../components/Chatting/Chatting.tsx";
+import UserChatingWith from "../components/UserChatingWith/UserChatingWith.tsx";
+import UserInfo from "../components/UserInfo/UserInfo.tsx";
 import Logo from "../assets/TalkieChatLogo.png";
 import { useLocation } from "react-router-dom";
 
-import { UserData } from "../routes/App";
-import { db } from "../firebase";
+import { UserData } from "./App.tsx";
+import { db } from "../firebase.tsx";
 import { ref, onValue } from "firebase/database";
 
 const Mainpage = () => {
@@ -109,10 +109,6 @@ const Mainpage = () => {
       }
     });
   };
-
-  useEffect(() => {
-    console.log(chatDisplayComp)
-  }, [chatDisplayComp])
 
   useEffect(() => {
     if (window.innerWidth <= 1200) setchatDisplayComp({ ...chatDisplayComp, userInfo: false });

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaRegUserCircle } from "react-icons/fa";
 import axios from "axios";
 // import Avatar from "../../assets/Avatar (1).png";
 
@@ -59,32 +58,31 @@ const Register = () => {
   };
   return (
     <div className="Register">
-      <div id="RegisterInner">
-        <FaRegUserCircle id="userLogo" />
         <h2>User Register</h2>
-        <div className="lines1 linesh"></div>
-        <div className="lines2 linesh"></div>
-        <div className="lines3 linesv"></div>
-        <div className="lines4 linesv"></div>
         <form method="POST">
+          <label htmlFor="Name">Name</label>
           <input
             type="text"
             name="Name"
-            placeholder="Enter Name ..."
+            id="Name"
+            placeholder="Enter Name"
             onChange={handleInput}
           />
+          <label htmlFor="Email">Email</label>
           <input
             type="text"
             name="Email"
-            placeholder="Enter Email ID ..."
-            id="emailIdInput"
+            placeholder="Enter Email ID"
+            id="Email"
             onChange={handleInput}
           />
           <div id="inputPassword">
+            <label htmlFor="Password">Password</label>
             <input
               type={showPassword ? "text" : "password"}
               name="Password"
-              placeholder="Password ..."
+              placeholder="Password"
+              id="Password"
               className="password"
               onChange={handleInput}
             />
@@ -97,11 +95,13 @@ const Register = () => {
             </div>
           </div>
           <div id="inputPassword">
+            <label htmlFor="Confirm_Password">Confirm Password</label>
             <input
               type={showConfirmPassword ? "text" : "password"}
               name="Confirm_Password"
+              id="Confirm_Password"
               className="password"
-              placeholder="Confirm Password ..."
+              placeholder="Confirm Password"
               onChange={handleInput}
             />
             <div onClick={() => setShowConfirmPassword(!showConfirmPassword)}>
@@ -120,7 +120,6 @@ const Register = () => {
           <span onClick={() => navigate("/login")}>Login</span>
         </p>
       </div>
-    </div>
   );
 };
 

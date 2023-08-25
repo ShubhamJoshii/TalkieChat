@@ -1,0 +1,53 @@
+@use "../abstract/" as *;
+
+#PageNotFound {
+    @include flexMixin($direction: column);
+
+    h1 {
+        color:white;
+        margin: 0;
+        // background-image: url(../../assets/Star.jpg);
+        background-image: url(../../assets/Star.webp);
+        background-size: cover;
+        font-size: 150px;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    h2{
+        margin: 0;
+    }
+    p{
+        text-align: center;
+    }
+    a{
+        text-decoration: none;
+        margin-top: 20px;
+        background-color: blue;
+        color:white;
+        padding: 10px 30px;
+        font-size: 14px;
+        border: none;
+        border-radius: 20px;
+        font-weight: bolder;
+        letter-spacing: 1px;
+        cursor: pointer;
+        &:hover{
+            transform: scale(1.05);
+        }
+    }
+    @media (max-width : 450px){
+        h1{
+            font-size: 100px;
+        }
+        h2{
+            font-size: 18px;
+        }
+        p{
+            font-size: 12px;
+        }
+        a{
+            font-size: 12px;
+            padding: 8px 18px;
+        }
+    }
+}

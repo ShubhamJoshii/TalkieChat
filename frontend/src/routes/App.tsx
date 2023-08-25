@@ -19,15 +19,16 @@ import Setting from "../components/Setting/Setting";
 import Login from "../components/Login/Login";
 import Register from "../components/Register/Register";
 import { Route, Routes, BrowserRouter as Router } from "react-router-dom";
-import Mainpage from "../components/Mainpage";
+import Mainpage from "./Mainpage";
 import Loading from "../components/Loading/Loading";
 import axios from "axios";
 import React, { createContext, useEffect, useState } from "react";
-import UserDpShow from "../components/userDpShow";
+import UserDpShow from "./userDpShow";
+import PageNotFound from "../components/PageNotFound/PageNotFound";
 
 const UserData = createContext(null);
 
-function notification (message: string, type: string) {
+function notification(message: string, type: string) {
   if (type === "success") {
     toast.success(message, {
       position: "bottom-right",
@@ -67,7 +68,7 @@ function notification (message: string, type: string) {
 type NotificationType = {
   notification: (message: string, type: string) => void;
   fetchUserInfo: () => void;
-  showDPfun:(setContent:string) => void
+  showDPfun: (setContent: string) => void
 };
 
 const MainFunction = React.createContext<NotificationType | null>(null);
@@ -87,7 +88,9 @@ function App() {
       .then((result) => {
         // console.log(result.data);
         setUserInfo(result.data);
-        setShowLoading(false);
+        setTimeout(() => {
+          setShowLoading(false);
+        }, 4500)
         set(ref(db, `${result.data._id}`), {
           status: "Online",
           _id: result.data._id,
@@ -126,7 +129,11 @@ function App() {
           });
         });
       })
-      .catch(() => setShowLoading(false));
+      .catch(() => {
+        setTimeout(() => {
+          setShowLoading(false);
+        }, 1000)
+      });
   };
 
   useEffect(() => {
@@ -141,22 +148,21 @@ function App() {
   }
 
 
-  const showDPfun = (setContent:string) => {
-    // console.log(setContent);
+  const showDPfun = (setContent: string) => {
     setShowDP(setContent);
   }
 
   return (
     <div className="App">
       <UserData.Provider value={userInfo}>
-        <MainFunction.Provider value={{ notification ,fetchUserInfo, showDPfun}}>
+        <MainFunction.Provider value={{ notification, fetchUserInfo, showDPfun }}>
           <Router>
             <div style={ShowDP ? { display: "block" } : { display: "none" }}>
               <UserDpShow ShowDP={ShowDP} setShowDP={setShowDP} />
             </div>
             {showLoading ? (
               <Loading />
-            ) : (
+            ) :
               <>
                 <ToastContainer />
                 <SideNavbar />
@@ -168,14 +174,15 @@ function App() {
                       <Route path="/Single" element={<Mainpage />} />
                       <Route path="/Groups" element={<Mainpage />} />
                       <Route path="/setting" element={<Setting />} />
-                      {/* <Route path="/FriendRequest" element={<FriendRequest/>} /> */}
-                      <Route path="/login" element={<Login />} />
-                      <Route path="/register" element={<Register />} />
+                      <Route path="/login" element={userInfo ? <Mainpage /> : <Login />} />
+                      <Route path="/register" element={userInfo ? <Mainpage /> : <Register />} />
+                      <Route path="*" element={<PageNotFound />} />
                     </Routes>
                   </div>
                 </div>
               </>
-            )}
+            }
+            {/* )} */}
           </Router>
         </MainFunction.Provider>
       </UserData.Provider>

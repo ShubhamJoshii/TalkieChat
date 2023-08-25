@@ -1,5 +1,7 @@
 import { useContext, useState } from "react";
-import { FaRegUserCircle } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
+import { BiLogoFacebook } from "react-icons/bi";
+import { PiGithubLogoFill } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
@@ -53,14 +55,9 @@ const Login = () => {
 
   return (
     <div className="Login">
-      <div id="RegisterInner">
-        <FaRegUserCircle id="userLogo" />
         <h2>User Login</h2>
-        <div className="lines1 linesh"></div>
-        <div className="lines2 linesh"></div>
-        <div className="lines3 linesv"></div>
-        <div className="lines4 linesv"></div>
         <form>
+          <label htmlFor="Name_Email">Email</label>
           <input
             type="text"
             id="Name_Email"
@@ -69,11 +66,12 @@ const Login = () => {
             onChange={handleInput}
           />
           <div id="inputPassword">
+            <label htmlFor="Password">Password</label>
             <input
               type={showPassword ? "text" : "password"}
               id="Password"
               name="Password"
-              placeholder="Password ..."
+              placeholder="Password"
               onChange={handleInput}
             />
 
@@ -101,8 +99,13 @@ const Login = () => {
           Don't have Account{" "}
           <span onClick={() => navigate("/register")}>Register</span>
         </p>
+        <h3>OR</h3>
+        <div id="authLogin">
+          <FcGoogle />
+          <BiLogoFacebook />
+          <PiGithubLogoFill />
+        </div>
       </div>
-    </div>
   );
 };
 

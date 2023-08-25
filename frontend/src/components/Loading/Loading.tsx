@@ -3,6 +3,9 @@ const Loading = () => {
   return (
     <div className='Loading'>
       <img src={LoddingGIF} alt="Loading_Image" />
+      <div id="loading">
+        <div id="loadingShow"></div>
+      </div>
     </div>
   )
 }

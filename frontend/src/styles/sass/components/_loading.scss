@@ -1,11 +1,30 @@
 @use "../abstract/" as *;
 .Loading {
+    @include flexMixin(center,center,column);
     width: 100%;
     height: 100%;
-    z-index: 999;
+    z-index: 999999;
     background-color: white;
-    @include flexMixin(center,center);
+    gap: 10px;
     img {
         width: 100px;
+    }
+    #loading{
+        width: 250px;
+        background-color: rgb(71, 71, 71);
+        height: 5px;
+        #loadingShow{
+            height: 5px;
+            background-color: aqua;
+            animation: loadingBar 5s;
+        }
+    }
+}
+@keyframes loadingBar{
+    0%{
+        width: 0;
+    }
+    100%{
+        width: 100%;
     }
 }

@@ -1,4 +1,4 @@
-.userChatting{
+.userChatting {
     display: block;
     overflow-x: hidden;
     overflow-y: hidden;
@@ -6,47 +6,81 @@
     position: relative;
     flex: 1;
     height: 100%;
+
+    #userImg {
+        width: 35px;
+        aspect-ratio: 1;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+
+    .Loading {
+        position: absolute;
+
+        img {
+            width: 60px;
+        }
+    }
+
+    .chattingUserHeader {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 30px;
+        align-items: center;
+        border-bottom: 1px solid #707070;
+        background-color: #F2F1F1;
+
+        h3 {
+            margin: 0;
+            font-size: 15px;
+        }
+
+        p {
+            margin: 0;
+            font-size: 10px;
+        }
+
+    }
+
+
+
+    @media (max-width:1100px) {
+        width: 65.8vw;
+    }
+
+    @media (max-width:685px) {
+        /* width: calc(100vw - 40px); */
+        width: 99vw;
+        height: calc(100vh - 40px);
+        margin-left: 0.5vw;
+        position: absolute;
+        /* display: none; */
+    }
+
 }
-#userChatting2{
+
+#userChatting2 {
     margin: auto;
     text-align: center;
+
+    p span {
+        color: blue;
+        cursor: pointer;
+
+        &:hover {
+            color: red;
+            transform: scale(1.1);
+            text-decoration: underline;
+        }
+    }
+
+    img {
+        width: 250px;
+    }
 }
 
-#userChatting2 p span{
-    color: blue;
-    cursor: pointer;
-}
-#userChatting2 p span:hover{
-    color: red;
-    transform: scale(1.1);
-    text-decoration: underline;
-}
 
-#userChatting2 img{
-    width: 250px;
-}
-
-.userChatting #userImg{
-    width: 35px;
-    aspect-ratio: 1;
-    border-radius: 50%;
-    cursor: pointer;
-}
-
-.userChatting .chattingUserHeader{
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 30px;
-    align-items: center;
-    border-bottom: 1px solid #707070;
-    /* position: absolute; */
-    /* width: 774px; */
-    // width: 92%;
-    background-color: #F2F1F1;
-    
-}
-
-#deleteHeaderText{
+#deleteHeaderText {
     display: flex;
     /* padding: 10px 0px; */
     padding: 6px 0px;
@@ -54,7 +88,7 @@
     align-items: center;
 }
 
-#deleteHeaderText button{
+#deleteHeaderText button {
     padding: 4px;
     width: 70px;
     font-weight: 600;
@@ -63,16 +97,16 @@
     cursor: pointer;
 }
 
-#deleteHeaderText button:hover{
+#deleteHeaderText button:hover {
     transform: scale(1.1);
 }
 
-    #deleteHeaderText button:first-child{
+#deleteHeaderText button:first-child {
     background-color: #E00000;
     color: white;
 }
 
-#starHeaderText{
+#starHeaderText {
     display: flex;
     /* padding: 10px 0px; */
     padding: 6px 0px;
@@ -80,7 +114,7 @@
     align-items: center;
 }
 
-#starHeaderText button{
+#starHeaderText button {
     padding: 4px;
     width: 70px;
     font-weight: 600;
@@ -89,115 +123,102 @@
     cursor: pointer;
 }
 
-#starHeaderText button:hover{
+#starHeaderText button:hover {
     transform: scale(1.1);
 }
 
-    #starHeaderText button:first-child{
+#starHeaderText button:first-child {
     background-color: goldenrod;
     color: white;
 }
 
-button:disabled, button[disabled]{
-  border: 1px solid #999999;
-  background-color: #cccccc;
-  color: #666666;
+button:disabled,
+button[disabled] {
+    border: 1px solid #999999;
+    background-color: #cccccc;
+    color: #666666;
 }
 
-#messageTime{
+#messageTime {
     gap: 0px;
 }
 
-#starLogo{
+#starLogo {
     color: gold;
     font-size: 18px;
 }
 
 
-#starHeaderText button:last-child{
+#starHeaderText button:last-child {
     border: 2px solid #00000042;
     background-color: #EEE3E3
 }
 
-.selectMessage  {
-    background-color: rgba(0, 109, 255, 0.2)   
+.selectMessage {
+    background-color: rgba(0, 109, 255, 0.2)
 }
 
-#checkBox{
+#checkBox {
     font-size: 20px;
     color: #292727eb;
 }
 
-#deleteHeaderText button:last-child{
+#deleteHeaderText button:last-child {
     border: 2px solid #00000042;
     background-color: #EEE3E3
 }
 
-    .userChatting .Loading{
-    position: absolute;
-    /* display: none; */
-}
 
 
-.userChatting .Loading img{
-    width: 60px;
-}
-
-.chattinguserInfo{
+.chattinguserInfo {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-.chattingUserHeader h3{
-    margin: 0;
-    font-size: 15px;
-}
 
-.chattingUserHeader p{
-    margin: 0;
-    font-size: 10px;
-}
 
-#searchInput{
+#searchInput {
     margin-right: -15px;
     padding: 2px 5px;
     border-radius: 2px;
 }
 
-#logos{
+#logos {
     display: flex;
     align-items: center;
     gap: 23px;
 }
 
-#groupSenderInfo{
+#groupSenderInfo {
     font-size: 13px;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 4px;
+
+    p {
+        font-size: 13px;
+        font-weight: 700;
+        color: #44D7B6;
+        letter-spacing: 1px;
+    }
+
+    img {
+        aspect-ratio: 1;
+        width: 15px;
+        border: 1px solid black;
+        border-radius: 50%;
+        cursor: pointer;
+        border-color: rgb(68, 215, 182);
+    }
+
 }
 
-#groupSenderInfo p{
-    font-size: 13px;
-    font-weight: 700;
-    color: #44D7B6;
-    letter-spacing: 1px;
-}
 
 
 
-#groupSenderInfo img{
-    aspect-ratio: 1;
-    width: 15px;
-    border: 1px solid black;
-    border-radius: 50%;
-    cursor: pointer;
-    border-color: rgb(68, 215, 182);
-}
-
-#Senderstatus{
+#Senderstatus {
     display: flex;
     font-weight: 600;
     align-items: center;
@@ -206,7 +227,7 @@ button:disabled, button[disabled]{
     gap: 5px;
 }
 
-#SenderstatusRed{
+#SenderstatusRed {
     display: flex;
     font-weight: 600;
     align-items: center;
@@ -214,80 +235,77 @@ button:disabled, button[disabled]{
     color: #E00000;
     gap: 5px;
 
+    #circle {
+        background-color: #E00000;
+    }
+
 }
 
-#circle{
+#circle {
     background-color: #3BFE00;
     width: 7px;
     height: 7px;
     border-radius: 50%;
 }
 
-#SenderstatusRed #circle{
-    background-color: #E00000;
+
+#logos #headerLogo {
+    font-size: 18px;
 }
 
-#logos #headerLogo{
-    font-size: 18px;      
-}
-
-#backgroundImg{
+#backgroundImg {
     width: 100%;
 }
 
-#senderName{
+#senderName {
     cursor: pointer;
 }
 
-#userChats{
+#userChats {
     background-image: url("../../Assets/chatAppBackground.png");
     background-size: contain;
     overflow: hidden;
     overflow-y: scroll;
     width: 100%;
     height: 91.4%;
-    /* margin-top: 60px; */
-    /* padding-top: 25px;   */
     display: flex;
     flex-direction: column-reverse;
-    height: calc(100vh -  150px);
-    /* height: calc(100vh -  180px); */
-    /* justify-content: end; */
-    
+    height: calc(100vh - 150px);
+
+    .messageSend {
+        min-width: 150px;
+        max-width: 70%;
+        margin-top: 7px;
+        margin-bottom: 7px;
+        padding: 7px;
+        padding-right: 20px;
+        color: white;
+        box-shadow: 0px 0px 5px grey;
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+        background-color: #44D7B6;
+    }
+
+    @media (max-width : 685px) {
+        height: calc(100vh - 188px);
+    }
 }
 
-#userChats .messageSend{
-    min-width: 150px;
-    max-width: 70%;
-    margin-top: 7px;
-    margin-bottom: 7px;
-    padding: 7px;
-    padding-right: 20px;
-    color: white;
-    box-shadow: 0px 0px 5px grey;
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-    background-color: #44D7B6;
-}
-
-
-
-.messageSend div{
+.messageSend div {
     font-weight: 500;
-    display: flex ;
+    display: flex;
     align-items: center;
 
 }
 
-.messageSend div p, .messageReceve div p{
+.messageSend div p,
+.messageReceve div p {
     margin: 0;
     width: 95%;
     overflow-wrap: break-word;
 }
 
-
-
-#dropDownMenu{
+#dropDownMenu {
     position: absolute;
     top: 40px;
     background-color: white;
@@ -299,29 +317,31 @@ button:disabled, button[disabled]{
     border-radius: 5px;
     display: none;
     z-index: 999;
+
+    h4 {
+        margin: 0px;
+        padding: 2px;
+        cursor: pointer;
+        border-bottom: 1px solid grey;
+
+        &:hover {
+            background-color: rgba(0, 0, 0, 0.084);
+        }
+    }
+
 }
 
-#dropDownMenu h4{
-    margin: 0px;
-    padding: 2px;
+
+#threeBotMenu {
     cursor: pointer;
-    border-bottom: 1px solid grey;
 }
 
-#dropDownMenu h4:hover{
-    background-color: rgba(0, 0, 0, 0.084);
-}
-
-#threeBotMenu{
-    cursor: pointer;
-}
-
-#threeBotMenu:hover #dropDownMenu{
+#threeBotMenu:hover #dropDownMenu {
     transition: 40s;
     display: block;
 }
 
-#timeStamp{
+#timeStamp {
     margin: 0;
     text-align: end;
     font-size: 10px;
@@ -329,13 +349,13 @@ button:disabled, button[disabled]{
     letter-spacing: 2px;
 }
 
-.messageSend img{
+.messageSend img {
     width: 35px;
     aspect-ratio: 1;
 }
 
 
-.messageReceve{
+.messageReceve {
     min-width: 200px;
     max-width: 70%;
     background-color: white;
@@ -348,24 +368,25 @@ button:disabled, button[disabled]{
     box-shadow: 0px 0px 5px grey;
 }
 
-.messageSendheader{
-    display: flex ;
-    align-items: flex-end; 
+.messageSendheader {
+    display: flex;
+    align-items: flex-end;
     justify-content: flex-end;
     /* width: 835px ; */
     /* width: 50vw ; */
-    width: 100% ;
+    width: 100%;
 }
 
-#writeMessage{
+#writeMessage {
     /* width: 815px; */
     width: 97%;
     background-color: white;
     height: 40px;
     position: absolute;
     bottom: 0;
-    padding:5px 10px;
-    .writeMessage{
+    padding: 5px 10px;
+
+    .writeMessage {
         // background-color: #00000014;
         background-color: rgb(38 36 36 / 13%);
         border-radius: 10px;
@@ -374,12 +395,14 @@ button:disabled, button[disabled]{
         gap: 15px;
         padding: 5px 20px;
         justify-content: space-between;
-        #enterMessage{
+
+        #enterMessage {
             display: flex;
             align-items: center;
             gap: 15px;
             flex-grow: 1.2;
-            textarea{
+
+            textarea {
                 background-color: transparent;
                 border: none;
                 font-size: 15px;
@@ -388,14 +411,15 @@ button:disabled, button[disabled]{
                 resize: none;
                 overflow: hidden;
                 height: 15px;
-                &:focus{
+
+                &:focus {
                     border: none;
                     outline: none;
                 }
             }
         }
-        
-        #sendMessage{
+
+        #sendMessage {
             cursor: pointer;
             width: 20px;
             aspect-ratio: 1;
@@ -409,25 +433,28 @@ button:disabled, button[disabled]{
             justify-content: center;
         }
     }
+    @media (max-width : 685px) {
+        bottom: 38px;   
+    }
 }
 
-.UserDpShow{
-    position : absolute;
-    width:100vw;
-    top:0;
-    left:0;
-    z-index:99999;
-    height:100vh;
-    background-color:#000000c2;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-}
-
-.Attachments{
+.UserDpShow {
     position: absolute;
-    bottom: 40px;
+    width: 100vw;
+    top: 0;
+    left: 0;
+    z-index: 99999;
+    height: 100vh;
+    background-color: #000000c2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.Attachments {
+    position: absolute;
+    bottom: 50px;
     background-color: rgba(0, 0, 0, 0.344);
     width: 60%;
     z-index: 9;
@@ -437,14 +464,19 @@ button:disabled, button[disabled]{
     display: flex;
     align-content: center;
     justify-content: space-between;
+
     /* padding-top: 50px; */
+    input {
+        display: none;
+    }
+
+    @media (max-width : 685px) {
+        bottom: 86px;
+    }
 }
 
-.Attachments input{
-    display: none;
-}
 
-#sharedImg{
+#sharedImg {
     /* width: 295px; */
     width: 270px;
     cursor: pointer;
@@ -457,7 +489,7 @@ button:disabled, button[disabled]{
 
 }
 
-#AttachmentLogo{
+#AttachmentLogo {
     background-color: white;
     margin-top: 45px;
     border-radius: 10px;
@@ -465,74 +497,75 @@ button:disabled, button[disabled]{
     font-size: 25px;
 }
 
-#AttachmentLogo:hover{
+#AttachmentLogo:hover {
     transform: scale(1.05);
-    background-color: greenyellow;    
+    background-color: greenyellow;
     color: white;
 
 }
 
-#pdfLogo{
+#pdfLogo {
     width: 25px;
 }
 
-#pdfFiles{
+#pdfFiles {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-.messageReceve div{
+.messageReceve div {
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-#attachmentShowLogo{
+#attachmentShowLogo {
     cursor: pointer;
 }
-#attachmentShowLogo:hover{
+
+#attachmentShowLogo:hover {
     transform: scale(1.1);
 }
 
-.UserDpShow img{
-    width:450px;
-    margin-bottom:20px;
-    background-color:white;
+.UserDpShow img {
+    width: 450px;
+    margin-bottom: 20px;
+    background-color: white;
 }
 
-#backBtn{
-    color:white;
-    font-size:25px;
-    font-weight:bolder;
-    position:absolute;
-    top:40px;
-    left:40px;
+#backBtn {
+    color: white;
+    font-size: 25px;
+    font-weight: bolder;
+    position: absolute;
+    top: 40px;
+    left: 40px;
     cursor: pointer;
 }
 
 
-#dateHeaders{
+#dateHeaders {
     display: flex;
     gap: 6px;
     align-items: center;
 }
 
-#a{
+#a {
     width: 100%;
     height: 30px;
 }
 
-#dateHeaders p{
+#dateHeaders p {
     font-weight: 700;
     background-color: #ffffffcf;
-    padding:1px 10px;
+    padding: 1px 10px;
     letter-spacing: 2px;
     border: 1px solid grey;
     border-radius: 4px;
 }
 
-#dateHeaders div{
+#dateHeaders div {
     /* width: 50%; */
     flex: 1;
     height: 1.5px;

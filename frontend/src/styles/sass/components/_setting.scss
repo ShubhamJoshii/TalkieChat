@@ -339,5 +339,23 @@
   }
 
 
+  
+  @media (max-width:1100px){
+    #userSetting #socialLogo {
+      display: none;
+    } 
+  }
+  @media (max-width:685px){
+    margin-bottom: 120px;
+    footer {
+      bottom: 40px;
+    }
+  }
+  
+  @media (max-width: 560px) {
+    footer div {
+      display: none;
+  }
+}
 
 }
