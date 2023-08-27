@@ -42,10 +42,11 @@ code {
   display: flex;
   overflow: hidden;
 }
-
-
-
-
+@media (max-width:685px){
+  body{
+    overflow: hidden;
+  }
+}
 #secondHalf {
   background-color: #f2f1f1;
   height: 100vh;
@@ -55,6 +56,10 @@ code {
   top: 0;
   /* width: 1496px; */
   width: calc(100vw - 40px);
+  @media (max-width:685px){
+    left: 0;
+    width: 100vw;
+  }
 }
 
 #backBTN {
@@ -68,9 +73,10 @@ code {
 }
 
 #Routers {
-  // height: calc(100% - 45px);
   height: calc(100% - 40px);
   display: flex;
   justify-content: center;
   align-items: center;
+  // overflow-y: scroll;
+  overflow: hidden;
 }

@@ -1,0 +1,81 @@
+@use "../abstract/" as *;
+
+.showNotificaition {
+    @include flexMixin(unset,unset,column);
+    position: absolute;
+    // display: none;
+    
+    top: 0px;
+    left: -400px;
+    background-color: white;
+    height: 100%;
+    width: 350px;
+    z-index: 99;
+    border-right: 1px solid black;
+    transition: 1s;
+    
+    #Notificiation {
+        padding: 10px;
+        flex: 1;
+        h4, p, span {
+            color: white;
+            margin: 0;
+        }
+
+        #chatsHistory {
+            // @include flexMixin();
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 20px;
+
+            #chattingStatus {
+                @include flexMixin();
+
+                #groupNotification {
+                    @include flexMixin($JScontent: unset);
+                    flex: 1;
+                    gap: 10px;
+
+                    h4 {
+                        text-transform: capitalize;
+                    }
+                }
+
+                p {
+                    font-size: 11px;
+                }
+            }
+
+            #NotificationMessage {
+                position: relative;
+
+                .notificationMsgText {
+                    cursor: pointer;
+                    margin-top: 10px;
+                    font-size: 12px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    display: -webkit-box;
+                    // display: block;
+                    -webkit-line-clamp: 3;
+                    line-clamp: 3;
+                    -webkit-box-orient: vertical;
+                    width: 95%;
+                }
+
+                svg {
+                    font-size: 27px;
+                    color: white;
+                    font-weight: bolder;
+                    position: absolute;
+                    bottom: -5px;
+                    right: 0;
+                }
+            }
+        }
+    }
+    @media (max-width:685px) {
+        width: 100%;
+        left: 0;
+    }
+}

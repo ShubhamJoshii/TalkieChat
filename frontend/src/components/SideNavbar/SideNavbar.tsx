@@ -19,28 +19,34 @@ import FriendRequest from "./FriendRequest";
 
 const SideNavbar = () => {
   const userInfo: any = useContext(UserData);
-  const {showDPfun}:any = useContext(MainFunction);
+  const { showDPfun }: any = useContext(MainFunction);
   const [userInfoUpdate, setUserInfoUpdate] = useState<any>([]);
   const [Notifications, setNotification] = useState<any>([]);
   const [NotificationsColl, setNotificationColl] = useState([]);
   const [showNotification_Requests, setshowNotification_Requests] = useState<string>("");
-
-  const [show, setShow] = useState<any>(null)
   const [chattingUsers, setChattingUsers] = useState<any>([]);
   const notification_RequestRef = useRef<HTMLInputElement>(null);
 
-  useEffect(() => {
-    const handleOutsideClick = (event: any) => {
-      if (notification_RequestRef.current && !notification_RequestRef.current.contains(event.target)) {
-        setshowNotification_Requests("");
-      }
-    };
-    document.addEventListener('mousedown', handleOutsideClick);
-    return () => {
-      document.removeEventListener('mousedown', handleOutsideClick);
-    };
-  }, []);
+  // useEffect(() => {
+  //   const handleOutsideClick = (event: any) => {
+  //     if (notification_RequestRef.current && !notification_RequestRef.current.contains(event.target)) {
+  //       setshowNotification_Requests("");
+  //     }
+  //   };
+  //   document.addEventListener('mousedown', handleOutsideClick);
+  //   return () => {
+  //     document.removeEventListener('mousedown', handleOutsideClick);
+  //   };
+  // }, []);
 
+  useEffect(() => {
+    let a: any = document.querySelector(".showNotificaition")
+    let b: any = document.querySelector(".FriendRequestContainer")
+
+    showNotification_Requests === "Notification" ? a.className = "showNotificaition active-slider" : a.className = "showNotificaition un_active-slider";
+    showNotification_Requests === "Friend_Request" ? b.className = "FriendRequestContainer active-slider" : b.className = "FriendRequestContainer un_active-slider";
+
+  }, [showNotification_Requests])
 
   const fetchNotification = () => {
     onValue(ref(db), (snapshot) => {
@@ -101,18 +107,14 @@ const SideNavbar = () => {
     });
   };
 
-
   useEffect(() => {
     setUserInfoUpdate(userInfo)
   }, [userInfo])
-
 
   useEffect(() => {
     fetchNotification();
     fetchUserChat()
   }, []);
-
-
 
   useEffect(() => {
     let da = Notifications.sort((b: any, a: any) => {
@@ -132,60 +134,62 @@ const SideNavbar = () => {
   }, [])
 
   return (
-    <div className="SideNavbar">
-      <div id="userImage">
-        {/* <div id="onlineStatue"></div> */}
-        <img
-          src={userInfo ? userInfo.Avatar : UserImage}
-          alt="DP"
-          style={
-            userInfo
-              ? { backgroundColor: userInfo.AvatarBackground }
-              : { backgroundColor: "grey" }
-          }
-          onClick={(e: any) => showDPfun(e.target.src)}
-        />
-      </div>
-      <div id="navbarLogo">
-        <NavLink to="/" >
-          <TiHome />
-        </NavLink>
-        <NavLink to="/Single" >
-          <FaUserAlt />
-        </NavLink>
-        <NavLink to="/Groups" >
-          <MdGroups2 />
-        </NavLink>
-        <div className="NotificationICON">
-          {
-            NotificationsColl.length > 0 && <span id="notifyCount">{NotificationsColl.length}</span>
-          }
-          <IoMdNotifications className={showNotification_Requests === "Notification" ? "active" : ""} onClick={() => setshowNotification_Requests("Notification")} />
-          {showNotification_Requests === "Notification" &&
-            <div ref={notification_RequestRef}>
-              <Notification NotificationsColl={NotificationsColl} userInfo={userInfo} show={show} setShow={setShow} />
-            </div>
-          }
+    <>
+      <div className="SideNavbar">
+        <div id="userImage">
+          {/* <div id="onlineStatue"></div> */}
+          <img
+            src={userInfo ? userInfo.Avatar : UserImage}
+            alt="DP"
+            style={
+              userInfo
+                ? { backgroundColor: userInfo.AvatarBackground }
+                : { backgroundColor: "grey" }
+            }
+            onClick={(e: any) => showDPfun(e.target.src)}
+          />
         </div>
-
-        <div id="FriendRequestOuter">
-          {
-            userInfoUpdate?.Friend_Request?.length > 0 &&
-            <span id="notifyCount">{userInfoUpdate?.Friend_Request?.length}</span>
-          }
-          <ImUserPlus className={showNotification_Requests === "Friend_Request" ? "active" : ""} onClick={() => setshowNotification_Requests("Friend_Request")} />
-          {
-            showNotification_Requests === "Friend_Request" &&
-            <div ref={notification_RequestRef}>
-              <FriendRequest userInfoUpdate={userInfoUpdate} setUserInfoUpdate={setUserInfoUpdate} userInfo={userInfo} chattingUsers={chattingUsers} />
-            </div>
-          }
+        <div id="navbarLogo">
+          <NavLink to="/"  onClick={()=>setshowNotification_Requests("")}>
+            <TiHome />
+          </NavLink>
+          <NavLink to="/Single"  onClick={()=>setshowNotification_Requests("")}>
+            <FaUserAlt />
+          </NavLink>
+          <NavLink to="/Groups"  onClick={()=>setshowNotification_Requests("")}>
+            <MdGroups2 />
+          </NavLink>
+          <div className="NotificationICON">
+            {
+              NotificationsColl.length > 0 && <span id="notifyCount">{NotificationsColl.length}</span>
+            }
+            <IoMdNotifications className={showNotification_Requests === "Notification" ? "active" : ""} 
+            onClick={() => setshowNotification_Requests("Notification")} />
+          </div>
+          <div id="FriendRequestOuter">
+            {
+              userInfoUpdate?.Friend_Request?.length > 0 &&
+              <span id="notifyCount">{userInfoUpdate?.Friend_Request?.length}</span>
+            }
+            <ImUserPlus className={showNotification_Requests === "Friend_Request" ? "active" : ""} 
+            onClick={() => setshowNotification_Requests("Friend_Request")} />
+          </div>
+          <NavLink to="/setting" className="setting" onClick={()=>setshowNotification_Requests("")}>
+            <AiFillSetting />
+          </NavLink>
         </div>
-        <NavLink to="/setting" className="setting">
-          <AiFillSetting />
-        </NavLink>
+      </div >
+      {
+        (showNotification_Requests === "Notification" || showNotification_Requests === "Friend_Request") &&
+        <div id="SliderBackground" onClick={()=>setshowNotification_Requests("")}></div>
+      }
+      <div className="showNotificaition" ref={notification_RequestRef}>
+        <Notification NotificationsColl={NotificationsColl} userInfo={userInfo} setshowNotification_Requests={setshowNotification_Requests}/>
       </div>
-    </div >
+      <div className="FriendRequestContainer" ref={notification_RequestRef}>
+        <FriendRequest userInfoUpdate={userInfoUpdate} setUserInfoUpdate={setUserInfoUpdate} userInfo={userInfo} chattingUsers={chattingUsers} setshowNotification_Requests={setshowNotification_Requests}/>
+      </div>
+    </>
   );
 };
 

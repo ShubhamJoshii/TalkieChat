@@ -32,7 +32,7 @@ const ChattingCollection:React.FC<{curr:any}> = ({ curr }) => {
           return (
             <>
               {lastMessage.Image && <p>Image</p>}
-              {lastMessage.Message && <p>{lastMessage.Message.substr(0, 8)}</p>}
+              {lastMessage.Message && <p>{lastMessage.Message}</p>}
               {lastMessage.Files_Url && (
                 <p>{lastMessage.FileName.substr(0, 8)}...</p>
               )}

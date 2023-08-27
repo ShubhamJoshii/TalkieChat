@@ -39,7 +39,7 @@ const Setting = () => {
           })
           .then((result) => {
             notification(result.data, "success");
-            setTimeout(() => fetchUserInfo(), 1200);
+            setTimeout(() => fetchUserInfo(0), 1200);
           })
       });
   };
@@ -51,7 +51,7 @@ const Setting = () => {
       })
       .then((result) => {
         notification(result.data, "success");
-        fetchUserInfo();
+        fetchUserInfo(0);
       });
   };
 

@@ -20,6 +20,7 @@ const Register = () => {
     if (Password === Confirm_Password && Password.length >= 8) {
       Class_Password_0.style.borderBottom = "";
       Class_Password_1.style.borderBottom = "";
+      
       await axios
         .post("/api/register", {
           Name,

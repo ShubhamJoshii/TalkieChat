@@ -5,18 +5,23 @@ import React, { useContext, useEffect, useState } from "react";
 import { ref, set } from "firebase/database";
 import { db } from "../../firebase";
 import { MainFunction } from "../../routes/App";
+import Logo from "../../Assets/TalkieChatLogo.png";
+import { useNavigate } from "react-router-dom";
+import { IoMdClose } from "react-icons/io";
 
-const FriendRequest:React.FC<{
-    userInfoUpdate:any; setUserInfoUpdate:any; userInfo:any; chattingUsers:any;
-}> = ({ userInfoUpdate, setUserInfoUpdate, userInfo, chattingUsers }) => {
-    const [allUsersSearch, setAllUsersSearch] = useState<any>([]);
+const FriendRequest: React.FC<{
+    userInfoUpdate: any; setUserInfoUpdate: any; userInfo: any; chattingUsers: any;setshowNotification_Requests:any;
+}> = ({ userInfoUpdate, setUserInfoUpdate, userInfo, chattingUsers,setshowNotification_Requests }) => {
+
+    const [allUsersSearch, setAllUsersSearch] = useState<any>(undefined);
     const [allUsers, setAllUsers] = useState<any>([]);
-  const {notification}:any = useContext(MainFunction);
+    const { notification }: any = useContext(MainFunction);
+    const navigate = useNavigate();
     const revertFriendRequest = async (curr: any) => {
         await axios.post("/api/revertFriendRequest", {
             _id: curr._id
         }).then((res) => {
-            notification(res.data,"success");
+            notification(res.data, "success");
             let a = userInfoUpdate.Friend_Request_Sended.filter((e: any) => e._id !== curr._id)
             setUserInfoUpdate({
                 ...userInfoUpdate, Friend_Request_Sended
@@ -41,6 +46,7 @@ const FriendRequest:React.FC<{
         let found;
         if (value !== "")
             found = allUsers.filter((e: any) => e.Name.toLowerCase().includes(value.toLowerCase()))
+        // console.log(found);
         setAllUsersSearch(found);
     }
 
@@ -62,7 +68,7 @@ const FriendRequest:React.FC<{
                 ...userInfoUpdate, Friend_Request_Sended
                     : a
             })
-            notification(res.data,"success");
+            notification(res.data, "success");
         }).catch(() => {
             console.log("Error in Sending Request");
         })
@@ -97,12 +103,16 @@ const FriendRequest:React.FC<{
         // rejectFriend(curr);
     }
 
+    // useEffect(()=>{
+    //     console.log(allUsersSearch)
+    // },[allUsersSearch])
+
     const rejectFriend = (curr: any) => {
         axios.post("/api/rejectfriend", {
             _id: curr._id
         }).then((data: any) => {
             // alert(data)
-            notification(data,"success");
+            notification(data, "success");
         }).catch(() => {
             console.log("Error");
         })
@@ -113,77 +123,85 @@ const FriendRequest:React.FC<{
 
     return (
         <>
-            <div id="triangleNoti"></div>
-            <div id="FriendRequest">
-                <div id="FriendRequestBOX">
-                    <h3>Add Friends</h3>
-                    <input type="text" placeholder="Search..." onChange={findUser} />
-                    {
-                        allUsersSearch?.map((curr: any) => {
-                            let a;
-                            a = chattingUsers.includes(curr._id)
-                            return (
-                                <>
-                                    {
-                                        curr.Name !== userInfo.Name &&
-                                        <div id="AddFriends">
-                                            <div>
-                                                <img src={curr.Avatar} alt="User_Image" />
-                                                <h4>{curr.Name}</h4>
-                                            </div>
-                                            {
-                                                a ?
-                                                    <p>Already Connected</p>
-                                                    : <p onClick={() => sendRequest(curr)}>Send Request</p>
-                                            }
-                                        </div>
-                                    }
-                                </>
-                            )
-
-                        })
-                    }
-                    <h3>Requests</h3>
-                    {
-                        userInfoUpdate?.Friend_Request?.length == 0 && <p id="NotPresent">No Request Received </p>
-                    }
-                    {
-                        userInfoUpdate?.Friend_Request?.map((curr: any) => {
-                            return (
-                                <div id="RequestCard">
-                                    <div>
-                                        <img src={curr.Avatar} alt="User_Image" />
-                                        <h4>{curr.Name}</h4>
-                                    </div>
-                                    <div>
-                                        <TiTick id="icons" style={{ backgroundColor: userInfoUpdate?.ColorSchema }} onClick={() => connectFriend(curr)} />
-                                        <RxCross2 id="icons" onClick={() => rejectFriend(curr)} />
-
-                                    </div>
-                                </div>
-                            )
-                        })
-                    }
-
-                    <h3>Requests Send</h3>
-                    {
-                        userInfoUpdate?.Friend_Request_Sended?.length == 0 && <p id="NotPresent">No Request Sended </p>
-                    }
-                    {
-                        userInfoUpdate?.Friend_Request_Sended?.map((curr: any) => {
-                            return (
-                                <div id="RequestCard">
-                                    <div>
-                                        <img src={curr.Avatar} alt="User_Image" />
-                                        <h4>{curr.Name}</h4>
-
-                                    </div>
-                                    <RxCross2 id="icons" onClick={() => revertFriendRequest(curr)} />
-                                </div>
-                            )
-                        })
-                    }
+            <header className="headerText">
+                <div id="talkieHeaderLogo" onClick={() => navigate("/")}>
+                    <img src={Logo} id="LogoTalkieChat" alt="talkieChatLOGO" />
+                    <h4> TalkieChat</h4>
                 </div>
+                <IoMdClose id="closeIcon" onClick={()=>setshowNotification_Requests("")}/>
+            </header>
+            <div id="friendRequest">
+                <h3>Send Friends Request</h3>
+                <input type="text" placeholder="Search..." onChange={findUser} />
+                {
+                    allUsersSearch?.map((curr: any) => {
+                        let a;
+                        a = chattingUsers.includes(curr._id)
+                        return (
+                            <>
+                                {
+                                    curr.Name !== userInfo.Name &&
+                                    <div id="AddFriends">
+                                        <div>
+                                            <img src={curr.Avatar} alt="User_Image" />
+                                            <h4>{curr.Name}</h4>
+                                        </div>
+                                        {
+                                            a ?
+                                                <p>Already Connected</p>
+                                                : <p onClick={() => sendRequest(curr)}>Send Request</p>
+                                        }
+                                    </div>
+                                }
+                            </>
+                        )
+
+                    })
+                }
+                {
+                    ( allUsersSearch?.length === 0 || allUsersSearch === undefined )&& <p id="NotPresent">Not Found</p>
+                }
+                <h3>Requests</h3>
+                {
+                    userInfoUpdate?.Friend_Request?.length == 0 && <p id="NotPresent">No Request Received </p>
+                }
+                {
+                    userInfoUpdate?.Friend_Request?.map((curr: any) => {
+                        return (
+                            <div id="RequestCard">
+                                <div>
+                                    <img src={curr.Avatar} alt="User_Image" />
+                                    <h4>{curr.Name}</h4>
+                                </div>
+                                <div>
+                                    <TiTick id="icons" style={{ backgroundColor: userInfoUpdate?.ColorSchema }} onClick={() => connectFriend(curr)} />
+                                    <RxCross2 id="icons" onClick={() => rejectFriend(curr)} />
+
+                                </div>
+                            </div>
+                        )
+                    })
+                }
+
+                <h3>Requests Send</h3>
+                {
+                    userInfoUpdate?.Friend_Request_Sended?.length == 0 && <p id="NotPresent">No Request Sended </p>
+                }
+                {
+                    userInfoUpdate?.Friend_Request_Sended?.map((curr: any) => {
+                        return (
+                            <div id="RequestCard">
+                                <div>
+                                    <img src={curr.Avatar} alt="User_Image" />
+                                    <h4>{curr.Name}</h4>
+
+                                </div>
+                                <RxCross2 id="icons" onClick={() => revertFriendRequest(curr)} />
+                            </div>
+                        )
+                    })
+                }
+
             </div>
         </>
     )

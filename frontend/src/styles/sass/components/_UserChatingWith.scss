@@ -33,6 +33,7 @@
         h3 {
             margin: 0;
             font-size: 15px;
+            text-transform: capitalize;
         }
 
         p {
@@ -284,26 +285,36 @@ button[disabled] {
         border-top-left-radius: 5px;
         border-bottom-left-radius: 5px;
         background-color: #44D7B6;
+        div {
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+        
     }
 
     @media (max-width : 685px) {
         height: calc(100vh - 188px);
     }
+    
+    @media (max-width : 540px) {
+        .messageSend {
+            max-width: 95%;
+        }
+    }
 }
 
-.messageSend div {
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-
+.messageSend img {
+    width: 35px;
+    aspect-ratio: 1;
 }
-
 .messageSend div p,
 .messageReceve div p {
     margin: 0;
     width: 95%;
     overflow-wrap: break-word;
 }
+
 
 #dropDownMenu {
     position: absolute;
@@ -334,12 +345,12 @@ button[disabled] {
 
 #threeBotMenu {
     cursor: pointer;
+    &:hover #dropDownMenu {
+        transition: 40s;
+        display: block;
+    }
 }
 
-#threeBotMenu:hover #dropDownMenu {
-    transition: 40s;
-    display: block;
-}
 
 #timeStamp {
     margin: 0;
@@ -349,10 +360,6 @@ button[disabled] {
     letter-spacing: 2px;
 }
 
-.messageSend img {
-    width: 35px;
-    aspect-ratio: 1;
-}
 
 
 .messageReceve {
@@ -433,8 +440,9 @@ button[disabled] {
             justify-content: center;
         }
     }
+
     @media (max-width : 685px) {
-        bottom: 38px;   
+        bottom: 38px;
     }
 }
 
@@ -477,7 +485,6 @@ button[disabled] {
 
 
 #sharedImg {
-    /* width: 295px; */
     width: 270px;
     cursor: pointer;
     object-fit: cover;
@@ -486,7 +493,9 @@ button[disabled] {
     padding: 2px;
     margin-left: 10px;
     border-radius: 5px;
-
+    @media (max-width:540px){    
+        width: 90% !important;
+    }
 }
 
 #AttachmentLogo {

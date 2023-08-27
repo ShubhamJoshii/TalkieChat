@@ -9,8 +9,7 @@ const Authenication = require("./Authenication");
 const envURL="/api/";
 // const envURL="/";
 router.post(`${envURL}register`, async (req, res) => {
-  const { Name, Email, Password, Confirm_Password, Register_Date, Avatar } =
-    req.body;
+  const { Name, Email, Password, Confirm_Password, Register_Date, Avatar } = req.body;
   if (!Name || !Email || !Password || !Confirm_Password) {
     return res.send("Fill Form Properly");
   }

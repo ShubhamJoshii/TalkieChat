@@ -2,107 +2,159 @@
 
 #FriendRequestOuter {
     position: relative;
+}
 
-    #FriendRequest {
-        position: absolute;
-        top: -100px;
-        left: 50px;
-        z-index: 99;
+.active-slider{
+  left: 40px !important;  
+}
+.un_active-slider{
+    left: -400px !important;
+}
 
+#closeIcon{
+    // position: absolute;
+    // right: 16px;
+    // top: 45px;
+    font-size: 24px;
+    cursor: pointer;
+    border-radius: 50%;
+    &:hover{
+        transform: scale(1.05);
+        background-color: red;
+        color: white;
+    }
+}
+
+.FriendRequestContainer {
+    position: absolute;
+    top: 0px;
+    left: -400px;
+    background-color: white;
+    height: 100%;
+    width: 350px;
+    z-index: 99;
+    border-right: 1px solid black;
+    transition: 1s;
+    box-shadow: 0 0 10px grey;
+    background-color: rgb(255, 255, 255);
+    color: black;
+    
+    #friendRequest{
+        @include flexMixin(unset,unset,$direction:column);
+        padding: 0 20px;
         input {
-            width: 84%;
-            margin: 2px 5%;
+            width: 95%;
+            margin: auto;
             padding: 5px 10px;
+            margin-bottom: 20px
         }
-
         #RequestCard {
             @include flexMixin(center, space-between);
             gap: 15px;
-            margin: 5px 10px;
             padding: 2px 10px;
             border: 1px solid black;
             border-radius: 5px;
-
+            
+            div{
+                @include flexMixin(center, space-between);
+                gap: 10px;
+            }
             img {
-                width: 50px;
-                height: 50px;
+                width: 40px;
+                height: 40px;
                 border-radius: 50%;
                 margin: 2px 0;
                 border: 2px solid black;
             }
-
+    
             h4 {
                 margin: 0;
             }
-
-
+    
+    
             #icons {
                 font-size: 15px;
                 padding: 4px;
                 border-radius: 50%;
                 color: white;
                 cursor: pointer;
-
+    
                 &:hover {
                     transform: scale(1.1);
                 }
-
+    
                 background-color: green;
-
+    
                 &:last-child {
                     color: white;
                     background-color: red;
                 }
             }
-
-
+    
+    
         }
-
+    
+        h3{
+            margin: 30px 0 10px 0;
+        }
+        #NotPresent{
+            margin: 0;
+            font-size: 12px;
+            text-align: center;
+        }
         #AddFriends {
+            @include flexMixin(center, space-between);
             margin: auto;
+            // flex: 1;
             margin-top: 10px;
             border-radius: 5px;
             border: 1px solid black;
-            @include flexMixin(center, space-between);
-            padding: 0 10px;
-            width: 270px;
-
+            padding: 4px 10px;
+            width: 94%;
+    
             h4 {
                 margin: 0;
             }
-
+    
             div {
                 @include flexMixin(center, unset);
                 gap: 5px;
             }
-
+    
             p {
                 font-size: 10px;
                 font-weight: 600;
                 letter-spacing: 1px;
                 cursor: pointer;
                 color: blue;
-
+    
                 &:hover {
                     text-decoration: underline;
                 }
             }
-
+    
             img {
                 width: 45px;
                 height: 45px;
+                border-radius: 50%;
             }
         }
+        
     }
 
-    #FriendRequestBOX {
-        padding: 0px 5px;
-        width: 310px;
-        min-height: 200px;
-        max-height: 400px;
-        overflow: scroll;
-        background-color: rgb(255, 255, 255);
-        box-shadow: 0 0 10px grey;
-        color: black;
+}
+
+@media (max-width:685px) {
+    .active-slider{
+        left: 0px !important;  
+        top: 0% !important;
+    }
+    
+    .un_active-slider{
+        left: 0% !important;
+        top: 100% !important;
+    }
+    .FriendRequestContainer{
+        width: 100%;
     }
 }

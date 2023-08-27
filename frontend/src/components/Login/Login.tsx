@@ -26,21 +26,21 @@ const Login = () => {
         rememberME,
       })
       .then((result) => {
-        console.log(result.data);
         let Name_Email: any = document.getElementById("Name_Email");
         let Password: any = document.getElementById("Password");
         if (result.data === "Fill Form Properly") {
           Name_Email.style.borderBottom = "2px solid red";
           Password.style.borderBottom = "2px solid red";
+          notification(result.data,"warning");
         } else if (result.data === "User Password is Wrong") {
           Name_Email.style.borderBottom = "";
           Password.style.borderBottom = "2px solid red";
+          notification(result.data,"un_success");
         } else {
           notification(result.data,"success");
           setTimeout(() => {
-            fetchUserInfo();
+            fetchUserInfo(1000);
             navigate("/");
-            // window.location.reload();
           }, 1200);
         }
       })

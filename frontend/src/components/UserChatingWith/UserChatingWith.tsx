@@ -45,8 +45,8 @@ const UserChatingWith: React.FC<
     userChatWithData: any;
     updateCurr: any;
     setUserChatWithData: any;
-    chatDisplayComp:any;
-    setchatDisplayComp:any;
+    chatDisplayComp: any;
+    setchatDisplayComp: any;
   }> = ({
     userChatWithData,
     updateCurr,
@@ -164,21 +164,21 @@ const UserChatingWith: React.FC<
       const chat_id = user_ID;
       const time = new Date();
       const uuid = uid();
-      if(Message.length > 0){
-      update(ref(db, `${userChatWithData.ChatID}`), {
-        Messages: userAllMessage.concat({
-          _id: uuid,
-          Message,
-          time,
-          whoWrote: chat_id,
-          format: "textMessage",
-          SeenBy: [userInfo._id],
-          DeliveredTo: [userInfo._id],
-        }),
-        lastMessage: time,
-      });
-      setMessage("");
-    }
+      if (Message.length > 0) {
+        update(ref(db, `${userChatWithData.ChatID}`), {
+          Messages: userAllMessage.concat({
+            _id: uuid,
+            Message,
+            time,
+            whoWrote: chat_id,
+            format: "textMessage",
+            SeenBy: [userInfo._id],
+            DeliveredTo: [userInfo._id],
+          }),
+          lastMessage: time,
+        });
+        setMessage("");
+      }
 
     };
 
@@ -391,7 +391,6 @@ const UserChatingWith: React.FC<
     }, [tempChatsArr, userAllMessageSearch]);
 
     const searchMessage = (e: any) => {
-      console.log(e.target.value);
       let a = e.target.value.toLowerCase();
       let b = userAllMessage.filter(
         (message: any) =>
@@ -399,7 +398,6 @@ const UserChatingWith: React.FC<
           message.FileName?.toLowerCase().includes(a) ||
           message.Image?.toLowerCase().includes(a)
       );
-      console.log(b);
       setUserAllMessageSearch(b);
     };
 
@@ -454,7 +452,7 @@ const UserChatingWith: React.FC<
                       <div
                         id="senderName"
                         onLoad={() => setUserChatWithData(true)}
-                        onClick={()=>setchatDisplayComp({...chatDisplayComp,userInfo:!chatDisplayComp.userInfo})}
+                        onClick={() => setchatDisplayComp({ ...chatDisplayComp, userInfo: !chatDisplayComp.userInfo })}
                       >
                         <h3>{senderDPData.Name}</h3>
                         <p>

@@ -1,36 +1,54 @@
 @use "../abstract/" as *;
-#MainPage {
-    display: flex;
-    height: 100%;
-    width: calc(100vw - 40px);
-    
-    #userChattingData{
-        @include flexMixin(unset,unset);
-        position: relative;
-        // width: 70vw;
-        flex: 1;
 
+#MainPage {
+  display: flex;
+  height: 100%;
+  width: calc(100vw - 40px);
+
+  #userChattingData {
+    @include flexMixin(unset, unset);
+    position: relative;
+    // width: 70vw;
+    flex: 1;
+
+  }
+
+  .backgroundLogos {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1;
+    font-size: 10vw;
+    color: rgba(0, 0, 0, 0.438);
+    opacity: .2;
+    flex-wrap: wrap;
+    font-family: cursive;
+    height: 50vh;
+    margin: auto 0;
+
+    p {
+      margin: 0;
+    }
+
+    img {
+      width: 30vh;
+      aspect-ratio: 1.2;
+    }
+  }
+
+  @media (max-width: 685px) {
+    width: 100vw;
+    height: 100%;
+
+    #userChattingData {
+      /* display: none; */
+      position: absolute;
+      /* width: 100vw;
+    height: 95vh; */
     }
 
     .backgroundLogos {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex: 1;
-      font-size: 10vw;
-      color: rgba(0, 0, 0, 0.438);
-      opacity: .2;
-      flex-wrap: wrap;
-      font-family: cursive;
-      height: 50vh;
-      margin: auto 0;
-      p{
-        margin: 0;
-      }
-      img {
-        width: 30vh;
-        aspect-ratio: 1.2;
-      }
+      display: none;
     }
   }
-  
+}

@@ -67,7 +67,7 @@ function notification(message: string, type: string) {
 
 type NotificationType = {
   notification: (message: string, type: string) => void;
-  fetchUserInfo: () => void;
+  fetchUserInfo: (count:number) => void;
   showDPfun: (setContent: string) => void
 };
 
@@ -81,7 +81,7 @@ function App() {
 
   const db = getDatabase();
 
-  const fetchUserInfo = () => {
+  const fetchUserInfo = (count:number) => {
     setShowLoading(true);
     axios
       .get("/api/home")
@@ -90,7 +90,7 @@ function App() {
         setUserInfo(result.data);
         setTimeout(() => {
           setShowLoading(false);
-        }, 4500)
+        }, count)
         set(ref(db, `${result.data._id}`), {
           status: "Online",
           _id: result.data._id,
@@ -137,7 +137,7 @@ function App() {
   };
 
   useEffect(() => {
-    fetchUserInfo();
+    fetchUserInfo(4500);
   }, [])
 
   if (userInfo) {
@@ -182,7 +182,6 @@ function App() {
                 </div>
               </>
             }
-            {/* )} */}
           </Router>
         </MainFunction.Provider>
       </UserData.Provider>
