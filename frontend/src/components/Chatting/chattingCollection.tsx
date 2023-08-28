@@ -4,7 +4,7 @@ const ChattingCollection:React.FC<{curr:any}> = ({ curr }) => {
   return (
     <>
       {curr.Messages &&
-        curr.Messages.slice(-1).map((lastMessage:any) => {
+        curr.Messages.slice(-1).map((lastMessage:any,id:number) => {
           let currentTime:any = new Date();
           let OnlineTime:any = new Date(lastMessage.time);
           if (
@@ -30,14 +30,14 @@ const ChattingCollection:React.FC<{curr:any}> = ({ curr }) => {
             });
           }
           return (
-            <>
+            <div id="lastMessage" key={id}>
               {lastMessage.Image && <p>Image</p>}
               {lastMessage.Message && <p>{lastMessage.Message}</p>}
               {lastMessage.Files_Url && (
                 <p>{lastMessage.FileName.substr(0, 8)}...</p>
               )}
               <p id="onlineTime">{OnlineTime}</p>
-            </>
+            </div>
           );
         })}
     </>

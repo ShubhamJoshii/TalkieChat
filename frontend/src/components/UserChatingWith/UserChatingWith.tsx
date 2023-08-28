@@ -18,7 +18,7 @@ import { ImAttachment } from "react-icons/im";
 import { CgClose } from "react-icons/cg";
 import { GrGallery } from "react-icons/gr";
 import { FaRegStar } from "react-icons/fa";
-
+import ReactLoading from 'react-loading';
 import MessageDelever from "../../assets/MessageDelivered.png";
 import MessageNotSend from "../../assets/MessageNotSend.png";
 import MessageSeen from "../../assets/MessageSeen.png";
@@ -55,7 +55,7 @@ const UserChatingWith: React.FC<
     setchatDisplayComp,
   }) => {
     const userInfo: any = useContext(UserData);
-    const { notification, showDPfun }: any = useContext(MainFunction);
+    const { showDPfun }: any = useContext(MainFunction);
     const [Message, setMessage] = useState<any>("");
     const [user_ID, setUser_ID] = useState<any>();
     const [userAllMessage, setUserAllMessages] = useState<any>([]);
@@ -76,6 +76,8 @@ const UserChatingWith: React.FC<
       Background: "white",
       Name: "Unknown",
     });
+    const [sendLoading,setSendLoading] = useState<boolean>(false);
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -161,6 +163,7 @@ const UserChatingWith: React.FC<
     }, [userChatWithData]);
 
     const saveMessage = async () => {
+      setSendLoading(true);
       const chat_id = user_ID;
       const time = new Date();
       const uuid = uid();
@@ -178,6 +181,7 @@ const UserChatingWith: React.FC<
           lastMessage: time,
         });
         setMessage("");
+        setSendLoading(false);
       }
 
     };
@@ -194,50 +198,53 @@ const UserChatingWith: React.FC<
 
     const uploadImage = async (e: any) => {
       setAttachmentShow(!AttachmentShow);
+      setSendLoading(true);
       const name = e.target.files[0];
       const uuid = uid();
       const imageRef = storageRef(storage, `images/${name.name + uuid}`);
       uploadBytes(imageRef, name)
-        .then((res) => {
-          // alert("Image Upload");
-          notification("Image Upload", "success");
-          // console.log(getDownloadURL(res.ref));
-          return getDownloadURL(res.ref);
-        })
-        .then((url) => {
-          // console.log(url);
-          const chat_id = user_ID;
-          const time = new Date();
-
-          update(ref(db, `${userChatWithData.ChatID}`), {
-            Messages: userAllMessage.concat({
-              _id: uuid,
-              Image: url,
-              time,
-              whoWrote: chat_id,
-              format: "Image",
-              SeenBy: [userInfo._id],
-              DeliveredTo: [userInfo._id],
-            }),
-            lastMessage: time,
-          });
+      .then((res) => {
+        // alert("Image Upload");
+        // notification("Image Upload", "success");
+        // console.log(getDownloadURL(res.ref));
+        return getDownloadURL(res.ref);
+      })
+      .then((url) => {
+        // console.log(url);
+        const chat_id = user_ID;
+        const time = new Date();
+        
+        update(ref(db, `${userChatWithData.ChatID}`), {
+          Messages: userAllMessage.concat({
+            _id: uuid,
+            Image: url,
+            time,
+            whoWrote: chat_id,
+            format: "Image",
+            SeenBy: [userInfo._id],
+            DeliveredTo: [userInfo._id],
+          }),
+          lastMessage: time,
+        }).then(()=>{
+          setSendLoading(false);
         });
+      });
     };
 
     const uploadDocument = async (e: any) => {
       setAttachmentShow(!AttachmentShow);
+      setSendLoading(true);
       const name = e.target.files[0];
       const uuid = uid();
       const documentRef = storageRef(storage, `files/${name.name + uuid}`);
       uploadBytes(documentRef, name)
         .then((res) => {
-          notification("Document Upload", "success");
+          // notification("Document Upload", "success");
           return getDownloadURL(res.ref);
         })
         .then((url) => {
           const chat_id = user_ID;
           const time = new Date();
-
           update(ref(db, `${userChatWithData.ChatID}`), {
             Messages: userAllMessage.concat({
               _id: uuid,
@@ -250,6 +257,8 @@ const UserChatingWith: React.FC<
               DeliveredTo: [userInfo._id],
             }),
             lastMessage: time,
+          }).then(()=>{
+            setSendLoading(false);
           });
         });
     };
@@ -257,11 +266,7 @@ const UserChatingWith: React.FC<
     const showSharredMessage = () => {
       setAttachmentShow(!AttachmentShow);
       setstarMessagesShow(true);
-      // userAllMessage.map((obj)=>{
-      // })
       let b = userAllMessage.filter((e: any) => e.starred === true);
-      // console.log(b);
-      // b.map((curr) => ChatSelection(curr));
       setUserAllMessageSearch(b);
     };
 
@@ -456,15 +461,19 @@ const UserChatingWith: React.FC<
                       >
                         <h3>{senderDPData.Name}</h3>
                         <p>
-                          {new Date(userChatWithData?.lastMessage).toLocaleString(
-                            "en-US",
-                            {
-                              day: "numeric",
-                              month: "long",
-                              hour: "numeric",
-                              minute: "numeric",
-                            }
-                          )}
+                          {
+                            userChatWithData?.lastMessage && <>
+                              {new Date(userChatWithData?.lastMessage).toLocaleString(
+                                "en-US",
+                                {
+                                  day: "numeric",
+                                  month: "long",
+                                  hour: "numeric",
+                                  minute: "numeric",
+                                }
+                              )}
+                            </>
+                          }
                         </p>
                       </div>
                     </div>
@@ -676,7 +685,7 @@ const UserChatingWith: React.FC<
                         let senders = userChatWithData?.Users?.find(
                           (e: any) => e.User_id === curr.whoWrote
                         );
-
+                        console.log(senders);
                         let seenBy = "";
                         if (
                           curr?.SeenBy?.length === userChatWithData?.Users?.length
@@ -735,7 +744,7 @@ const UserChatingWith: React.FC<
                                         src={curr.Image}
                                         alt="SharedImage"
                                         id="sharedImg"
-
+                                        className="skeleton"
                                         onClick={(e: any) => showDPfun(e.target.src)}
                                       />
                                       <div>
@@ -749,21 +758,19 @@ const UserChatingWith: React.FC<
                                   )}
                                   {curr.Files_Url && (
                                     <>
-                                      <div id="pdfFiles">
+                                      <a
+                                        href={curr.Files_Url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        id="pdfFiles"
+                                      >
                                         <img
                                           src={PdfLogo}
                                           id="pdfLogo"
                                           alt="pdfLOGO"
                                         />
-
-                                        <a
-                                          href={curr.Files_Url}
-                                          target="_blank"
-                                          rel="noopener noreferrer"
-                                        >
-                                          {curr.FileName}
-                                        </a>
-                                      </div>
+                                        <p>{curr.FileName}</p>
+                                      </a>
                                       <div>
                                         <img src={seenBy} alt="SendStatus" />
                                         <p id="timeStamp">{messageTiming}</p>
@@ -781,10 +788,10 @@ const UserChatingWith: React.FC<
                                   {userChatWithData?.chatType === "Group" && (
                                     <div id="groupSenderInfo">
                                       <img
-                                        src={senders?.GroupImage}
+                                        src={senders?.User_Avatar}
                                         alt="senderDP"
                                         style={{
-                                          borderColor: `${userInfo.ColorSchema}`,
+                                          borderColor: `${senders.User_AvatarBackground}`,
                                         }}
 
                                         onClick={(e: any) => showDPfun(e.target.src)}
@@ -827,6 +834,7 @@ const UserChatingWith: React.FC<
                                         src={curr.Image}
                                         alt="SharedImage"
                                         id="sharedImg"
+                                        className="skeleton"
                                         onClick={(e: any) => showDPfun(e.target.src)}
                                       />
                                       <div id="messageTime">
@@ -839,7 +847,21 @@ const UserChatingWith: React.FC<
                                   )}
                                   {curr.Files_Url && (
                                     <>
-                                      <div>
+                                      <a
+                                        href={curr.Files_Url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        id="pdfFiles"
+                                        style={{backgroundColor:userInfo.ColorSchema}}
+                                      >
+                                        <img
+                                          src={PdfLogo}
+                                          id="pdfLogo"
+                                          alt="pdfLOGO"
+                                        />
+                                        <p>{curr.FileName}</p>
+                                      </a>
+                                      {/* <div>
                                         <img
                                           src={PdfLogo}
                                           id="pdfLogo"
@@ -852,7 +874,7 @@ const UserChatingWith: React.FC<
                                         >
                                           {curr.FileName}
                                         </a>
-                                      </div>
+                                      </div> */}
                                       <div id="messageTime">
                                         <p id="timeStamp">{messageTiming}</p>
                                         {curr?.starred === true && (
@@ -910,8 +932,12 @@ const UserChatingWith: React.FC<
                         onChange={(e) => setMessage(e.target.value)}
                       ></textarea>
                     </div>
-                    <div id="sendMessage" onClick={saveMessage}>
-                      <BsFillSendFill />
+                    <div id="sendMessage" style={{backgroundColor:userInfo.ColorSchema}} onClick={saveMessage}>
+                      {
+                        sendLoading ? 
+                        <ReactLoading type="spin" color="#fff" height={'100%'} width={'100%'} /> :
+                        <BsFillSendFill />
+                      }
                     </div>
                   </div>
                 </div>

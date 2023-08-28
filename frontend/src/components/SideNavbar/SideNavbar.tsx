@@ -27,18 +27,6 @@ const SideNavbar = () => {
   const [chattingUsers, setChattingUsers] = useState<any>([]);
   const notification_RequestRef = useRef<HTMLInputElement>(null);
 
-  // useEffect(() => {
-  //   const handleOutsideClick = (event: any) => {
-  //     if (notification_RequestRef.current && !notification_RequestRef.current.contains(event.target)) {
-  //       setshowNotification_Requests("");
-  //     }
-  //   };
-  //   document.addEventListener('mousedown', handleOutsideClick);
-  //   return () => {
-  //     document.removeEventListener('mousedown', handleOutsideClick);
-  //   };
-  // }, []);
-
   useEffect(() => {
     let a: any = document.querySelector(".showNotificaition")
     let b: any = document.querySelector(".FriendRequestContainer")
@@ -137,10 +125,10 @@ const SideNavbar = () => {
     <>
       <div className="SideNavbar">
         <div id="userImage">
-          {/* <div id="onlineStatue"></div> */}
           <img
             src={userInfo ? userInfo.Avatar : UserImage}
             alt="DP"
+            className="skeleton"
             style={
               userInfo
                 ? { backgroundColor: userInfo.AvatarBackground }
@@ -161,7 +149,7 @@ const SideNavbar = () => {
           </NavLink>
           <div className="NotificationICON">
             {
-              NotificationsColl.length > 0 && <span id="notifyCount">{NotificationsColl.length}</span>
+              NotificationsColl.length + 2 > 0 && <span id="notifyCount">{NotificationsColl.length + 2}</span>
             }
             <IoMdNotifications className={showNotification_Requests === "Notification" ? "active" : ""} 
             onClick={() => setshowNotification_Requests("Notification")} />

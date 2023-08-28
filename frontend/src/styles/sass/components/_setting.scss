@@ -9,6 +9,7 @@
   overflow-y: scroll;
   gap: 20px;
   width: 100%;
+  min-height: 90%;
   max-height: 100%;
   // height: 100%;
 
@@ -86,7 +87,8 @@
       width: 100%;
       height: 100%;
       display: none;
-      z-index: 99999;
+      // z-index: 99999;
+      z-index: 5;
       align-items: center;
       justify-content: center;
       background-color: rgba(0, 0, 0, 0.314);
@@ -97,7 +99,8 @@
 
     #changeDpUnder {
       position: absolute;
-      z-index: 9999;
+      // z-index: 9999;
+      z-index: 4;
       width: 100%;
       height: 100%;
       display: flex;
@@ -175,6 +178,7 @@
     flex-wrap: wrap;
     padding-top: 20px;
     margin-bottom: 40px;
+
     #pickers {
       display: flex;
       flex-direction: column;
@@ -233,7 +237,7 @@
     background-color: white;
     width: 100%;
 
-    h4{
+    h4 {
       margin: 12px 0;
     }
 
@@ -256,9 +260,11 @@
     top: 0;
     left: 0px;
     padding: 10px 50px 0px 50px;
-    z-index: 9999;
+    // z-index: 9999;
+    z-index: 4;
     color: white;
-    height: 100%;
+    // width: calc(100vw - 40px);
+    height: calc(100% - 10px);
     overflow: scroll;
 
     #AvatarCollections {
@@ -268,16 +274,21 @@
       justify-content: center;
     }
 
-    #avatarImgBack img {
-      cursor: pointer;
-      background-color: aliceblue;
-      border-radius: 50%;
-      aspect-ratio: 1;
+    #avatarImgBack {
       width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      img {
+        cursor: pointer;
+        background-color: aliceblue;
+        border-radius: 50%;
+        aspect-ratio: 1;
+        width: 100%;
 
-      &:hover {
-        transform: scale(1.2);
-        box-shadow: 0 0 10px rgb(34, 33, 33);
+        &:hover {
+          transform: scale(1.05);
+          box-shadow: 0 0 10px rgb(34, 33, 33);
+        }
       }
     }
 
@@ -296,8 +307,8 @@
       cursor: pointer;
 
       &:hover {
-        transform: scale(1.1);
-        border: 1px solid black;
+        transform: scale(1.05);
+        border: 1px solid rgb(255, 255, 255);
       }
     }
 
@@ -312,7 +323,6 @@
       &:hover {
         background-color: red;
       }
-
     }
 
     #avatarSelect {
@@ -320,8 +330,7 @@
       border-radius: 50%;
 
       img {
-        margin-left: 5px;
-        width: 150px;
+        width: 100%;
         aspect-ratio: 1;
       }
     }
@@ -349,6 +358,44 @@
   }
 
 
+  @media (max-width : 1200px) {
+    .Avatar {
+      padding: 10px 10px 0 10px;
+      width: calc(100% - 20px);
+      h1 {
+        font-size: 24px;
+        margin-left: 20px;
+      }
+
+      h3 {
+        margin-left: 20px;
+      }
+
+      #closeBtnAvatars {
+        font-size: 28px;
+        top: 26px;
+      }
+
+      #AvatarCollections, .avatarBackGroundColor {
+        gap: 10px;
+      }
+
+      #avatarImgBack, .AvatarthemeColors {
+        width: 70px;
+        height: 70px;
+      }
+
+      #avatarSelect {
+        width: 120px;
+      }
+
+      #avatarSave {
+        button {
+          font-size: 14px;
+        }
+      }
+    }
+  }
 
   @media (max-width:1100px) {
     #userSetting #socialLogo {
@@ -357,14 +404,11 @@
   }
 
   @media (max-width:685px) {
-    // #settingTopic{
-    //   margin-top: 30px;
-    // }
-    // margin-bottom: 120px;
     padding: 10px 40px;
-    .themes #pickers{
+    .themes #pickers {
       margin: auto;
     }
+
     footer {
       bottom: 40px;
       display: none;
@@ -392,6 +436,7 @@
   }
 
   @media (max-width: 540px) {
+
     // justify-content: flex-start;
     #userSetting {
       .userImgName {
@@ -399,7 +444,9 @@
         flex-wrap: wrap;
       }
     }
+
     .themes {
+
       // padding-bottom: 150px;
       #pickers {
         flex-wrap: wrap;

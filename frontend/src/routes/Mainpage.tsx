@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import Chatting from "../components/Chatting/Chatting.tsx";
 import UserChatingWith from "../components/UserChatingWith/UserChatingWith.tsx";
 import UserInfo from "../components/UserInfo/UserInfo.tsx";
-import Logo from "../assets/TalkieChatLogo.png";
+import Logo from "../assets/TalkieChat.png";
 import { useLocation } from "react-router-dom";
 
 import { UserData } from "./App.tsx";
@@ -140,10 +140,7 @@ const Mainpage = () => {
           setchatDisplayComp={setchatDisplayComp}
         />
         {!userChatWithData && (
-          <div className="backgroundLogos">
-            <img src={Logo} alt="logo" />
-            <p>TalkieChat</p>
-          </div>
+          <img src={Logo}  className="backgroundLogos" alt="logo" />
         )}
       </div>
 

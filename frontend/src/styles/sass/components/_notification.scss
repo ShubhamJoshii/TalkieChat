@@ -10,9 +10,11 @@
     background-color: white;
     height: 100%;
     width: 350px;
-    z-index: 99;
+    // z-index: 99;
+    z-index: 2;
     border-right: 1px solid black;
     transition: 1s;
+    
     
     #Notificiation {
         padding: 10px;
@@ -22,12 +24,63 @@
             margin: 0;
         }
 
+        #Web-Notification{
+            @include flexMixin($JScontent:flex-start);
+            gap: 10px;
+            padding: 5px 10px;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.356);
+            margin-bottom: 10px;
+            cursor: pointer;
+            &:hover{
+                border-radius: 4px;
+                background-color: rgba(0, 0, 0, 0.159);
+            }
+            #icons{
+                // width: 16%;
+                // height: 16%;
+                width: 50px;
+                height: 50px;
+                color: white;
+                &:first-child{
+                    background-color: rgb(15, 165, 12);
+                }
+                &:nth-child(2){
+                    background-color: rgb(15, 165, 12);
+                }
+                border-radius: 10px;
+                padding: 4px;
+            }
+            div{
+                flex: 1;
+                h4,p{
+                    margin: 0;
+                    color: black;
+                }
+                p{
+                    font-size: 12px;
+                    font-weight: 600;
+                    color: rgba(0, 0, 0, 0.552);
+                }
+            }
+        }
+        
+        #noNotification{
+            color: black !important;
+            text-align: center;
+            font-size: 13px;
+        }
+        
         #chatsHistory {
-            // @include flexMixin();
             border-radius: 8px;
             padding: 10px;
             margin-bottom: 20px;
-
+            cursor: pointer;
+            color: white;
+            &:hover{
+                border-radius: 4px;
+                background-color: rgba(0, 0, 0, 0.297) !important;
+                color:black;
+            }
             #chattingStatus {
                 @include flexMixin();
 
@@ -36,23 +89,31 @@
                     flex: 1;
                     gap: 10px;
 
+                    img{
+                        border-radius: 50%;
+                    }
                     h4 {
                         text-transform: capitalize;
+                        color: inherit;
+                        font-size: 14px;
                     }
                 }
-
+                
                 p {
+                    color: inherit;
                     font-size: 11px;
                 }
             }
-
+            
             #NotificationMessage {
                 position: relative;
-
+                
                 .notificationMsgText {
+                    color: inherit;
                     cursor: pointer;
                     margin-top: 10px;
-                    font-size: 12px;
+                    margin-left: 10px;
+                    font-size: 13px;
                     overflow: hidden;
                     text-overflow: ellipsis;
                     display: -webkit-box;
@@ -60,7 +121,47 @@
                     -webkit-line-clamp: 3;
                     line-clamp: 3;
                     -webkit-box-orient: vertical;
-                    width: 95%;
+                    width: 94%;
+                    font-weight: bold;
+                    letter-spacing: 1px
+                }
+                .notificationMsgDoc{
+                    @include flexMixin(center,unset);
+                    gap: 15px;
+                    cursor: pointer;
+                    font-size: 13px;
+                    margin-top: 10px;
+                    border-radius: 5px;
+                    padding: 5px;
+                    color: black;
+                    background-color: white;
+                    // display: block;
+                    width: calc(100% - 10px);
+                    span{
+                        color: inherit;
+                        font-size: inherit;
+                        font-weight: bold;
+                        text-transform: capitalize;
+                    }
+                    img{
+                        width: 20px;
+                    }
+                }
+                .notificationMsgImg{
+                    gap: 15px;
+                    cursor: pointer;
+                    font-size: 13px;
+                    margin-top: 10px;
+                    border-radius: 5px;
+                    padding: 5px;
+                    color: black;
+                    background-color: white;
+                    img{
+                        border-radius: 4px;
+                        width: 60%;
+                        margin-left: 20%;
+                        aspect-ratio: 1;
+                    }
                 }
 
                 svg {

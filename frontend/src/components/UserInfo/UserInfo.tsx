@@ -160,19 +160,20 @@ const UserInfo: React.FC<{
     useEffect(() => {
       fetchUserChat();
     }, [userChatWithData]);
-  
+
     return (
       <>
         {userChatWithData && chatDisplayComp.userInfo ? (
           <div className="SenderInfo">
             <IoMdArrowRoundBack
               id="backBTN"
-              onClick={()=> setchatDisplayComp({...chatDisplayComp,userInfo:false})}
+              onClick={() => setchatDisplayComp({ ...chatDisplayComp, userInfo: false })}
             />
             <div id="UserImg">
               <img
                 src={senderDPData.Image || "https://w7.pngwing.com/pngs/821/381/png-transparent-computer-user-icon-peolpe-avatar-group.png"}
                 alt="SenderDP"
+                className="skeleton"
                 style={{ backgroundColor: senderDPData.Background }}
                 onClick={(e: any) => showDPfun(e.target.src)}
                 id={status === "Online" ? "AllActive" : "NoActive"}
@@ -209,7 +210,7 @@ const UserInfo: React.FC<{
                     });
 
                     return (
-                      <div id="groupUser">
+                      <div id="groupUser" style={{backgroundColor:userInfo.ColorSchema}}>
                         <div id="groupUsersDPHead">
                           <img
                             src={curr.User_Avatar}
@@ -234,6 +235,8 @@ const UserInfo: React.FC<{
                   })}
               </div>
             )}
+            {
+              StarredMsg.length > 0 &&
             <div id="starredMessage">
               <h4>Starred Message ({StarredMsg.length})</h4>
               {!showUsersStaredMess ? (
@@ -248,6 +251,7 @@ const UserInfo: React.FC<{
                 />
               )}
             </div>
+            }
 
             {showUsersStaredMess &&
               StarredMsg.map((curr: any) => {
@@ -308,6 +312,7 @@ const UserInfo: React.FC<{
                     message.format === "Image" && (
                       <img
                         src={message.Image}
+                        className="skeleton"
                         alt="chatImage"
                         onClick={(e: any) => showDPfun(e.target.src)}
                       />
@@ -316,24 +321,25 @@ const UserInfo: React.FC<{
                 })}
               </div>
             ) : (
-              <div>
+              <>
                 {userChatWithData.Messages?.map((message: any) => {
                   return (
                     message.format === "Document" && (
-                      <div id="filesShare">
+                      <a
+                        href={message.Files_Url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        id="filesShare" style={{ backgroundColor: userInfo.ColorSchema }}
+                      >
                         <img src={PdfLogo} alt="pdfLOGO" />
-                        <a
-                          href={message.Files_Url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
+                        <div >
                           {message.FileName}
-                        </a>
-                      </div>
+                        </div>
+                      </a>
                     )
                   );
                 })}
-              </div>
+              </>
             )}
           </div>
         ) : (

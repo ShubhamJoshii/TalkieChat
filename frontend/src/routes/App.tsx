@@ -160,6 +160,7 @@ function App() {
             <div style={ShowDP ? { display: "block" } : { display: "none" }}>
               <UserDpShow ShowDP={ShowDP} setShowDP={setShowDP} />
             </div>
+            {/* <Loading /> */}
             {showLoading ? (
               <Loading />
             ) :

@@ -89,6 +89,7 @@ const Setting = () => {
                 <img
                   src={userInfo.Avatar}
                   alt="User DP_Image"
+                  className="skeleton"
                   style={{ backgroundColor: userInfo.AvatarBackground }}
                 />
                 <div id="changeDP">

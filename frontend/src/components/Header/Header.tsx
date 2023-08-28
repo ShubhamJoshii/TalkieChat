@@ -3,7 +3,7 @@ import { TiTick } from "react-icons/ti";
 import { BiRefresh} from "react-icons/bi";
 import { RxCross2 } from "react-icons/rx"
 import { BsCloudDownloadFill } from "react-icons/bs"
-import Logo from "../../Assets/TalkieChatLogo.png";
+import Logo from "../../Assets/TalkieChat-withoutText.png";
 import axios from "axios";
 import { uid } from "uid";
 import { db, storage } from "../../firebase";

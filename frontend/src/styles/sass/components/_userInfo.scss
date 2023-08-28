@@ -1,3 +1,4 @@
+@use "../abstract/" as *;
 .SenderInfo {
     position: relative;
     display: block;
@@ -51,11 +52,9 @@
     #NoActive {
         border: 2px solid #E00000;
         box-shadow: 0px 0px 20px #E00000;
-        /* border: 5px solid #E00000; */
     }
 
     #senderContactInfo {
-        /* padding: 50px; */
         display: flex;
         gap: 40px;
         justify-content: center;
@@ -73,15 +72,11 @@
 
     #Medias {
         gap: 10px;
-        display: grid;
+        @include flexMixin($JScontent:flex-start);
         margin: 10px 20px 30px 0;
-        // margin-top: 10px;
-        // margin-right: 20px;
-        grid-template-columns: auto auto auto;
 
         img {
             box-shadow: 0 0 5px #7b67674a;
-            padding: 5px;
             background-color: rgba(0, 0, 0, 0.121);
             width: 80px;
             aspect-ratio: 1;
@@ -91,11 +86,10 @@
 
     }
 
-
     #shareDocuments {
         display: flex;
         justify-content: space-evenly;
-
+        margin-top: 14px;
         h4 {
             cursor: pointer;
             padding-bottom: 5px;
@@ -105,17 +99,23 @@
     }
 
     #filesShare {
+        display: flex;
         background-color: white;
-        padding: 8px 20px;
-        margin-top: 10px;
+        padding: 12px 20px;
+        margin: 15px 0;
         border-radius: 2px;
         box-shadow: 0 0 5px rgba(0, 0, 0, 0.473);
-        display: flex;
         gap: 12px;
+        // text-transform: capitalize;
+        font-weight: 600;
+        letter-spacing: 1px;
+        text-decoration: none;
+        color: white;
 
         img {
             width: 20px;
         }
+
     }
 
 
@@ -185,13 +185,22 @@
         align-items: center;
         gap: 10px;
         margin-bottom: 10px;
-
-        p span {
-            font-size: 12px;
-            /* margin-left: 10px; */
+        padding: 4px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        color:white;
+        &:hover{
+            background-color: rgba(0, 0, 0, 0.148) !important;
+            color:black;
         }
-
+        p{
+            text-transform: capitalize;
+            span {
+                font-size: 12px;
+            }
+        }
         img {
+            border:2px solid  white;
             width: 50px;
             border-radius: 50%;
             aspect-ratio: 1;

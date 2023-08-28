@@ -29,7 +29,7 @@ const Chatting: React.FC<{
   chatsArr, setChatsArr, fetchUserChat, chattingUsers, setChattingUsers
 }) => {
     const userInfo: any = useContext(UserData);
-    const {showDPfun}:any = useContext(MainFunction);
+    const { showDPfun }: any = useContext(MainFunction);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -111,8 +111,8 @@ const Chatting: React.FC<{
                       userDP = curr.Users[0].User_Avatar;
                       senderAvatarTheme = curr.Users[0].User_AvatarBackground;
                     }
-                  } 
-                  if(curr?.chatType === "Group") {
+                  }
+                  if (curr?.chatType === "Group") {
                     SenderName = curr.GroupName;
                     userDP = curr.GroupImage;
                   }
@@ -172,6 +172,7 @@ const Chatting: React.FC<{
                             src={userDP || "https://w7.pngwing.com/pngs/821/381/png-transparent-computer-user-icon-peolpe-avatar-group.png"}
                             alt="SenderIMG"
                             id="userImages"
+                            className="skeleton"
                             style={{ backgroundColor: senderAvatarTheme }}
                             onClick={(e: any) => showDPfun(e.target.src)}
                           />
@@ -199,9 +200,7 @@ const Chatting: React.FC<{
                               </div>
                             )}
                           </div>
-                          <div id="lastMessage">
-                            <ChattingCollection curr={curr} />
-                          </div>
+                          <ChattingCollection curr={curr} />
                         </div>
                       </div>
                     </Dropdown>

@@ -5,7 +5,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { ref, set } from "firebase/database";
 import { db } from "../../firebase";
 import { MainFunction } from "../../routes/App";
-import Logo from "../../Assets/TalkieChatLogo.png";
+import Logo from "../../Assets/TalkieChat-withoutText.png";
 import { useNavigate } from "react-router-dom";
 import { IoMdClose } from "react-icons/io";
 
@@ -120,7 +120,6 @@ const FriendRequest: React.FC<{
         setUserInfoUpdate({ ...userInfoUpdate, Friend_Request: a })
     }
 
-
     return (
         <>
             <header className="headerText">
@@ -136,7 +135,7 @@ const FriendRequest: React.FC<{
                 {
                     allUsersSearch?.map((curr: any) => {
                         let a;
-                        a = chattingUsers.includes(curr._id)
+                        a = chattingUsers.includes(curr._id);
                         return (
                             <>
                                 {

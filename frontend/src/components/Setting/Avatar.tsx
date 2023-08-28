@@ -69,7 +69,7 @@ const Avatar : React.FC<{
       <div id="AvatarCollections">
         {AvatarArr.map((curr:any,id:number) => {
           return (
-            <div id="avatarImgBack" key={curr+id}>
+            <div id="avatarImgBack"  className="skeleton" key={curr+id}>
               <img src={curr} alt="avatar Img" onClick={(e:any)=>setSelectAvatar({...SelectedAvatar,"Avatar":e.target.src})}/>
             </div>
           );

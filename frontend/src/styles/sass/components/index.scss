@@ -1,3 +1,4 @@
+
 @use "side_navbar";
 @use "friendRequest";
 @use "header";
@@ -10,4 +11,17 @@
 @use "register";
 @use "mainpage";
 @use "notification";
-@use "pagenotfound"
+@use "pagenotfound";
+
+.skeleton{
+    animation: skeleton-loading 1s  linear infinite alternate;
+};
+
+@keyframes skeleton-loading{
+    0%{
+        background-color: hsl(200,20%,70%);
+    }
+    100%{
+        background-color: hsl(200,20%,95%);
+    }
+}

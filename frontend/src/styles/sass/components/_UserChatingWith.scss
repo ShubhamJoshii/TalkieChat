@@ -45,9 +45,9 @@
 
 
 
-    @media (max-width:1100px) {
-        width: 65.8vw;
-    }
+    // @media (max-width:1100px) {
+    //     width: 65.8vw;
+    // }
 
     @media (max-width:685px) {
         /* width: calc(100vw - 40px); */
@@ -217,8 +217,6 @@ button[disabled] {
 }
 
 
-
-
 #Senderstatus {
     display: flex;
     font-weight: 600;
@@ -285,18 +283,40 @@ button[disabled] {
         border-top-left-radius: 5px;
         border-bottom-left-radius: 5px;
         background-color: #44D7B6;
-        div {
-            font-weight: 500;
+
+        #pdfFiles {
             display: flex;
             align-items: center;
+            gap: 10px;
+            background-color: white;
+            border-radius: 4px;
+            padding: 4px 12px;
+            text-decoration: none;
+            #pdfLogo {
+                width: 22px;
+                aspect-ratio: auto;
+            }
+            p{
+                font-weight: 600;
+                padding: 0 12px 0 0;
+                margin: 0;
+                text-transform: capitalize;
+
+            }
         }
-        
+
+        div {
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+        }
+
     }
 
     @media (max-width : 685px) {
         height: calc(100vh - 188px);
     }
-    
+
     @media (max-width : 540px) {
         .messageSend {
             max-width: 95%;
@@ -305,9 +325,11 @@ button[disabled] {
 }
 
 .messageSend img {
-    width: 35px;
+    width: 25px;
     aspect-ratio: 1;
+    margin: 5px 5px 0px 5px;
 }
+
 .messageSend div p,
 .messageReceve div p {
     margin: 0;
@@ -327,7 +349,8 @@ button[disabled] {
     box-shadow: 0 0 5px grey;
     border-radius: 5px;
     display: none;
-    z-index: 999;
+    // z-index: 999;
+    z-index: 3;
 
     h4 {
         margin: 0px;
@@ -345,6 +368,7 @@ button[disabled] {
 
 #threeBotMenu {
     cursor: pointer;
+
     &:hover #dropDownMenu {
         transition: 40s;
         display: block;
@@ -373,6 +397,32 @@ button[disabled] {
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
     box-shadow: 0px 0px 5px grey;
+
+    p {
+        margin: 0;
+    }
+    #pdfFiles {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background-color: white;
+        border-radius: 4px;
+        padding: 4px 12px;
+        text-decoration: none;
+        margin: 4px 0;
+        #pdfLogo {
+            width: 22px;
+            aspect-ratio: auto;
+        }
+        p{
+            font-weight: 600;
+            padding: 0 12px 0 0;
+            margin: 0;
+            text-transform: capitalize;
+
+        }
+    }
+
 }
 
 .messageSendheader {
@@ -451,7 +501,8 @@ button[disabled] {
     width: 100vw;
     top: 0;
     left: 0;
-    z-index: 99999;
+    // z-index: 99999;
+    z-index: 5;
     height: 100vh;
     background-color: #000000c2;
     display: flex;
@@ -465,7 +516,8 @@ button[disabled] {
     bottom: 50px;
     background-color: rgba(0, 0, 0, 0.344);
     width: 60%;
-    z-index: 9;
+    // z-index: 9;
+    z-index: 1;
     height: 140px;
     /* width: 70%; */
     padding: 0px 20%;
@@ -493,7 +545,8 @@ button[disabled] {
     padding: 2px;
     margin-left: 10px;
     border-radius: 5px;
-    @media (max-width:540px){    
+
+    @media (max-width:540px) {
         width: 90% !important;
     }
 }
@@ -513,15 +566,6 @@ button[disabled] {
 
 }
 
-#pdfLogo {
-    width: 25px;
-}
-
-#pdfFiles {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
 
 .messageReceve div {
     display: flex;

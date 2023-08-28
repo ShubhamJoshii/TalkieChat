@@ -8,7 +8,7 @@
   font-style: italic;
   font-weight: 800;
   letter-spacing: 4px;
-  // z-index: 99999;
+  // z-index: 5;
   padding: 3px 10px 3px 25px;
 
   h4 {
@@ -30,7 +30,7 @@
     @include flexMixin(center, center);
     gap: 10px;
     cursor: pointer;
-    // z-index: 99;
+    // z-index: 2;
   }
 
   #LogoTalkieChat {
@@ -46,7 +46,8 @@
     right: 10px;
     top: 25px;
     width: 480px;
-    z-index: 999;
+    // z-index: 999;
+    z-index: 3;
 
     h3 {
       margin: 2px;
