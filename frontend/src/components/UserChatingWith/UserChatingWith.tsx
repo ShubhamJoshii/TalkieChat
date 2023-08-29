@@ -116,7 +116,8 @@ const UserChatingWith: React.FC<
       let userChatting_1: any = document.getElementsByClassName("userChatting")[0];
       let userChatting_2: any = document.getElementsByClassName("userChatting2")[0];
       if (document.getElementsByClassName("userChatting")[0]) {
-        userChatting_1.style.display = "block";
+        // userChatting_1.style.display = "block";
+        userChatting_1.style.display = "flex";
         if (userChatWithData.Messages) {
           setUserAllMessages(userChatWithData.Messages);
         } else {
@@ -628,7 +629,7 @@ const UserChatingWith: React.FC<
                 )}
 
                 {userAllMessageSearch ? (
-                  <div id="userChats">
+                  <div id="userChats"className="skeleton">
                     {userAllMessageSearch
                       .slice(0)
                       .reverse()
@@ -685,7 +686,6 @@ const UserChatingWith: React.FC<
                         let senders = userChatWithData?.Users?.find(
                           (e: any) => e.User_id === curr.whoWrote
                         );
-                        console.log(senders);
                         let seenBy = "";
                         if (
                           curr?.SeenBy?.length === userChatWithData?.Users?.length
@@ -894,7 +894,7 @@ const UserChatingWith: React.FC<
                     </div>
                   </div>
                 ) : (
-                  <div id="userChats"></div>
+                  <div id="userChats" ></div>
                 )}
 
                 {AttachmentShow && (

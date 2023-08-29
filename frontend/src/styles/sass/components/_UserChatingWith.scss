@@ -7,6 +7,11 @@
     flex: 1;
     height: 100%;
 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
     #userImg {
         width: 35px;
         aspect-ratio: 1;
@@ -29,6 +34,7 @@
         align-items: center;
         border-bottom: 1px solid #707070;
         background-color: #F2F1F1;
+        width: calc(100% - 60px);
 
         h3 {
             margin: 0;
@@ -41,23 +47,250 @@
             font-size: 10px;
         }
 
+        .chattinguserInfo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+    }
+
+    .messageSend img {
+        width: 25px;
+        aspect-ratio: 1;
+        margin: 5px 5px 0px 5px;
+    }
+
+    .messageSend div p,
+    .messageReceve div p {
+        margin: 0;
+        width: 95%;
+        overflow-wrap: break-word;
     }
 
 
 
-    // @media (max-width:1100px) {
-    //     width: 65.8vw;
-    // }
-
-    @media (max-width:685px) {
-        /* width: calc(100vw - 40px); */
-        width: 99vw;
-        height: calc(100vh - 40px);
-        margin-left: 0.5vw;
-        position: absolute;
-        /* display: none; */
+    #timeStamp {
+        margin: 0;
+        text-align: end;
+        font-size: 10px;
+        margin-right: 10px;
+        letter-spacing: 2px;
     }
 
+    .messageSendheader {
+        display: flex;
+        align-items: flex-end;
+        justify-content: flex-end;
+        width: 100%;
+    }
+
+    #writeMessage {
+        width: 97%;
+        background-color: white;
+        // height: 40px;
+        height: 34px;
+        padding: 5px 10px;
+
+        .writeMessage {
+            background-color: rgb(38 36 36 / 13%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 5px 20px;
+            justify-content: space-between;
+
+            #enterMessage {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                flex: 1.2;
+
+                textarea {
+                    background-color: transparent;
+                    border: none;
+                    font-size: 15px;
+                    width: 100%;
+                    resize: none;
+                    overflow: hidden;
+                    height: 15px;
+
+                    &:focus {
+                        border: none;
+                        outline: none;
+                    }
+                }
+            }
+
+            #sendMessage {
+                cursor: pointer;
+                // width: 20px;
+                height: 100%;
+                aspect-ratio: 1;
+                background-color: #44D7B6;
+                color: white;
+                border-radius: 50%;
+                padding: 6px;
+                display: flex;
+                align-items: center;
+                font-size: 15px;
+                justify-content: center;
+            }
+        }
+
+    }
+
+    #userChats {
+        background-image: url("../../assets/chatAppBackground.png");
+        background-size: contain;
+        overflow: hidden;
+        overflow-y: scroll;
+        width: 100%;
+        display: flex;
+        flex-direction: column-reverse;
+        height: calc(100vh - 150px);
+        flex: 1;
+
+
+        #sharedImg {
+            width: 270px;
+            cursor: pointer;
+            object-fit: cover;
+            aspect-ratio: 1.5;
+            background-color: rgb(232, 227, 227);
+            padding: 2px;
+            margin-left: 10px;
+            border-radius: 5px;
+
+            @media (max-width:540px) {
+                width: 70vw !important;
+            }
+
+            // @media (max-width:400px) {
+            //     width: 70vw !important;
+            // }
+        }
+
+
+        .messageSend {
+            min-width: 150px;
+            max-width: 70%;
+            margin-top: 7px;
+            margin-bottom: 7px;
+            padding: 7px;
+            padding-right: 20px;
+            color: white;
+            box-shadow: 0px 0px 5px grey;
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+            background-color: #44D7B6;
+
+            #pdfFiles {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                background-color: white;
+                border-radius: 4px;
+                padding: 4px 12px;
+                text-decoration: none;
+
+                #pdfLogo {
+                    width: 22px;
+                    aspect-ratio: auto;
+                }
+
+                p {
+                    font-weight: 600;
+                    padding: 0 12px 0 0;
+                    margin: 0;
+                    text-transform: capitalize;
+
+                }
+            }
+
+            div {
+                display: flex;
+                align-items: center;
+                font-weight: 500;
+            }
+
+        }
+
+        .messageReceve {
+            min-width: 200px;
+            max-width: 70%;
+            background-color: white;
+            margin-bottom: 7px;
+            margin-top: 7px;
+            display: inline-block;
+            padding: 7px;
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+            box-shadow: 0px 0px 5px grey;
+
+            p {
+                margin: 0;
+            }
+
+            #groupSenderInfo {
+                font-size: 13px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 4px;
+
+                p {
+                    font-size: 13px;
+                    font-weight: 700;
+                    color: #44D7B6;
+                    letter-spacing: 1px;
+                    text-transform: capitalize;
+                }
+
+                img {
+                    aspect-ratio: 1;
+                    width: 15px;
+                    border: 1px solid black;
+                    border-radius: 50%;
+                    cursor: pointer;
+                    border-color: rgb(68, 215, 182);
+                }
+
+            }
+
+            #pdfFiles {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                background-color: white;
+                border-radius: 4px;
+                padding: 4px 12px;
+                text-decoration: none;
+                margin: 4px 0;
+
+                #pdfLogo {
+                    width: 22px;
+                    aspect-ratio: auto;
+                }
+
+                p {
+                    font-weight: 600;
+                    padding: 0 12px 0 0;
+                    margin: 0;
+                    text-transform: capitalize;
+
+                }
+            }
+
+        }
+
+        @media (max-width : 540px) {
+            .messageSend {
+                max-width: 95%;
+            }
+        }
+    }
 }
 
 #userChatting2 {
@@ -80,31 +313,35 @@
     }
 }
 
-
 #deleteHeaderText {
     display: flex;
     /* padding: 10px 0px; */
     padding: 6px 0px;
     gap: 15px;
     align-items: center;
-}
 
-#deleteHeaderText button {
-    padding: 4px;
-    width: 70px;
-    font-weight: 600;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-}
+    button {
+        padding: 4px;
+        width: 70px;
+        font-weight: 600;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
 
-#deleteHeaderText button:hover {
-    transform: scale(1.1);
-}
+        &:hover {
+            transform: scale(1.1);
+        }
 
-#deleteHeaderText button:first-child {
-    background-color: #E00000;
-    color: white;
+        &:first-child {
+            background-color: #E00000;
+            color: white;
+        }
+
+        &:last-child {
+            border: 2px solid #00000042;
+            background-color: #EEE3E3
+        }
+    }
 }
 
 #starHeaderText {
@@ -113,24 +350,30 @@
     padding: 6px 0px;
     gap: 15px;
     align-items: center;
-}
 
-#starHeaderText button {
-    padding: 4px;
-    width: 70px;
-    font-weight: 600;
-    border-radius: 5px;
-    border: none;
-    cursor: pointer;
-}
+    button {
+        padding: 4px;
+        width: 70px;
+        font-weight: 600;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
 
-#starHeaderText button:hover {
-    transform: scale(1.1);
-}
+        &:hover {
+            transform: scale(1.1);
+        }
 
-#starHeaderText button:first-child {
-    background-color: goldenrod;
-    color: white;
+        &:first-child {
+            background-color: goldenrod;
+            color: white;
+        }
+
+        &:last-child {
+            border: 2px solid #00000042;
+            background-color: #EEE3E3
+        }
+    }
+
 }
 
 button:disabled,
@@ -149,12 +392,6 @@ button[disabled] {
     font-size: 18px;
 }
 
-
-#starHeaderText button:last-child {
-    border: 2px solid #00000042;
-    background-color: #EEE3E3
-}
-
 .selectMessage {
     background-color: rgba(0, 109, 255, 0.2)
 }
@@ -163,20 +400,6 @@ button[disabled] {
     font-size: 20px;
     color: #292727eb;
 }
-
-#deleteHeaderText button:last-child {
-    border: 2px solid #00000042;
-    background-color: #EEE3E3
-}
-
-
-
-.chattinguserInfo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
 
 
 #searchInput {
@@ -191,30 +414,7 @@ button[disabled] {
     gap: 23px;
 }
 
-#groupSenderInfo {
-    font-size: 13px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 4px;
 
-    p {
-        font-size: 13px;
-        font-weight: 700;
-        color: #44D7B6;
-        letter-spacing: 1px;
-    }
-
-    img {
-        aspect-ratio: 1;
-        width: 15px;
-        border: 1px solid black;
-        border-radius: 50%;
-        cursor: pointer;
-        border-color: rgb(68, 215, 182);
-    }
-
-}
 
 
 #Senderstatus {
@@ -260,82 +460,7 @@ button[disabled] {
     cursor: pointer;
 }
 
-#userChats {
-    background-image: url("../../Assets/chatAppBackground.png");
-    background-size: contain;
-    overflow: hidden;
-    overflow-y: scroll;
-    width: 100%;
-    height: 91.4%;
-    display: flex;
-    flex-direction: column-reverse;
-    height: calc(100vh - 150px);
 
-    .messageSend {
-        min-width: 150px;
-        max-width: 70%;
-        margin-top: 7px;
-        margin-bottom: 7px;
-        padding: 7px;
-        padding-right: 20px;
-        color: white;
-        box-shadow: 0px 0px 5px grey;
-        border-top-left-radius: 5px;
-        border-bottom-left-radius: 5px;
-        background-color: #44D7B6;
-
-        #pdfFiles {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background-color: white;
-            border-radius: 4px;
-            padding: 4px 12px;
-            text-decoration: none;
-            #pdfLogo {
-                width: 22px;
-                aspect-ratio: auto;
-            }
-            p{
-                font-weight: 600;
-                padding: 0 12px 0 0;
-                margin: 0;
-                text-transform: capitalize;
-
-            }
-        }
-
-        div {
-            display: flex;
-            align-items: center;
-            font-weight: 500;
-        }
-
-    }
-
-    @media (max-width : 685px) {
-        height: calc(100vh - 188px);
-    }
-
-    @media (max-width : 540px) {
-        .messageSend {
-            max-width: 95%;
-        }
-    }
-}
-
-.messageSend img {
-    width: 25px;
-    aspect-ratio: 1;
-    margin: 5px 5px 0px 5px;
-}
-
-.messageSend div p,
-.messageReceve div p {
-    margin: 0;
-    width: 95%;
-    overflow-wrap: break-word;
-}
 
 
 #dropDownMenu {
@@ -375,127 +500,6 @@ button[disabled] {
     }
 }
 
-
-#timeStamp {
-    margin: 0;
-    text-align: end;
-    font-size: 10px;
-    margin-right: 10px;
-    letter-spacing: 2px;
-}
-
-
-
-.messageReceve {
-    min-width: 200px;
-    max-width: 70%;
-    background-color: white;
-    margin-bottom: 7px;
-    margin-top: 7px;
-    display: inline-block;
-    padding: 7px;
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-    box-shadow: 0px 0px 5px grey;
-
-    p {
-        margin: 0;
-    }
-    #pdfFiles {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        background-color: white;
-        border-radius: 4px;
-        padding: 4px 12px;
-        text-decoration: none;
-        margin: 4px 0;
-        #pdfLogo {
-            width: 22px;
-            aspect-ratio: auto;
-        }
-        p{
-            font-weight: 600;
-            padding: 0 12px 0 0;
-            margin: 0;
-            text-transform: capitalize;
-
-        }
-    }
-
-}
-
-.messageSendheader {
-    display: flex;
-    align-items: flex-end;
-    justify-content: flex-end;
-    /* width: 835px ; */
-    /* width: 50vw ; */
-    width: 100%;
-}
-
-#writeMessage {
-    /* width: 815px; */
-    width: 97%;
-    background-color: white;
-    height: 40px;
-    position: absolute;
-    bottom: 0;
-    padding: 5px 10px;
-
-    .writeMessage {
-        // background-color: #00000014;
-        background-color: rgb(38 36 36 / 13%);
-        border-radius: 10px;
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        padding: 5px 20px;
-        justify-content: space-between;
-
-        #enterMessage {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            flex-grow: 1.2;
-
-            textarea {
-                background-color: transparent;
-                border: none;
-                font-size: 15px;
-                /* width: 670px; */
-                width: 100%;
-                resize: none;
-                overflow: hidden;
-                height: 15px;
-
-                &:focus {
-                    border: none;
-                    outline: none;
-                }
-            }
-        }
-
-        #sendMessage {
-            cursor: pointer;
-            width: 20px;
-            aspect-ratio: 1;
-            background-color: #44D7B6;
-            color: white;
-            border-radius: 50%;
-            padding: 6px;
-            display: flex;
-            align-items: center;
-            font-size: 15px;
-            justify-content: center;
-        }
-    }
-
-    @media (max-width : 685px) {
-        bottom: 38px;
-    }
-}
-
 .UserDpShow {
     position: absolute;
     width: 100vw;
@@ -512,8 +516,11 @@ button[disabled] {
 }
 
 .Attachments {
+    display: flex;
+    align-content: center;
+    justify-content: space-between;
     position: absolute;
-    bottom: 50px;
+    bottom: 40px;
     background-color: rgba(0, 0, 0, 0.344);
     width: 60%;
     // z-index: 9;
@@ -521,35 +528,86 @@ button[disabled] {
     height: 140px;
     /* width: 70%; */
     padding: 0px 20%;
-    display: flex;
-    align-content: center;
-    justify-content: space-between;
 
     /* padding-top: 50px; */
     input {
         display: none;
     }
 
-    @media (max-width : 685px) {
-        bottom: 86px;
-    }
 }
 
+@media (max-width : 685px) {
+    .userChatting {
+        width: 100vw;
 
-#sharedImg {
-    width: 270px;
-    cursor: pointer;
-    object-fit: cover;
-    aspect-ratio: 1.5;
-    background-color: rgb(232, 227, 227);
-    padding: 2px;
-    margin-left: 10px;
-    border-radius: 5px;
+        #deleteHeaderText{
+            padding: 5px 15px;
+        }
+        
+        #starHeaderText{
+            padding: 5px 15px;
+        }
 
-    @media (max-width:540px) {
-        width: 90% !important;
+        .chattingUserHeader {
+            padding: 5px 15px;
+            width: 100%;
+
+            .chattinguserInfo {
+                margin-left: 15px;
+            }
+
+            #logos {
+                margin-right: 15px;
+            }
+
+            #backBTN {
+                font-size: 14px;
+            }
+
+            h3 {
+                font-size: 14px;
+                letter-spacing: 1px;
+            }
+
+            p {
+                font-size: 9px;
+            }
+        }
+
+        .messageSend img {
+            width: 20px;
+        }
+
+        .messageSend div p,
+        .messageReceve div p,
+        #userChats .messageSend #pdfFiles p {
+            font-size: 14px;
+        }
+
+        #timeStamp {
+            font-size: 9px;
+        }
+
+        #writeMessage {
+            height: 30px;
+
+            .writeMessage {
+                #enterMessage {
+                    textarea {
+                        font-size: 13px;
+                    }
+                }
+            }
+        }
     }
+
+
+    // .Attachments {
+    //     bottom: 40px;
+    // }
+
 }
+
 
 #AttachmentLogo {
     background-color: white;

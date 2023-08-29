@@ -306,13 +306,14 @@ const UserInfo: React.FC<{
             </div>
             {userChatWithData.Messages && !shareDoc ? (
               <div id="Medias">
-                {userChatWithData.Messages.map((message: any) => {
+                {userChatWithData.Messages.map((message: any,id:number) => {
                   // setCount(10)
                   return (
                     message.format === "Image" && (
                       <img
                         src={message.Image}
                         className="skeleton"
+                        key={id}
                         alt="chatImage"
                         onClick={(e: any) => showDPfun(e.target.src)}
                       />
