@@ -203,54 +203,57 @@ const UserInfo: React.FC<{
                   )}
                 </div>
                 {showAllUsers &&
-                  userChatWithData?.Users?.map((curr: any) => {
-                    let Status = "Offline";
-                    onValue(ref(db, `${curr.User_id}`), (snapshot) => {
-                      Status = snapshot.val()?.status;
-                    });
+                  <div id="groupUserCollection">{
+                    userChatWithData?.Users?.map((curr: any) => {
+                      let Status = "Offline";
+                      onValue(ref(db, `${curr.User_id}`), (snapshot) => {
+                        Status = snapshot.val()?.status;
+                      });
 
-                    return (
-                      <div id="groupUser" style={{backgroundColor:userInfo.ColorSchema}}>
-                        <div id="groupUsersDPHead">
-                          <img
-                            src={curr.User_Avatar}
-                            alt="usersImage"
+                      return (
+                        <div id="groupUser" style={{ backgroundColor: userInfo.ColorSchema }}>
+                          <div id="groupUsersDPHead">
+                            <img
+                              src={curr.User_Avatar}
+                              alt="usersImage"
 
-                            onClick={(e: any) => showDPfun(e.target.src)}
-                          />
-                          {Status === "Online" && <div></div>}
-                          {Status === "Offline" && (
-                            <div style={{ backgroundColor: "#E00000" }}></div>
-                          )}
+                              onClick={(e: any) => showDPfun(e.target.src)}
+                            />
+                            {Status === "Online" && <div></div>}
+                            {Status === "Offline" && (
+                              <div style={{ backgroundColor: "#E00000" }}></div>
+                            )}
+                          </div>
+                          <p>
+                            {curr.User_Name}{" "}
+                            {curr.User_id === userInfo._id && <span>(You)</span>}
+                            {userChatWithData.Users[0].User_id === curr.User_id && (
+                              <span>(Created by)</span>
+                            )}
+                          </p>
                         </div>
-                        <p>
-                          {curr.User_Name}{" "}
-                          {curr.User_id === userInfo._id && <span>(You)</span>}
-                          {userChatWithData.Users[0].User_id === curr.User_id && (
-                            <span>(Created by)</span>
-                          )}
-                        </p>
-                      </div>
-                    );
-                  })}
+                      );
+                    })}
+                  </div>
+                }
               </div>
             )}
             {
               StarredMsg.length > 0 &&
-            <div id="starredMessage">
-              <h4>Starred Message ({StarredMsg.length})</h4>
-              {!showUsersStaredMess ? (
-                <RiArrowDropDownLine
-                  id="logoDropRight"
-                  onClick={() => setshowUsersStaredMess(!showUsersStaredMess)}
-                />
-              ) : (
-                <RiArrowDropUpLine
-                  id="logoDropRight"
-                  onClick={() => setshowUsersStaredMess(!showUsersStaredMess)}
-                />
-              )}
-            </div>
+              <div id="starredMessage">
+                <h4>Starred Message ({StarredMsg.length})</h4>
+                {!showUsersStaredMess ? (
+                  <RiArrowDropDownLine
+                    id="logoDropRight"
+                    onClick={() => setshowUsersStaredMess(!showUsersStaredMess)}
+                  />
+                ) : (
+                  <RiArrowDropUpLine
+                    id="logoDropRight"
+                    onClick={() => setshowUsersStaredMess(!showUsersStaredMess)}
+                  />
+                )}
+              </div>
             }
 
             {showUsersStaredMess &&
@@ -306,7 +309,7 @@ const UserInfo: React.FC<{
             </div>
             {userChatWithData.Messages && !shareDoc ? (
               <div id="Medias">
-                {userChatWithData.Messages.map((message: any,id:number) => {
+                {userChatWithData.Messages.map((message: any, id: number) => {
                   // setCount(10)
                   return (
                     message.format === "Image" && (

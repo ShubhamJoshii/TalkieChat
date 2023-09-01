@@ -26,7 +26,8 @@ import React, { createContext, useEffect, useState } from "react";
 import UserDpShow from "./userDpShow";
 import PageNotFound from "../components/PageNotFound/PageNotFound";
 
-const UserData = createContext(null);
+const UserData  = createContext(null);
+const ThemeState  = createContext(null);
 
 function notification(message: string, type: string) {
   if (type === "success") {
@@ -67,8 +68,9 @@ function notification(message: string, type: string) {
 
 type NotificationType = {
   notification: (message: string, type: string) => void;
-  fetchUserInfo: (count:number) => void;
-  showDPfun: (setContent: string) => void
+  fetchUserInfo: (count: number) => void;
+  showDPfun: (setContent: string) => void;
+  updateTheme: () => void
 };
 
 const MainFunction = React.createContext<NotificationType | null>(null);
@@ -77,11 +79,22 @@ function App() {
   const [userInfo, setUserInfo] = useState<any>();
   const [showLoading, setShowLoading] = useState<boolean>(false);
   const [ShowDP, setShowDP] = useState("");
+  const [theme, setTheme] = useState<any>(true);
 
 
   const db = getDatabase();
 
-  const fetchUserInfo = (count:number) => {
+  const updateTheme = () => {
+    let data: any = window.localStorage.getItem('theme');
+    if (data !== null) {
+      var element = document.body;
+      element.classList.remove("dark-mode", "light-mode");
+      JSON.parse(data) ? element.classList.toggle("light-mode") : element.classList.toggle("dark-mode");
+      setTheme(JSON.parse(data));
+    }
+  }
+
+  const fetchUserInfo = (count: number) => {
     setShowLoading(true);
     axios
       .get("/api/home")
@@ -136,9 +149,14 @@ function App() {
       });
   };
 
+
+
+
   useEffect(() => {
     fetchUserInfo(4500);
   }, [])
+
+
 
   if (userInfo) {
     onDisconnect(ref(db, `${userInfo?._id}`)).set({
@@ -155,40 +173,43 @@ function App() {
   return (
     <div className="App">
       <UserData.Provider value={userInfo}>
-        <MainFunction.Provider value={{ notification, fetchUserInfo, showDPfun }}>
-          <Router>
-            <div style={ShowDP ? { display: "block" } : { display: "none" }}>
-              <UserDpShow ShowDP={ShowDP} setShowDP={setShowDP} />
-            </div>
-            {/* <Loading /> */}
-            {showLoading ? (
-              <Loading />
-            ) :
-              <>
-                <ToastContainer />
-                <SideNavbar />
-                <div id="secondHalf">
-                  <Header />
-                  <div id="Routers">
-                    <Routes>
-                      <Route path="/" element={<Mainpage />} />
-                      <Route path="/Single" element={<Mainpage />} />
-                      <Route path="/Groups" element={<Mainpage />} />
-                      <Route path="/setting" element={<Setting />} />
-                      <Route path="/login" element={userInfo ? <Mainpage /> : <Login />} />
-                      <Route path="/register" element={userInfo ? <Mainpage /> : <Register />} />
-                      <Route path="*" element={<PageNotFound />} />
-                    </Routes>
+        <ThemeState.Provider value={theme}>
+          <MainFunction.Provider value={{ notification, fetchUserInfo, showDPfun, updateTheme }}>
+            <Router>
+              <div style={ShowDP ? { display: "block" } : { display: "none" }}>
+                <UserDpShow ShowDP={ShowDP} setShowDP={setShowDP} />
+              </div>
+              {/* <Loading /> */}
+              {showLoading ? (
+                <Loading />
+              ) :
+                <>
+                  <ToastContainer />
+                  <SideNavbar />
+                  <div id="secondHalf">
+                    <Header />
+                    <div id="Routers">
+                      <Routes>
+                        <Route path="/" element={<Mainpage />} />
+                        <Route path="/Single" element={<Mainpage />} />
+                        <Route path="/Groups" element={<Mainpage />} />
+                        <Route path="/setting" element={<Setting />} />
+                        <Route path="/login" element={userInfo ? <Mainpage /> : <Login />} />
+                        <Route path="/register" element={userInfo ? <Mainpage /> : <Register />} />
+                        <Route path="*" element={<PageNotFound />} />
+                      </Routes>
+                    </div>
                   </div>
-                </div>
-              </>
-            }
-          </Router>
-        </MainFunction.Provider>
+                </>
+              }
+            </Router>
+          </MainFunction.Provider>
+        </ThemeState.Provider>
+
       </UserData.Provider>
     </div>
   )
 }
 
 export default App
-export { UserData, MainFunction };
+export { UserData, MainFunction, ThemeState };

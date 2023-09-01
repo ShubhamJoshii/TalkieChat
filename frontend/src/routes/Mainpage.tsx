@@ -2,10 +2,11 @@ import { useContext, useEffect, useState } from "react";
 import Chatting from "../components/Chatting/Chatting.tsx";
 import UserChatingWith from "../components/UserChatingWith/UserChatingWith.tsx";
 import UserInfo from "../components/UserInfo/UserInfo.tsx";
-import Logo from "../assets/TalkieChat.png";
+import LogoLight from "../assets/TalkieChatLight.png";
+import LogoDark from "../assets/TalkieChatDark.png";
 import { useLocation } from "react-router-dom";
 
-import { UserData } from "./App.tsx";
+import { ThemeState, UserData } from "./App.tsx";
 import { db } from "../firebase.tsx";
 import { ref, onValue } from "firebase/database";
 
@@ -21,6 +22,8 @@ const Mainpage = () => {
     userChatWith: true,
     userInfo: true
   });
+
+  const theme: any = useContext(ThemeState);
 
   const location = useLocation();
 
@@ -140,7 +143,14 @@ const Mainpage = () => {
           setchatDisplayComp={setchatDisplayComp}
         />
         {!userChatWithData && (
-          <img src={Logo}  className="backgroundLogos" alt="logo" />
+          <>
+            {
+              theme ?
+              <img src={LogoLight} className="backgroundLogos" alt="logo" />
+              :
+              <img src={LogoDark} className="backgroundLogos" alt="logo" />
+            }
+          </>
         )}
       </div>
 

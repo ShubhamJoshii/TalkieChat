@@ -12,52 +12,58 @@ code {
     monospace;
 }
 
-/* width */
 ::-webkit-scrollbar {
   width: 3px;
   height: 3px;
 }
 
-/* Track */
 ::-webkit-scrollbar-track {
   background: #f1f1f1;
 }
 
-/* Handle */
 ::-webkit-scrollbar-thumb {
   background: #888;
 }
 
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
 
+
+.dark-mode{
+  // --bg-Color:black;
+  --bg-Color:#080808;
+  --text-Color:white;
+}
+
+.light-mode{
+  --bg-Color:#f2f1f1;
+  --text-Color:black;
+}
+
 .App {
-  background-color: rgb(241, 237, 237);
-  /* width: 1536px; */
-  /* height: 780px; */
+  // background-color: #f2f1f1;
+  background-color: var(--bg-Color);
+  color: var(--text-Color);
+  // background-color: green;
   width: 100vw;
   height: 100vh;
   display: flex;
   overflow: hidden;
 }
+
 @media (max-width:685px){
   body{
     overflow: hidden;
   }
 }
 #secondHalf {
-  background-color: #f2f1f1;
+  background-color: inherit;
   height: 100vh;
-  left: 40px;
-  position: absolute;
   text-align: left;
   top: 0;
-  /* width: 1496px; */
   width: calc(100vw - 40px);
   @media (max-width:685px){
-    left: 0;
     width: 100vw;
   }
 }
@@ -77,6 +83,6 @@ code {
   display: flex;
   justify-content: center;
   align-items: center;
-  // overflow-y: scroll;
   overflow: hidden;
+  background-color: inherit;
 }

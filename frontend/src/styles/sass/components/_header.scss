@@ -21,6 +21,7 @@
     cursor: pointer;
     font-size: x-small;
     margin: 0;
+
     &:hover {
       text-decoration: underline;
     }
@@ -38,7 +39,8 @@
   }
 
   #chatId {
-    background-color: #fff;
+    // background-color: #fff;
+    background-color: var(--bg-Color);
     box-shadow: 0 0 5px grey;
     display: none;
     padding: 20px;
@@ -114,6 +116,7 @@
 
   #inputSharedFiles {
     @include flexMixin(unset, center);
+
 
     label {
       width: 80%;
@@ -243,10 +246,14 @@
   #groupForm {
     @include flexMixin(unset, space-between);
     margin-top: 10px;
+    gap: 20px;
 
     input {
-      width: 60%;
+      flex: 1;
       padding: 3px 7px;
+      background-color: var(--bg-Color);
+      color: var(--text-Color);
+      border: 1px solid;
 
       &:nth-child(2) {
         display: none;
@@ -255,6 +262,8 @@
     }
 
     label {
+      color: var(--bg-Color);
+      background-color: var(--text-Color);
       font-size: 13px;
       text-align: center;
       letter-spacing: 1px;
@@ -264,8 +273,10 @@
       cursor: pointer;
 
       &:hover {
-        background-color: black;
-        color: white;
+        background-color: var(--bg-Color);
+        color: var(--text-Color);
+        border: 1px solid var(--text-Color);
+
       }
     }
   }
@@ -307,21 +318,27 @@
     border: none;
     font-size: 17px;
     width: 350px;
+    background-color: var(--bg-Color);
+    color: var(--text-Color);
+    outline: none;
 
     span {
       font-family: sans-serif;
       font-size: 9px;
     }
   }
-  @media (max-width:685px){
+
+  @media (max-width:685px) {
     #chatId {
       width: 90vw;
     }
-    #LogoTalkieChat{
+
+    #LogoTalkieChat {
       height: 22px;
       margin: 2px 0;
     }
-    h4{
+
+    h4 {
       font-size: 16px;
     }
   }

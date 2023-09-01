@@ -16,6 +16,7 @@ import {
   uploadBytes,
 } from "firebase/storage";
 import { uid } from "uid";
+import Theme from "./theme";
 
 const Setting = () => {
   const [avatarPage, setAvatarPage] = useState<boolean>(false);
@@ -74,6 +75,7 @@ const Setting = () => {
 
   return (
     <div className="Setting">
+      <Theme />
       {avatarPage && (
         <Avatar
           setAvatarPage={setAvatarPage}

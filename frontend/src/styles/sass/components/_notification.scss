@@ -7,20 +7,21 @@
     
     top: 0px;
     left: -400px;
-    background-color: white;
     height: 100%;
     width: 350px;
-    // z-index: 99;
     z-index: 2;
-    border-right: 1px solid black;
+    border-right: 1px solid var(--text-Color);
     transition: 1s;
     
-    
+    background-color: inherit;
+    color: inherit;
+
     #Notificiation {
         padding: 10px;
         flex: 1;
         h4, p, span {
-            color: white;
+            // color: white;
+            color: inherit;
             margin: 0;
         }
 
@@ -28,7 +29,7 @@
             @include flexMixin($JScontent:flex-start);
             gap: 10px;
             padding: 5px 10px;
-            border-bottom: 2px solid rgba(0, 0, 0, 0.356);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.356);
             margin-bottom: 10px;
             cursor: pointer;
             &:hover{
@@ -54,12 +55,14 @@
                 flex: 1;
                 h4,p{
                     margin: 0;
-                    color: black;
+                    // color: black;
+                    color: inherit;
                 }
                 p{
                     font-size: 12px;
                     font-weight: 600;
-                    color: rgba(0, 0, 0, 0.552);
+                    // color: rgba(0, 0, 0, 0.552);
+                    color: inherit;
                 }
             }
         }
