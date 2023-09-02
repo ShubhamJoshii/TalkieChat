@@ -45,7 +45,7 @@ code {
   // background-color: #f2f1f1;
   background-color: var(--bg-Color);
   color: var(--text-Color);
-  // background-color: green;
+  // backgroundz-color: green;
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -58,13 +58,18 @@ code {
   }
 }
 #secondHalf {
+  display: flex;
+  flex-direction: column;
   background-color: inherit;
   height: 100vh;
   text-align: left;
   top: 0;
   width: calc(100vw - 40px);
+  position: relative;
   @media (max-width:685px){
+    position: relative;
     width: 100vw;
+    height: calc(100% - 40px);
   }
 }
 
@@ -79,10 +84,13 @@ code {
 }
 
 #Routers {
-  height: calc(100% - 40px);
   display: flex;
   justify-content: center;
-  align-items: center;
   overflow: hidden;
   background-color: inherit;
+  flex: 1;
+  @media (max-width:684px){
+    // min-height: calc(100% - 80px);
+    height: calc(100% - 80px);
+  }
 }

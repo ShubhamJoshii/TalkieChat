@@ -46,7 +46,7 @@
     padding: 20px;
     position: absolute;
     right: 10px;
-    top: 25px;
+    top: 23px;
     width: 480px;
     // z-index: 999;
     z-index: 3;
@@ -272,6 +272,7 @@
       border-radius: 5px;
       cursor: pointer;
 
+
       &:hover {
         background-color: var(--bg-Color);
         color: var(--text-Color);
@@ -322,15 +323,34 @@
     color: var(--text-Color);
     outline: none;
 
-    span {
+    h5 {
       font-family: sans-serif;
       font-size: 9px;
+      
     }
   }
 
   @media (max-width:685px) {
     #chatId {
-      width: 90vw;
+      width: 85vw;
+      h3{
+        font-size: 16px;
+      }
+      #copyLogo{
+        font-size: 18px;
+      }
+      #selectFeature{
+        h6{
+          font-size: 12px;
+        }
+      }
+    }
+    #inputSharedFiles label{
+      font-size: 14px;
+      padding: 4px 10px;
+    }
+    #noOfUser label{
+      font-size: 12px;
     }
 
     #LogoTalkieChat {
@@ -345,9 +365,10 @@
 
 }
 
-span {
+h5{
   font-family: sans-serif;
   font-size: 9px;
+  margin: 8px 0;
 }
 
 #generateChatID:hover #chatId {

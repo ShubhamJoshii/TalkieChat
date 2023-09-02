@@ -13,8 +13,8 @@
     border-right: 1px solid var(--text-Color);
     transition: 1s;
     
-    background-color: inherit;
-    color: inherit;
+    background-color: var(--bg-Color);
+    color: var(--text-Color);
 
     #Notificiation {
         padding: 10px;

@@ -2,8 +2,7 @@
 
 #MainPage {
   display: flex;
-  height: 100%;
-  width: calc(100vw - 40px);
+  width: 100%;
   background-color: inherit;
   
   #userChattingData {
@@ -26,12 +25,14 @@
   }
 
   @media (max-width: 685px) {
-    width: 100vw;
-    height: 100%;
+    // width: 100vw;
+    // min-height: 100%;
+    // height: 100%;
 
     #userChattingData {
-      position: absolute;
-      height: calc(100% - 80px);
+      // position: absolute;
+      position: fixed;
+      height: calc(100% - 74px);
     }
 
     .backgroundLogos {

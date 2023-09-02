@@ -31,7 +31,6 @@
     position: absolute;
     top: 0px;
     left: -400px;
-    background-color: white;
     height: 100%;
     width: 350px;
     // z-index: 99;
@@ -41,8 +40,8 @@
     box-shadow: 0 0 10px grey;
     // background-color: rgb(255, 255, 255);
     // color: black;
-    background-color: inherit;
-    color: inherit;
+    background-color: var(--bg-Color);
+    color: var(--text-Color);
 
     #friendRequest {
         @include flexMixin(unset, unset, $direction: column);

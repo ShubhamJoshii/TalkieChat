@@ -299,9 +299,9 @@ const Header = () => {
                       Add Chat ID
                     </p>
                   </div>
-                  <span>
+                  <h5>
                     Share this Chat ID to your friend to stabilize connection
-                  </span>
+                  </h5>
                 </>
               )}</> :
               <>
@@ -335,7 +335,7 @@ const Header = () => {
                           </div>
                         }
                         <br />
-                        <span>Sharing Files Available in Database only for 24 hours</span>
+                        <h5>Sharing Files Available in Database only for 24 hours</h5>
                       </div>
 
                     </> : <>

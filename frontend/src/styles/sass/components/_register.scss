@@ -2,12 +2,17 @@
 
 .Register {
   background-color: rgb(255, 255, 255);
+  color: black;
   border-radius: 10px;
   box-shadow: 0 0 10px black;
   padding: 40px 40px;
   width: 350px;
   @include flexMixin($direction: column);
-
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  
   h2 {
     margin: 10px;
     width: 100%;
@@ -120,10 +125,4 @@
   @media (max-width:500px){
     width: 70vw;
   }
-}
-@media (max-width:684px){
-  // width: 70vw;
-  #Routers{
-    height: calc(100% - 80px);
-  } 
 }

@@ -186,6 +186,69 @@ const UserInfo: React.FC<{
               <img src={LinkedinLogo} alt="SocailLogo" />
               <img src={PhoneLogo} alt="SocailLogo" />
             </div>
+
+            <div id="sharredDoc">
+              <div id="shareDocuments">
+                <h4
+                  onClick={() => setShareDoc(false)}
+                  style={
+                    !shareDoc
+                      ? { borderBottom: `3px solid ${userInfo.ColorSchema}` }
+                      : {}
+                  }
+                >
+                  Images ({count.images})
+                </h4>
+                <h4
+                  onClick={() => setShareDoc(true)}
+                  style={
+                    shareDoc
+                      ? { borderBottom: `3px solid ${userInfo.ColorSchema}` }
+                      : {}
+                  }
+                >
+                  Documents ({count.files})
+                </h4>
+              </div>
+              {userChatWithData.Messages && !shareDoc ? (
+                <div id="Medias">
+                  {userChatWithData.Messages.map((message: any, id: number) => {
+                    // setCount(10)
+                    return (
+                      message.format === "Image" && (
+                        <img
+                          src={message.Image}
+                          className="skeleton"
+                          key={id}
+                          alt="chatImage"
+                          onClick={(e: any) => showDPfun(e.target.src)}
+                        />
+                      )
+                    );
+                  })}
+                </div>
+              ) : (
+                <>
+                  {userChatWithData.Messages?.map((message: any) => {
+                    return (
+                      message.format === "Document" && (
+                        <a
+                          href={message.Files_Url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          id="filesShare" style={{ backgroundColor: userInfo.ColorSchema }}
+                        >
+                          <img src={PdfLogo} alt="pdfLOGO" />
+                          <div >
+                            {message.FileName}
+                          </div>
+                        </a>
+                      )
+                    );
+                  })}
+                </>
+              )}
+            </div>
             {userChatWithData?.Users && userChatWithData.chatType === "Group" && (
               <div id="allGroupUsers">
                 <div id="starredMessage">
@@ -238,113 +301,57 @@ const UserInfo: React.FC<{
                 }
               </div>
             )}
-            {
-              StarredMsg.length > 0 &&
-              <div id="starredMessage">
-                <h4>Starred Message ({StarredMsg.length})</h4>
-                {!showUsersStaredMess ? (
-                  <RiArrowDropDownLine
-                    id="logoDropRight"
-                    onClick={() => setshowUsersStaredMess(!showUsersStaredMess)}
-                  />
-                ) : (
-                  <RiArrowDropUpLine
-                    id="logoDropRight"
-                    onClick={() => setshowUsersStaredMess(!showUsersStaredMess)}
-                  />
-                )}
-              </div>
-            }
+            <div id="starredMSG">
 
-            {showUsersStaredMess &&
-              StarredMsg.map((curr: any) => {
-                return (
-                  <>
-                    {
-                      <div id="sharedMsg">
-                        <p>
-                          {curr.Message && <span id="msg">{curr.Message}</span>}
+              {
+                StarredMsg.length > 0 &&
+                <div id="starredMessage">
+                  <h4>Starred Message ({StarredMsg.length})</h4>
+                  {!showUsersStaredMess ? (
+                    <RiArrowDropDownLine
+                      id="logoDropRight"
+                      onClick={() => setshowUsersStaredMess(!showUsersStaredMess)}
+                    />
+                  ) : (
+                    <RiArrowDropUpLine
+                      id="logoDropRight"
+                      onClick={() => setshowUsersStaredMess(!showUsersStaredMess)}
+                    />
+                  )}
+                </div>
+              }
+
+              {showUsersStaredMess &&
+                StarredMsg.map((curr: any) => {
+                  return (
+                    <>
+                      {
+                        <div id="sharedMsg">
+                          <AiFillStar id="starLogo" />
+                          {curr.Message && <p id="msg">{curr.Message}</p>}
+
                           {curr.FileName &&
-                            <span id="msg">
-                              <a href={curr.Files_Url} target="_blank" rel="noopener noreferrer">{curr.FileName}</a>
-                            </span>
+                            <a href={curr.Files_Url} id="starredDOC" target="_blank" rel="noopener noreferrer">
+                              <p >{curr.FileName}</p>
+                            </a>
                           }
                           {curr.Image &&
                             <span id="msg">
-                              <img src={curr.Image} alt="starredImage" width="200px" />
+                              <img src={curr.Image} alt="starredImage" onClick={(e: any) => showDPfun(e.target.src)} />
                             </span>
                           }
-                          <AiFillStar id="starLogo" />
-                        </p>
-                        <p id="sharedMsgTime">
-                          <span>Send by: {curr.userName}</span>
-                          <span>{curr.messTime}</span>
-                        </p>
-                      </div>
-                    }
-                  </>
-                );
-              })}
-            <div id="shareDocuments">
-              <h4
-                onClick={() => setShareDoc(false)}
-                style={
-                  !shareDoc
-                    ? { borderBottom: `3px solid ${userInfo.ColorSchema}` }
-                    : {}
-                }
-              >
-                Images ({count.images})
-              </h4>
-              <h4
-                onClick={() => setShareDoc(true)}
-                style={
-                  shareDoc
-                    ? { borderBottom: `3px solid ${userInfo.ColorSchema}` }
-                    : {}
-                }
-              >
-                Documents ({count.files})
-              </h4>
-            </div>
-            {userChatWithData.Messages && !shareDoc ? (
-              <div id="Medias">
-                {userChatWithData.Messages.map((message: any, id: number) => {
-                  // setCount(10)
-                  return (
-                    message.format === "Image" && (
-                      <img
-                        src={message.Image}
-                        className="skeleton"
-                        key={id}
-                        alt="chatImage"
-                        onClick={(e: any) => showDPfun(e.target.src)}
-                      />
-                    )
-                  );
-                })}
-              </div>
-            ) : (
-              <>
-                {userChatWithData.Messages?.map((message: any) => {
-                  return (
-                    message.format === "Document" && (
-                      <a
-                        href={message.Files_Url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        id="filesShare" style={{ backgroundColor: userInfo.ColorSchema }}
-                      >
-                        <img src={PdfLogo} alt="pdfLOGO" />
-                        <div >
-                          {message.FileName}
+
+                          <p id="sharedMsgTime">
+                            <span>Send by: {curr.userName}</span>
+                            <span>{curr.messTime}</span>
+                          </p>
                         </div>
-                      </a>
-                    )
+                      }
+                    </>
                   );
                 })}
-              </>
-            )}
+            </div>
+
           </div>
         ) : (
           <div></div>

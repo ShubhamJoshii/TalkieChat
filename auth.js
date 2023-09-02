@@ -4,7 +4,6 @@ const bcrypt = require("bcrypt");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const Authenication = require("./Authenication");
-// const { default: FriendRequest } = require("./frontend/src/Components/FriendRequest/FriendRequest");
 
 const envURL="/api/";
 // const envURL="/";
