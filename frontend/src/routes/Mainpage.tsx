@@ -145,7 +145,7 @@ const Mainpage = () => {
         {!userChatWithData && (
           <>
             {
-              theme ?
+              theme  === "Light" ?
               <img src={LogoLight} className="backgroundLogos" alt="logo" />
               :
               <img src={LogoDark} className="backgroundLogos" alt="logo" />

@@ -6,13 +6,15 @@ import { MainFunction, ThemeState } from "../../routes/App";
 const Loading = () => {
   const { updateTheme }: any = useContext(MainFunction);
   const theme: any = useContext(ThemeState);
+
   useEffect(() => {
     updateTheme();
   }, [])
+
   return (
     <div className='Loading'>
       {
-        theme ?
+        theme === "Light" ?
         <img src={LogoLight} alt="Loading_Image" />
         :
         <img src={LogoDark} alt="Loading_Image" />

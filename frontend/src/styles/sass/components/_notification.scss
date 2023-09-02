@@ -29,7 +29,8 @@
             @include flexMixin($JScontent:flex-start);
             gap: 10px;
             padding: 5px 10px;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.356);
+            // border-bottom: 2px solid rgba(255, 255, 255, 0.356);
+            border-bottom: 2px solid var(--light-border);
             margin-bottom: 10px;
             cursor: pointer;
             &:hover{

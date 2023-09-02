@@ -13,14 +13,14 @@ const Theme = () => {
     }, [])
 
     const handleChange = () => {
-        window.localStorage.setItem('theme', JSON.stringify(!theme));
+        window.localStorage.setItem('theme', JSON.stringify(theme === "Light" ? "Dark" : "Light"));
         updateTheme();
     }
 
     return (
         <div id="Theme">
             <Switch
-                checked={theme}
+                checked={theme === "Light"}
                 onChange={handleChange}
                 handleDiameter={28}
                 offColor="#092e40"

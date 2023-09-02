@@ -122,7 +122,6 @@ const UserInfo: React.FC<{
 
         if (curr.starred) {
           if (curr.Message) {
-            console.log(StarredMsg);
             setStarredMsg((prev: any) => [
               ...prev,
               {

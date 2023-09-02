@@ -7,7 +7,6 @@
     flex: 1;
     // min-height: 100%;
     height: 100%;
-
     display: flex;
     justify-content: center;
     align-items: center;
@@ -92,14 +91,16 @@
         // height: 40px;
         height: 34px;
         padding: 5px 10px;
+        display: flex;
 
         .writeMessage {
             background-color: rgb(38 36 36 / 13%);
-            border-radius: 10px;
+            border-radius: 5px;
+            flex: 1;
             display: flex;
             align-items: center;
             gap: 15px;
-            padding: 5px 20px;
+            padding: 5px 15px;
             justify-content: space-between;
 
             #enterMessage {
@@ -127,18 +128,17 @@
             }
 
             #sendMessage {
+                display: flex;
+                align-items: center;
+                justify-content: center;
                 cursor: pointer;
                 // width: 20px;
-                height: 100%;
                 aspect-ratio: 1;
                 background-color: #44D7B6;
                 color: white;
                 border-radius: 50%;
-                padding: 6px;
-                display: flex;
-                align-items: center;
-                font-size: 15px;
-                justify-content: center;
+                padding: 5px;
+                font-size: 13px;
             }
         }
 
@@ -231,6 +231,7 @@
             border-top-right-radius: 5px;
             border-bottom-right-radius: 5px;
             box-shadow: 0px 0px 5px grey;
+            color: black;
 
             p {
                 margin: 0;
@@ -281,8 +282,9 @@
                     font-weight: 600;
                     padding: 0 12px 0 0;
                     margin: 0;
-                    text-transform: capitalize;
-
+                    &::first-letter{
+                        text-transform: capitalize;
+                    }
                 }
             }
 
@@ -489,7 +491,8 @@ button[disabled] {
         border-bottom: 1px solid grey;
 
         &:hover {
-            background-color: rgba(0, 0, 0, 0.084);
+            // background-color: rgba(0, 0, 0, 0.084);
+            background-color: #8582824b;
         }
     }
 
@@ -500,8 +503,6 @@ button[disabled] {
     cursor: pointer;
 
     &:hover #dropDownMenu {
-
-        transition: 40s;
         display: block;
     }
 }
@@ -568,6 +569,9 @@ button[disabled] {
 
             #backBTN {
                 font-size: 14px;
+                &:hover{
+                    background-color: #8582824b;
+                }
             }
 
             h3 {
@@ -655,15 +659,16 @@ button[disabled] {
     background-color: white;
 }
 
-#backBtn {
-    color: white;
-    font-size: 25px;
-    font-weight: bolder;
-    position: absolute;
-    top: 40px;
-    left: 40px;
-    cursor: pointer;
-}
+// #backBtn {
+//     color: white;
+//     font-size: 25px;
+//     font-weight: bolder;
+//     position: absolute;
+//     top: 40px;
+//     left: 40px;
+//     cursor: pointer;
+//     z-index: 4;    
+// }
 
 
 #dateHeaders {

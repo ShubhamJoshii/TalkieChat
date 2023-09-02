@@ -31,14 +31,17 @@ code {
 
 
 .dark-mode{
-  // --bg-Color:black;
   --bg-Color:#080808;
   --text-Color:white;
+  --light-border:#6b66665c;
+  --dark-border:#6b66665c;
 }
 
 .light-mode{
   --bg-Color:#f2f1f1;
   --text-Color:black;
+  --light-border:#6b66665c;
+  --dark-border:#6b66665c;
 }
 
 .App {
@@ -77,10 +80,10 @@ code {
   padding: 5px;
   border-radius: 50%;
   cursor: pointer;
-
-  &:hover {
-    background-color: rgba(0, 0, 0, 0.078);
-  }
+  
+  &:hover{
+    background-color: #8582824b;
+}
 }
 
 #Routers {

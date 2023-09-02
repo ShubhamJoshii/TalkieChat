@@ -9,6 +9,7 @@ import Avatar from "./Avatar";
 import axios from "axios";
 import { AlphaPicker, HuePicker, TwitterPicker } from "react-color";
 import rgbHex from "rgb-hex";
+import ReactLoading from 'react-loading';
 import { storage } from "../../firebase";
 import {
   getDownloadURL,
@@ -24,6 +25,7 @@ const Setting = () => {
   const userInfo: any = useContext(UserData);
   const { notification, fetchUserInfo }: any = useContext(MainFunction);
   const [currTheme, setCurrTheme] = useState<string>("red");
+  const [ThemeUpdate, setThemeUpdate] = useState<boolean>(false);
 
   const uploadImage = async (e: any) => {
     const name = e.target.files[0];
@@ -46,13 +48,15 @@ const Setting = () => {
   };
 
   const changeColorSchema = async () => {
+    setThemeUpdate(true);
     await axios
-      .post("/api/changeColorSchema", {
-        ColorSchema: currTheme,
-      })
-      .then((result) => {
-        notification(result.data, "success");
-        fetchUserInfo(0);
+    .post("/api/changeColorSchema", {
+      ColorSchema: currTheme,
+    })
+    .then((result) => {
+      notification(result.data, "success");
+      fetchUserInfo(0);
+      setThemeUpdate(false);
       });
   };
 
@@ -149,10 +153,17 @@ const Setting = () => {
                   style={{ backgroundColor: `${currTheme}` }}
                   onClick={changeColorSchema}
                 >
-                  <p>S</p>
-                  <p>A</p>
-                  <p>V</p>
-                  <p>E</p>
+                  {
+                    !ThemeUpdate ?
+                      <>
+                        <p>S</p>
+                        <p>A</p>
+                        <p>V</p>
+                        <p>E</p>
+                      </> : <>
+                        <ReactLoading type="spin" color="#fff" height={'64%'} width={'64%'} />
+                      </>
+                  }
                 </div>
               </div>
               <AlphaPicker

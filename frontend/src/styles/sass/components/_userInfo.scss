@@ -1,4 +1,11 @@
 @use "../abstract/" as *;
+// .active-dropdown{
+//     height: auto;
+// }
+
+// .un_active-dropdown{
+//     height: 0;
+// }
 
 .SenderInfo {
     position: relative;
@@ -11,9 +18,14 @@
     z-index: 2;
     // background-color: rgb(241, 237, 237);
     background-color: var(--bg-Color);
+    padding-top: 30px;
 
     #backBTN {
-        margin-top: 30px;
+        position: absolute;
+        z-index: 2;
+        &:hover{
+            background-color: #8582824b;
+        }
     }
 
     h4 {
@@ -119,6 +131,7 @@
                 display: flex;
                 justify-content: space-between;
             }
+            
             #starredDOC{
                 text-decoration: none;
                 p{
@@ -129,7 +142,9 @@
                     font-size: 16px;
                     padding: 4px 12px;
                     border-radius: 4px;
-                    text-transform: capitalize;
+                    &::first-letter{
+                        text-transform: capitalize;
+                    }
                 }
             }
         }
@@ -151,54 +166,60 @@
         }
 
     }
-
-    #shareDocuments {
-        display: flex;
-        justify-content: space-evenly;
-        margin-top: 14px;
-
-        h4 {
-            cursor: pointer;
-            padding-bottom: 5px;
-            width: 50%;
-            text-align: center;
-        }
-    }
-
-    #filesShare {
-        display: flex;
-        background-color: white;
-        padding: 12px 20px;
-        margin: 15px 0;
-        border-radius: 2px;
-        box-shadow: 0 0 5px rgba(0, 0, 0, 0.473);
-        gap: 12px;
-        // text-transform: capitalize;
-        font-weight: 600;
-        letter-spacing: 1px;
-        text-decoration: none;
-        color: white;
-
-        img {
-            width: 20px;
+    #sharredDoc{
+        #shareDocuments {
+            display: flex;
+            justify-content: space-evenly;
+            margin-top: 14px;
+    
+            h4 {
+                cursor: pointer;
+                padding: 5px 0; 
+                // padding-bottom: 5px;
+                width: 50%;
+                text-align: center;
+                &:hover{
+                    background-color: #8582824b;
+                }
+            }
         }
 
+        #filesShare {
+            display: flex;
+            background-color: white;
+            padding: 12px 20px;
+            margin: 15px 0;
+            border-radius: 2px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.473);
+            gap: 12px;
+            // text-transform: capitalize;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-decoration: none;
+            color: white;
+            
+            div{
+                &::first-letter{
+                    text-transform: capitalize;
+                }
+            }
+            img {
+                width: 20px;
+            }
+    
+        }
     }
-
-
-
-   
-    
-    
     
     #logoDropRight {
         font-size: 30px;
         cursor: pointer;
         border-radius: 50%;
 
+
         &:hover {
             font-size: 30px;
-            background-color: rgba(0, 0, 0, 0.07);
+            // background-color: rgba(0, 0, 0, 0.07);
+            background-color: #8582824b;
         }
     }
 
@@ -210,7 +231,7 @@
         align-items: center;
         // color: rgba(0, 0, 0, 0.61);
         color: inherit;
-        margin-bottom: 10px;
+        margin: 10px 0 6px 0;
     }
 
     #allGroupUsers {

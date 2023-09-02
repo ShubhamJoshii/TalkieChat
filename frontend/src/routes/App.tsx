@@ -26,8 +26,8 @@ import React, { createContext, useEffect, useState } from "react";
 import UserDpShow from "./userDpShow";
 import PageNotFound from "../components/PageNotFound/PageNotFound";
 
-const UserData  = createContext(null);
-const ThemeState  = createContext(null);
+const UserData = createContext(null);
+const ThemeState = createContext(null);
 
 function notification(message: string, type: string) {
   if (type === "success") {
@@ -79,7 +79,7 @@ function App() {
   const [userInfo, setUserInfo] = useState<any>();
   const [showLoading, setShowLoading] = useState<boolean>(false);
   const [ShowDP, setShowDP] = useState("");
-  const [theme, setTheme] = useState<any>(true);
+  const [theme, setTheme] = useState<any>("Light");
 
 
   const db = getDatabase();
@@ -89,8 +89,11 @@ function App() {
     if (data !== null) {
       var element = document.body;
       element.classList.remove("dark-mode", "light-mode");
-      JSON.parse(data) ? element.classList.toggle("light-mode") : element.classList.toggle("dark-mode");
+      JSON.parse(data) === "Light" ? element.classList.toggle("light-mode") : element.classList.toggle("dark-mode");
       setTheme(JSON.parse(data));
+    } else {
+      window.localStorage.setItem('theme', JSON.stringify("Light"));
+      updateTheme();
     }
   }
 
