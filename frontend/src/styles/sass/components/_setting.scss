@@ -8,10 +8,10 @@
   overflow: hidden;
   overflow-y: scroll;
   gap: 20px;
+  // min-height: 100%;
   width: 100%;
-  min-height: 100%;
-  max-height: 100%;
-  padding-top: 50px;
+  // max-height: 100%;
+  // padding-top: 50px;
   position: relative;
 
   #Theme {
@@ -277,20 +277,23 @@
   }
 
   .Avatar {
-    position: absolute;
+    // position: absolute;
     top: 30px;
-    left: 0;
+    position: fixed;
+    top: 0px;
+    left: 40px;
     // background-color: rgba(61, 61, 61, 0.45);
     background-color: #000000c4;
     padding: 10px 50px 0px 50px;
     z-index: 4;
     color: white;
-    width: calc(100vw - 98px);
-    height: calc(100% - 10px);
+    width: calc(100vw - 140px);
+    height: calc(100%);
     overflow: scroll;
 
     h1 {
-      margin: 0;
+      font-size: 30px;
+      margin: 20px 0;
     }
 
     #AvatarCollections {
@@ -340,9 +343,9 @@
     }
 
     #closeBtnAvatars {
-      font-size: 45px;
+      font-size: 40px;
       border-radius: 50%;
-      top: 50px;
+      top: 20px;
       right: 15px;
       position: fixed;
       cursor: pointer;
@@ -379,9 +382,7 @@
       }
     }
 
-    h1 {
-      font-size: 40px;
-    }
+    
   }
 
 
@@ -401,7 +402,6 @@
 
       #closeBtnAvatars {
         font-size: 28px;
-        top: 45px;
       }
       
       #AvatarCollections,
@@ -438,13 +438,14 @@
 
   @media (max-width:685px) {
     padding: 10px 40px;
-
+    padding-bottom: 90px;
     .themes #pickers {
       margin: auto;
     }
 
     .Avatar {
-      top: 10px;
+      left: 0;
+
     }
 
     footer {

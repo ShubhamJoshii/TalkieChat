@@ -16,14 +16,14 @@
     width: 300px;
     color: inherit;
     z-index: 2;
-    // background-color: rgb(241, 237, 237);
     background-color: var(--bg-Color);
     padding-top: 30px;
 
     #backBTN {
-        position: absolute;
+        position: fixed;
         z-index: 2;
-        &:hover{
+        // top: 10px;
+        &:hover {
             background-color: #8582824b;
         }
     }
@@ -87,10 +87,10 @@
         }
     }
 
-    
-    #starredMSG{
+
+    #starredMSG {
         margin-bottom: 60px;
-        
+
         #sharedMsg {
             padding: 8px 16px;
             position: relative;
@@ -98,7 +98,7 @@
             margin-bottom: 6px;
             border-radius: 5px;
             box-shadow: 0 0 5px grey;
-            
+
             p:first-child {
                 display: flex;
                 justify-content: space-between;
@@ -109,16 +109,16 @@
                 font-size: 14px;
                 position: absolute;
                 top: 6px;
-                right:8px;
+                right: 8px;
             }
-            
+
             #msg {
                 font-size: 15px;
                 text-align: start;
                 font-weight: 700;
             }
 
-            img{
+            img {
                 width: 40%;
                 border-radius: 4px;
                 border: 1px solid var(--text-Color);
@@ -131,10 +131,11 @@
                 display: flex;
                 justify-content: space-between;
             }
-            
-            #starredDOC{
+
+            #starredDOC {
                 text-decoration: none;
-                p{
+
+                p {
                     background-color: var(--text-Color);
                     color: var(--bg-Color);
                     width: 90%;
@@ -142,7 +143,8 @@
                     font-size: 16px;
                     padding: 4px 12px;
                     border-radius: 4px;
-                    &::first-letter{
+
+                    &::first-letter {
                         text-transform: capitalize;
                     }
                 }
@@ -166,19 +168,21 @@
         }
 
     }
-    #sharredDoc{
+
+    #sharredDoc {
         #shareDocuments {
             display: flex;
             justify-content: space-evenly;
             margin-top: 14px;
-    
+
             h4 {
                 cursor: pointer;
-                padding: 5px 0; 
+                padding: 5px 0;
                 // padding-bottom: 5px;
                 width: 50%;
                 text-align: center;
-                &:hover{
+
+                &:hover {
                     background-color: #8582824b;
                 }
             }
@@ -186,30 +190,32 @@
 
         #filesShare {
             display: flex;
+            align-items: center;
             background-color: white;
             padding: 12px 20px;
             margin: 15px 0;
             border-radius: 2px;
             box-shadow: 0 0 5px rgba(0, 0, 0, 0.473);
             gap: 12px;
-            // text-transform: capitalize;
             font-weight: 600;
             letter-spacing: 1px;
             text-decoration: none;
             color: white;
-            
-            div{
-                &::first-letter{
+
+
+            div {
+                &::first-letter {
                     text-transform: capitalize;
                 }
             }
+
             img {
                 width: 20px;
             }
-    
+
         }
     }
-    
+
     #logoDropRight {
         font-size: 30px;
         cursor: pointer;
@@ -244,10 +250,12 @@
             letter-spacing: 1px;
             text-align: left;
         }
+
         #groupUserCollection {
             // height: 0;
             transition: 1s;
             overflow: hidden;
+
             #groupUser {
                 border-bottom: 1px solid rgba(0, 0, 0, 0.299);
                 padding-bottom: 4px;
@@ -259,21 +267,21 @@
                 border-radius: 5px;
                 cursor: pointer;
                 color: white;
-    
+
                 &:hover {
                     // background-color: rgba(0, 0, 0, 0.148) !important;
                     background-color: rgba(128, 128, 128, 0.537) !important;
                     // color: black;
                 }
-    
+
                 p {
                     text-transform: capitalize;
-    
+
                     span {
                         font-size: 12px;
                     }
                 }
-    
+
                 img {
                     border: 2px solid white;
                     width: 50px;
@@ -281,14 +289,14 @@
                     aspect-ratio: 1;
                     cursor: pointer;
                 }
-    
+
                 #groupUsersDPHead {
                     position: relative;
                     border-radius: 50%;
                     // overflow: hidden;
                     width: 50px;
                     aspect-ratio: 1;
-    
+
                     div {
                         position: absolute;
                         bottom: 3px;
@@ -301,7 +309,7 @@
                     }
                 }
             }
-    
+
         }
     }
 
@@ -319,6 +327,11 @@
         width: calc(100vw - 50px);
         position: absolute;
         min-height: calc(100vh - 100px);
+
         // height: calc(100vh - 100px);
+        #starredMSG {
+            margin-bottom: 120px;
+
+        }
     }
 }

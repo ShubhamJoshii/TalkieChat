@@ -1,3 +1,5 @@
+@use "../abstract/" as *;
+
 .userChatting {
     display: block;
     overflow-x: hidden;
@@ -11,6 +13,91 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+
+    h3 {
+        margin: 0;
+    }
+
+    #Searching {
+        position: absolute;
+        top: 60px;
+        right: 5%;
+        background-color: var(--bg-Color);
+        @include flexMixin();
+        padding: 2px 2px 2px 5px;
+        border-radius: 4px;
+        gap: 5px;
+        width: 350px;
+        div{
+            position: relative;
+            flex: 1;
+            #searchInput {
+                border: none;
+                border-bottom: 2px solid var(--dark-border);
+                outline: none;
+                color: var(--text-Color);
+                width: calc(100% - 50px);
+                font-size: 12px;
+                padding: 4px 48px 4px 5px;
+                background: none;
+            }
+            p{
+                position: absolute;
+                top: 50%;
+                right: 0;
+                margin: 0;
+                font-size: 10px;
+                letter-spacing: .4px;
+                // font-weight: 600;
+                transform: translate(0,-50%);
+                color: var(--text-Color);
+                opacity: 0.5;
+            }
+        }
+
+        #searchUp-Down {
+            @include flexMixin();
+            background: none;
+            color: var(--text-Color);
+            border: none;
+            cursor: pointer;
+            font-size: 28px;
+            padding: 0;
+
+            &:hover:enabled {
+                background-color: #6b66665c;
+            }
+
+            &[disabled] {
+                opacity: 0.7;
+            }
+        }
+
+        #search {
+            color: var(--text-Color);
+            padding: 6px 12px;
+            cursor: pointer;
+            font-size: 20px;
+            border-left: 2px solid var(--dark-border);
+            border-radius: 0 4px 4px 0;
+
+            &:hover {
+                background-color: #6b66665c;
+            }
+        }
+
+        @media (max-width : 685px) {
+            top: 50px;
+        }
+
+        @media (max-width : 415px) {
+            // top: 50;
+            left: 50%;
+            transform: translate(-50%, 0);
+            ;
+            width: 90%;
+        }
+    }
 
     #userImg {
         width: 35px;
@@ -36,15 +123,28 @@
         background-color: var(--bg-Color);
         width: calc(100% - 60px);
 
-        h3 {
-            margin: 0;
-            font-size: 15px;
-            text-transform: capitalize;
+        button:disabled{
+            background-color: grey !important;
         }
 
-        p {
-            margin: 0;
-            font-size: 10px;
+        #senderName {
+            cursor: pointer;
+
+            h3 {
+                margin: 0;
+                font-size: 15px;
+                text-transform: capitalize;
+            }
+
+            p {
+                margin: 0;
+                font-size: 10px;
+                display: block;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+
+            }
         }
 
         .chattinguserInfo {
@@ -282,7 +382,8 @@
                     font-weight: 600;
                     padding: 0 12px 0 0;
                     margin: 0;
-                    &::first-letter{
+
+                    &::first-letter {
                         text-transform: capitalize;
                     }
                 }
@@ -334,18 +435,17 @@
         cursor: pointer;
 
         &:hover {
-            transform: scale(1.1);
-        }
-
-        &:first-child {
-            background-color: #E00000;
-            color: white;
+            transform: scale(1.04);
         }
 
         &:last-child {
             border: 2px solid #00000042;
             background-color: #EEE3E3
         }
+    }
+    #deleteBtn {
+        background-color: #E00000;
+        color: white;
     }
 }
 
@@ -365,28 +465,21 @@
         cursor: pointer;
 
         &:hover {
-            transform: scale(1.1);
+            transform: scale(1.02);
         }
-
-        &:first-child {
-            background-color: goldenrod;
-            color: white;
-        }
-
+    
         &:last-child {
             border: 2px solid #00000042;
             background-color: #EEE3E3
         }
     }
-
+    #starBtn{
+        background-color: goldenrod;
+        color: white;
+    }
+    
 }
 
-button:disabled,
-button[disabled] {
-    border: 1px solid #999999;
-    background-color: #cccccc;
-    color: #666666;
-}
 
 #messageTime {
     gap: 0px;
@@ -403,24 +496,24 @@ button[disabled] {
 
 #checkBox {
     font-size: 20px;
-    color: #292727eb;
-}
-
-
-#searchInput {
-    margin-right: -15px;
-    padding: 2px 5px;
-    border-radius: 2px;
+    // color: #292727eb;
+    color: var(--text-Color);
 }
 
 #logos {
     display: flex;
     align-items: center;
     gap: 23px;
+
+    label {
+        display: flex;
+    }
+
+    #headerLogo {
+        font-size: 18px;
+    }
+
 }
-
-
-
 
 #Senderstatus {
     display: flex;
@@ -453,25 +546,17 @@ button[disabled] {
 }
 
 
-#logos #headerLogo {
-    font-size: 18px;
-}
-
 #backgroundImg {
     width: 100%;
 }
 
-#senderName {
-    cursor: pointer;
-}
 
 
 
 
 #dropDownMenu {
     position: absolute;
-    top: 40px;
-    // background-color: white;
+    top: 60px;
     background-color: var(--bg-Color);
     color: var(--text-Color);
     right: 10px;
@@ -480,9 +565,8 @@ button[disabled] {
     padding-bottom: 15px;
     box-shadow: 0 0 5px grey;
     border-radius: 5px;
-    display: none;
-    // z-index: 999;
-    z-index: 3;
+    display: block;
+    z-index: 2;
 
     h4 {
         margin: 0px;
@@ -496,14 +580,8 @@ button[disabled] {
         }
     }
 
-}
-
-
-#threeBotMenu {
-    cursor: pointer;
-
-    &:hover #dropDownMenu {
-        display: block;
+    @media (max-width : 685px) {
+        top: 50px;
     }
 }
 
@@ -520,6 +598,24 @@ button[disabled] {
     align-items: center;
     justify-content: center;
 
+    img {
+        width: 450px;
+        margin-bottom: 20px;
+        background-color: white;
+    }
+
+    svg {
+        position: absolute;
+        font-size: 20px;
+        top: 40px;
+        z-index: 5;
+        cursor: pointer;
+        left: 50px;
+
+        &:hover {
+            background-color: rgba(255, 255, 255, 0.255);
+        }
+    }
 }
 
 .Attachments {
@@ -569,7 +665,8 @@ button[disabled] {
 
             #backBTN {
                 font-size: 14px;
-                &:hover{
+
+                &:hover {
                     background-color: #8582824b;
                 }
             }
@@ -653,11 +750,7 @@ button[disabled] {
     transform: scale(1.1);
 }
 
-.UserDpShow img {
-    width: 450px;
-    margin-bottom: 20px;
-    background-color: white;
-}
+
 
 // #backBtn {
 //     color: white;
